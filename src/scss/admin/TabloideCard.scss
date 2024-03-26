@@ -1,0 +1,34 @@
+.tabloideCard{
+  display: flex;
+  border-radius: 10px;
+  height: 200px;
+  // div{
+  //   width: 50%;
+  //   height: 100%;
+  // }
+  @media(min-width: 1080px){
+    height: 250px;
+  }
+}
+.button_containter{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 50%;
+  div{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  @media(min-width: 800px){
+    div{
+      flex-direction: row;
+    }
+  }
+}
+.c-pointer{
+  cursor: pointer;
+  &:hover{
+    text-decoration: underline;
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1064404810179",
+    "project_id": "magicday-6cdd5",
+    "storage_bucket": "magicday-6cdd5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1064404810179:android:43ab0c286d79bceeda6576",
+        "android_client_info": {
+          "package_name": "magicday.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1064404810179-9gbrk116geci44mdjovf6puh0kndkko4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5bfx5VqGY3veDyqva1_XsYgzdYJsI8xo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1064404810179-9gbrk116geci44mdjovf6puh0kndkko4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

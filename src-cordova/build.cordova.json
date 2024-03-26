@@ -1,0 +1,18 @@
+{
+  "android": {
+      "debug": {
+          "keystore": "../quasar-debug-key.jks",
+          "storePassword": "EICHE2023",
+          "alias": "quasar-debug",
+          "password" : "EICHE2023",
+          "keystoreType": "jks"
+      },
+      "release": {
+          "keystore": "../quasar-release-key.jks",
+          "storePassword": "EICHE2023",
+          "alias": "quasar-release",
+          "password" : "EICHE2023",
+          "keystoreType": "jks"
+      }
+  }
+}

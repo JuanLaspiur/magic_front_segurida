@@ -1,0 +1,42 @@
+.registro_form{
+  width: 100%;
+  @media(min-width: 960px){
+    width: 40%;
+  }
+  @media(min-width: 1800px){
+    width: 30%;
+  }
+}
+.siguiente_button{
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  @media(min-width: 960px){
+    width: 100%;
+    position: relative;
+    margin-top: 1rem;
+  }
+}
+.registrase_button{
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  button{
+    width: 100%;
+  }
+  @media(min-width: 960px){
+    position: relative;
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    button{
+      width: 40%;
+    }
+  }
+}
+.date_form{
+  display: flex;
+  width: 100%;
+}
