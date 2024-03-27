@@ -412,7 +412,9 @@ export default {
       mostrarDialogoEncuesta: false,
       preguntaEncuesta: '',
       cantidadOpciones: 0,
-      opcionesEncuesta: []
+      opcionesEncuesta: [],
+      model: '', // Define la propiedad "model" en tus datos
+      img: ''
     }
   },
   validations: {
@@ -622,47 +624,61 @@ export default {
       this.mostrarDialogoEncuesta = false
     },
     enviarEncuestaAlChat (encuesta) {
-      const mensajeEncuesta = {
-        tipo: 'encuesta',
-        pregunta: encuesta.pregunta,
-        opciones: encuesta.opciones
-      }
-
-      let mensajeChat = `Encuesta: ${mensajeEncuesta.pregunta}<br><br>`
-
-      mensajeEncuesta.opciones.forEach((opcion, index) => {
-        mensajeChat += `<input type="checkbox" id="opcion${
-          index + 1
-        }" name="opcion${
-          index + 1
-        }" value="${opcion}" onclick="enviarRespuesta('${opcion}')">
-                    <label for="opcion${index + 1}">${
-          index + 1
-        }. ${opcion}</label><br>`
-      })
-
-      const formData = new FormData()
-      formData.append('message', mensajeEncuesta)
-
-      const data = {
-        pregunta: mensajeEncuesta.pregunta,
-        opciones: mensajeEncuesta.opciones
-      }
-
-      /*      data.append('message', mensajeChat) */
+      // Realizar la solicitud POST para crear la encuesta
       this.$api
-        .post('encuestas-admin/', data)
-        .then(res => {
-          console.log('Mensaje de encuesta enviado al chat:', mensajeChat)
-          this.getData()
+        .post('encuestas-admin/', encuesta)
+        .then(response => {
+          // Verificar si la respuesta contiene la encuesta creada con su _id
+          if (
+            response.data &&
+            response.data.encuesta &&
+            response.data.encuesta._id
+          ) {
+            // Utilizar el _id de la encuesta creada en el mensajeChat
+            let mensajeChat = `- ${encuesta.pregunta}<br><br>`
+            encuesta.opciones.forEach((opcion, index) => {
+              mensajeChat += `<input type="checkbox" id="opcion${
+                index + 1
+              }" name="opcion${
+                index + 1
+              }" value="${opcion}" onclick="enviarRespuesta('${opcion}', '${
+                response.data.encuesta._id
+              }')">
+                    <label for="opcion${index + 1}">${
+                index + 1
+              }. ${opcion}</label><br>`
+            })
+
+            // Crear formData para enviar el mensaje de la encuesta al chat
+            const formData = new FormData()
+            formData.append('message', mensajeChat)
+
+            // Realizar la solicitud POST para enviar el mensaje de la encuesta al chat
+            this.$api
+              .post('send_message/' + this.id, formData)
+              .then(res => {
+                console.log('Mensaje de encuesta enviado al chat:', mensajeChat)
+                this.getData()
+              })
+              .catch(error => {
+                console.error(
+                  'Error al enviar mensaje de encuesta al chat:',
+                  error
+                )
+              })
+          } else {
+            console.error(
+              'La respuesta del servidor no contiene la encuesta creada:',
+              response.data
+            )
+          }
         })
         .catch(error => {
-          console.error('Error al enviar mensaje de encuesta:', error)
+          console.error('Error al crear la encuesta:', error)
         })
     },
-
-    enviarRespuesta (opcionSeleccionada) {
-      console.log(opcionSeleccionada)
+    enviarRespuesta (opcionSeleccionada, encuestaId) {
+      console.log(opcionSeleccionada + ' y ' + encuestaId)
       return opcionSeleccionada
     },
 
