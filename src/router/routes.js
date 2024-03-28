@@ -20,6 +20,7 @@ const routes = [
       { path: '/planes_module', component: () => import('pages/admin/PlanesModule.vue') },
       { path: '/plan_view_admin/:id/:user_id', component: () => import('pages/admin/VerQuedadaAdmin.vue') },
       { path: '/encuestas', component: () => import('pages/admin/Encuestas.vue') },
+      { path: '/categorias', component: () => import('pages/admin/GestionCategorias.vue') },
       // User
       { path: '/inicio', component: () => import('pages/user/InicioNuevo.vue'), meta: { title: 'Inicio', change: 1 } },
       { path: '/inicio2', component: () => import('pages/user/Inicio.vue'), meta: { title: 'Inicio', change: 1 } },

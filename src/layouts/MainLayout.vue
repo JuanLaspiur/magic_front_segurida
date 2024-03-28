@@ -142,6 +142,11 @@ export default {
           ruta: '/planes_module'
         },
         {
+          label: 'Módulo de Categorias',
+          src: 'chat4 2.png',
+          ruta: '/categorias'
+        },
+        {
           label: 'Tabloide',
           src: 'chat4 2.png',
           ruta: '/tabloides'
