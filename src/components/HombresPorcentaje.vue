@@ -11,6 +11,7 @@
         track-color="orange"
         class="q-ma-md"
       />
+      <p class="absolute">Porcentaje hombres {{malePercentage.toFixed(1)}}%</p>
 
       <div style="width: 500px">
         <h6>Rango etario Hombres</h6>
@@ -105,5 +106,9 @@ export default {
 }
 .text-grey {
   color: #777;
+}
+.absolute{
+  position: absolute;
+  top: 20%;
 }
 </style>

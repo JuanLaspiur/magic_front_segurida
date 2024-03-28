@@ -2,7 +2,7 @@
   <div class="q-pa-lg">
     <h4>Gráficos</h4>
     <div class="q-pa-lg flex" style="gap: 70px">
-      <h6>Porcentaje de Usuarios sin Género Específico</h6>
+      <h6>Porcentaje de Usuarios sin Género Específicado</h6>
       <q-circular-progress
         :value="undisclosedPercentage"
         size="320px"
@@ -11,9 +11,9 @@
         track-color="cyan"
         class="q-ma-md"
       />
-
+      <p class="absolute">Porcentaje sin genero especificado {{undisclosedPercentage.toFixed(1)}}%</p>
       <div style="width: 500px">
-        <h6>Rango etario de Usuarios sin Género Específico</h6>
+        <h6>Rango etario de Usuarios sin Género Específicado</h6>
         <div v-for="(value, index) in undisclosedAgeGroups" :key="index">
           <q-linear-progress
             size="20px"
@@ -107,5 +107,9 @@ export default {
 }
 .text-grey {
   color: #777;
+}
+.absolute{
+  position: absolute;
+  top: 20%;
 }
 </style>

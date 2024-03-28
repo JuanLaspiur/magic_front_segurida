@@ -2,26 +2,15 @@
   <div class="q-pa-lg">
     <h4>Gráficos</h4>
     <div class="q-pa-lg flex" style="gap: 70px">
-      <h6>Porcentaje de No binarios</h6>
-      <q-circular-progress
-        :value="nonBinaryPercentage"
-        size="320px"
-        :thickness="1"
-        color="grey-8"
-        track-color="orange"
-        class="q-ma-md"
-      />
-      <p class="absolute">Porcentaje no-binarios {{nonBinaryPercentage.toFixed(1)}}%</p>
-
-      <div style="width: 500px">
-        <h6>Rango etario No binarios</h6>
-        <div v-for="(value, index) in nonBinaryAgeGroups" :key="index">
+      <div style="width: 100%; padding: 10px 300px;">
+        <h6>Rango etario Usuarios</h6>
+        <div v-for="(value, index) in allUsersAgeGroups" :key="index">
           <q-linear-progress
             size="20px"
             :value="value"
             :color="barColors[index]"
           />
-          <p class="text-grey">{{ nonBinaryAgeRanges[index] }}</p>
+          <p class="text-grey">{{ allUsersAgeRanges[index] }}</p>
         </div>
       </div>
     </div>
@@ -32,29 +21,27 @@
 export default {
   data () {
     return {
-      nonBinaryAgeRanges: ['0-18', '19-30', '31-50', '51+'],
+      allUsersAgeRanges: ['0-18', '19-30', '31-50', '51+'],
+      progressValues: [0, 0.1, 0.8, 0.2, 0.5, 0.8],
       barColors: ['primary', 'warning', 'secondary', 'accent'],
-      nonBinaryPercentage: 0,
-      nonBinaryAgeGroups: [0, 0, 0, 0]
+      allUsersPercentage: 0,
+      allUsersAgeGroups: [0, 0, 0, 0]
     }
   },
   created () {
-    this.fetchNonBinaryStatistics()
+    this.fetchUserStatistics()
   },
   methods: {
-    fetchNonBinaryStatistics () {
+    fetchUserStatistics () {
       this.$api
         .get('all_user_admin')
         .then(res => {
           if (res.success) {
-            const nonBinaryUsers = res.data.filter(
-              user => user.gender === 'No binario'
-            )
-            const totalNonBinaryUsers = nonBinaryUsers.length
+            const totalUsers = res.data.length
 
             const ageGroupsCount = [0, 0, 0, 0]
 
-            nonBinaryUsers.forEach(user => {
+            res.data.forEach(user => {
               const age = this.calculateAge(user.birthdate)
               if (age >= 0 && age <= 18) {
                 ageGroupsCount[0]++
@@ -67,17 +54,14 @@ export default {
               }
             })
 
-            // Calcula el porcentaje de usuarios no binarios en cada grupo de edad
-            const percentages = ageGroupsCount.map(
-              count => count / totalNonBinaryUsers
-            )
+            // Calcula el porcentaje de usuarios en cada grupo de edad
+            const percentages = ageGroupsCount.map(count => count / totalUsers)
 
             // No modifiques esta linea
-            this.nonBinaryPercentage =
-              (totalNonBinaryUsers / res.data.length) * 100
+            this.allUsersPercentage = 100 // Se establece como 100 porque estamos mostrando todos los usuarios
 
             // de aca en mas si. Que sea un porcentaje del 0 a 1
-            this.nonBinaryAgeGroups = percentages.map(percentage => percentage)
+            this.allUsersAgeGroups = percentages.map(percentage => percentage)
           }
         })
         .catch(error => {
@@ -108,9 +92,5 @@ export default {
 }
 .text-grey {
   color: #777;
-}
-.absolute{
-  position: absolute;
-  top: 20%;
 }
 </style>

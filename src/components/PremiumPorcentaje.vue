@@ -13,7 +13,7 @@
         />
       </div>
       <div class="q-pl-md" style="width: 980px; padding: 0 50px;">
-       <h6>{{ premiumPercentage }} % de usuarios premium</h6>
+       <h6>{{ premiumPercentage.toFixed(1) }} % de usuarios premium</h6>
       </div>
     </div>
   </div>

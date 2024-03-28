@@ -11,7 +11,7 @@
         track-color="pink"
         class="q-ma-md"
       />
-
+      <p class="absolute">Porcentaje mujeres {{femalePercentage.toFixed(1)}}%</p>
       <div style="width: 500px">
         <h6>Rango etario Mujeres</h6>
         <div v-for="(value, index) in femaleAgeGroups" :key="index">
@@ -104,5 +104,9 @@ export default {
 }
 .text-grey {
   color: #777;
+}
+.absolute{
+  position: absolute;
+  top: 20%;
 }
 </style>
