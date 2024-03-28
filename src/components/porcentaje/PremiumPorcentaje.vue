@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-lg">
-    <h6>Porcentaje de asistencia a Eventos Premium</h6>
+    <h6>Porcentaje Usuarios Premium</h6>
     <div class="q-pa-lg flex" style="display: flex; flex-direction: row">
       <div>
         <q-circular-progress
@@ -12,7 +12,7 @@
           class="q-ma-md"
         />
       </div>
-      <div class="q-pl-md" style="width: 980px; padding: 0 50px;">
+      <div class="q-pl-md" style="width:max-content; padding: 0 50px;">
        <h6>{{ premiumPercentage.toFixed(1) }} % de usuarios premium</h6>
       </div>
     </div>

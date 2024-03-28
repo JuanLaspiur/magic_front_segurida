@@ -56,23 +56,25 @@
       </div>
     </div>
 
-    <div class="q-pa-md">
+    <div class="q-pa-lg flex">
       <PremiumPorcentaje />
-    </div>
-    <div class="q-pa-md">
       <CategoriasPorcentaje />
+    </div>
+    <div class="q-pa-lg">
+       <TabloidePorcentaje/>
     </div>
   </div>
 </template>
 
 <script>
-import SinDefinirPorcentaje from '../../components/SinDefinirPorcentaje.vue'
-import HombrePorcentaje from '../../components/HombresPorcentaje.vue'
-import MujeresPorcentaje from '../../components/MujeresPorcentaje.vue'
-import PremiumPorcentaje from '../../components/PremiumPorcentaje.vue'
-import CategoriasPorcentaje from '../../components/CategoriasPorcentaje.vue'
-import NoBinariosPorcentaje from '../../components/NoBinariosPorcentaje.vue'
-import UsuariosPorcentaje from '../../components/UsuariosPorcentaje.vue'
+import SinDefinirPorcentaje from '../../components/porcentaje/SinDefinirPorcentaje.vue'
+import HombrePorcentaje from '../../components/porcentaje/HombresPorcentaje.vue'
+import MujeresPorcentaje from '../../components/porcentaje/MujeresPorcentaje.vue'
+import PremiumPorcentaje from '../../components/porcentaje/PremiumPorcentaje.vue'
+import CategoriasPorcentaje from '../../components/porcentaje/CategoriasPorcentaje.vue'
+import NoBinariosPorcentaje from '../../components/porcentaje/NoBinariosPorcentaje.vue'
+import UsuariosPorcentaje from '../../components/porcentaje/UsuariosPorcentaje.vue'
+import TabloidePorcentaje from '../../components/porcentaje/TabloidePorcentaje.vue'
 
 export default {
   data () {
@@ -93,7 +95,8 @@ export default {
     NoBinariosPorcentaje,
     PremiumPorcentaje,
     CategoriasPorcentaje,
-    UsuariosPorcentaje
+    UsuariosPorcentaje,
+    TabloidePorcentaje
   }
 }
 </script>
@@ -106,5 +109,9 @@ export default {
   gap:5px;
   padding: 0 10px;
   margin: auto;
+}
+.flex{
+  display: flex;
+  flex-direction: row;
 }
 </style>

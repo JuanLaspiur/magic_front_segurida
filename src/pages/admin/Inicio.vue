@@ -72,7 +72,7 @@
       <div v-if="selectedOption === 'option2'">
         <div
           class="row q-gutter-md p-4 m-4"
-          style="padding: 25px 500px 30px 500px"
+          style="width: max-content; margin:auto"
         >
           <q-radio
             v-model="selectedGender"
@@ -92,6 +92,13 @@
             v-model="selectedGender"
             val="Prefiero no decirlo"
             label="Prefiero no decirlo"
+            color="primary"
+            dense
+          />
+          <q-radio
+            v-model="selectedGender"
+            val="No binario"
+            label="No binario"
             color="primary"
             dense
           />
