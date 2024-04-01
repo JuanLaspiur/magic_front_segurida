@@ -3,37 +3,88 @@
     <q-page-container>
       <q-page class="column justify-between no-wrap">
         <div>
-          <q-img src="Ellipse 1.png" class="absolute-top-right" style="height: 150px; width: 170px;"/>
-          <q-img src="Ellipse 2.png" style="height: 260px; width: 250px;"/>
-          <q-img src="ic2.png" class="absolute-top q-ma-lg" style="height: 175px; width: 175px;"/>
+          <q-img
+            src="Ellipse 1.png"
+            class="absolute-top-right"
+            style="height: 150px; width: 170px"
+          />
+          <q-img src="Ellipse 2.png" style="height: 260px; width: 250px" />
+          <q-img
+            src="ic2.png"
+            class="absolute-top q-ma-lg"
+            style="height: 175px; width: 175px"
+          />
           <div class="fit row justify-center">
             <div class="q-pa-md login_form">
               <div class="column items-center">
-                <div class="text-h6 text-center text-bold q-mb-md">Inicia sesión con Google</div>
+                <div class="text-h6 text-center text-bold q-mb-md">
+                  Inicia sesión con Google
+                </div>
                 <google-login-button />
               </div>
-              <q-separator class="q-my-md"/>
-              <div class="text-h6  text-center text-bold q-mb-md">O hazlo con tu email</div>
-              <q-input outlined class="q-mb-sm" type="email" v-model="form.email" label="Correo" :error="$v.form.email.$error" error-message="Este campo es requerido"  @blur="$v.form.email.$touch()"/>
-              <q-input outlined class="q-mb-sm" type="password" v-model="form.password" label="Contraseña" :error="$v.form.password.$error" error-message="Este campo es requerido"  @blur="$v.form.password.$touch()"/>
-              <q-btn color="primary" text-color="white" label="Iniciar" :loading="loading" @click="verify()" class="text-bold full-width q-py-xs q-mb-md">
+              <q-separator class="q-my-md" />
+              <div class="text-h6 text-center text-bold q-mb-md">
+                O hazlo con tu email
+              </div>
+              <q-input
+                outlined
+                class="q-mb-sm"
+                type="email"
+                v-model="form.email"
+                label="Correo"
+                :error="$v.form.email.$error"
+                error-message="Este campo es requerido"
+                @blur="$v.form.email.$touch()"
+              />
+              <q-input
+                outlined
+                class="q-mb-sm"
+                type="password"
+                v-model="form.password"
+                label="Contraseña"
+                :error="$v.form.password.$error"
+                error-message="Este campo es requerido"
+                @blur="$v.form.password.$touch()"
+              />
+              <q-btn
+                color="primary"
+                text-color="white"
+                label="Iniciar"
+                :loading="loading"
+                @click="verify()"
+                class="text-bold full-width q-py-xs q-mb-md"
+              >
                 <template v-slot:loading>
                   <q-spinner-hourglass class="on-center" />
                   loading...
                 </template>
               </q-btn>
               <div class="row justify-center q-pb-sm">
-                <div class="text-grey-8 text-caption q-mr-xs">¿Olvidaste tu contraseña?</div>
-                <div class="text-bold text-caption text-primary cursor-pointer" @click="cambio = true">Presiona aquí</div>
+                <div class="text-grey-8 text-caption q-mr-xs">
+                  ¿Olvidaste tu contraseña?
+                </div>
+                <div
+                  class="text-bold text-caption text-primary cursor-pointer"
+                  @click="cambio = true"
+                >
+                  Presiona aquí
+                </div>
               </div>
               <div class="row justify-center">
                 <div class="text-grey-8 q-mr-xs">¿No tienes cuenta aún?</div>
-                <div class="text-bold text-primary cursor-pointer" @click="$router.push('/registro')">Crear una cuenta</div>
+                <div
+                  class="text-bold text-primary cursor-pointer"
+                  @click="$router.push('/registro')"
+                >
+                  Crear una cuenta
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="text-center text-caption text-grey-8 q-pb-sm">Magic Day versión {{packageVar.version}}</div>
+        <div class="text-center text-caption text-grey-8 q-pb-sm">
+          Magic Day versión {{ packageVar.version }}
+        </div>
 
         <q-dialog v-model="cambio">
           <!-- <q-card class="column items-center justify-center" style="width: 350px; height:350px;">
@@ -78,14 +129,34 @@
             height="300px"
             class="bg-purple text-white rounded-borders full-width"
           >
-            <q-carousel-slide name="1" class="column no-wrap flex-center bg-primary">
-              <div class="q-my-md text-center text-h6 ">Recupera tu Cuenta</div>
-              <q-input class="full-width q-mb-lg" type="email" color="primary" bg-color="white" rounded outlined v-model="email" label="Introduce tu correo aquí" autofocus>
+            <q-carousel-slide
+              name="1"
+              class="column no-wrap flex-center bg-primary"
+            >
+              <div class="q-my-md text-center text-h6">Recupera tu Cuenta</div>
+              <q-input
+                class="full-width q-mb-lg"
+                type="email"
+                color="primary"
+                bg-color="white"
+                rounded
+                outlined
+                v-model="email"
+                label="Introduce tu correo aquí"
+                autofocus
+              >
                 <template v-slot:prepend>
                   <q-icon color="primary" name="mail" />
                 </template>
               </q-input>
-              <q-btn :loading="loading2" rounded no-caps icon-right="arrow_right" color="primary" @click="recuperar()">
+              <q-btn
+                :loading="loading2"
+                rounded
+                no-caps
+                icon-right="arrow_right"
+                color="primary"
+                @click="recuperar()"
+              >
                 Recuperar contraseña
                 <template v-slot:loading>
                   <q-spinner-hourglass class="on-center" />
@@ -93,10 +164,14 @@
                 </template>
               </q-btn>
             </q-carousel-slide>
-            <q-carousel-slide name="2" class="column no-wrap flex-center bg-primary">
-              <q-icon name="lock" size="50px"/>
-              <div class="q-my-md text-center text-h6 ">
-                Revisa la casilla de correo {{email}} e ingresa el codigo</div>
+            <q-carousel-slide
+              name="2"
+              class="column no-wrap flex-center bg-primary"
+            >
+              <q-icon name="lock" size="50px" />
+              <div class="q-my-md text-center text-h6">
+                Revisa la casilla de correo {{ email }} e ingresa el codigo
+              </div>
               <v-otp-input
                 ref="otpInput"
                 input-classes="otp-input"
@@ -108,27 +183,69 @@
                 @on-complete="handleOnComplete"
               />
             </q-carousel-slide>
-            <q-carousel-slide name="3" class="column no-wrap flex-center bg-white">
-              <div class="q-my-md text-center text-black text-h6 ">Ingresa tu nueva contraseña</div>
-              <q-input bg-color="white" :type="isPwdM ? 'password' : 'text'"  class="full-width q-mb-md" rounded outlined v-model="password" label="Introduce tu contraseña" autofocus
-                :error="errorPass" error-message="Debe ingresar una contraseña segura. Mínimo 8 caracteres y por lo menos una mayúscula."  @input="verifyPass(password)">
+            <q-carousel-slide
+              name="3"
+              class="column no-wrap flex-center bg-white"
+            >
+              <div class="q-my-md text-center text-black text-h6">
+                Ingresa tu nueva contraseña
+              </div>
+              <q-input
+                bg-color="white"
+                :type="isPwdM ? 'password' : 'text'"
+                class="full-width q-mb-md"
+                rounded
+                outlined
+                v-model="password"
+                label="Introduce tu contraseña"
+                autofocus
+                :error="errorPass"
+                error-message="Debe ingresar una contraseña segura. Mínimo 8 caracteres y por lo menos una mayúscula."
+                @input="verifyPass(password)"
+              >
                 <template v-slot:prepend>
                   <q-icon color="primary" name="vpn_key" />
                 </template>
                 <template v-slot:append>
-                  <q-icon :name="isPwdM ? 'visibility' : 'visibility_off'" class="cursor-pointer" color="primary" @click="isPwdM = !isPwdM" />
+                  <q-icon
+                    :name="isPwdM ? 'visibility' : 'visibility_off'"
+                    class="cursor-pointer"
+                    color="primary"
+                    @click="isPwdM = !isPwdM"
+                  />
                 </template>
               </q-input>
-              <q-input bg-color="white" :type="isPwd2M ? 'password' : 'text'" class="full-width" rounded outlined v-model="repeatPassword" label="Repite tu contraseña" error-message="las contraseñas deben ser iguales"
-                :error="$v.repeatPassword.$error" @blur="$v.repeatPassword.$touch()">
+              <q-input
+                bg-color="white"
+                :type="isPwd2M ? 'password' : 'text'"
+                class="full-width"
+                rounded
+                outlined
+                v-model="repeatPassword"
+                label="Repite tu contraseña"
+                error-message="las contraseñas deben ser iguales"
+                :error="$v.repeatPassword.$error"
+                @blur="$v.repeatPassword.$touch()"
+              >
                 <template v-slot:prepend>
                   <q-icon color="primary" name="vpn_key" />
                 </template>
                 <template v-slot:append>
-                  <q-icon :name="isPwd2M ? 'visibility' : 'visibility_off'" class="cursor-pointer" color="primary" @click="isPwd2M = !isPwd2M" />
+                  <q-icon
+                    :name="isPwd2M ? 'visibility' : 'visibility_off'"
+                    class="cursor-pointer"
+                    color="primary"
+                    @click="isPwd2M = !isPwd2M"
+                  />
                 </template>
               </q-input>
-              <q-btn rounded no-caps icon-right="arrow_right" color="primary" @click="changePassword()">
+              <q-btn
+                rounded
+                no-caps
+                icon-right="arrow_right"
+                color="primary"
+                @click="changePassword()"
+              >
                 Continuar
               </q-btn>
             </q-carousel-slide>
@@ -200,34 +317,38 @@ export default {
     },
     handleOnComplete (value) {
       console.log('onComplete', value)
-      this.$api.put('acceso_actualizar_pass/' + value, { email: this.email }).then(res => {
-        if (res) {
-          this.code = value
-          this.$q.notify({
-            color: 'positive',
-            message: 'Codigo Correcto.'
-          })
-          this.slide = '3'
-        } else {
-          this.$q.notify({
-            color: 'negative',
-            message: 'Codigo Incorrecto. Intentalo nuevamente.'
-          })
-        }
-      })
+      this.$api
+        .put('acceso_actualizar_pass/' + value, { email: this.email })
+        .then(res => {
+          if (res) {
+            this.code = value
+            this.$q.notify({
+              color: 'positive',
+              message: 'Codigo Correcto.'
+            })
+            this.slide = '3'
+          } else {
+            this.$q.notify({
+              color: 'negative',
+              message: 'Codigo Incorrecto. Intentalo nuevamente.'
+            })
+          }
+        })
     },
     changePassword () {
       this.$v.$touch()
       if (!this.$v.password.$error && !this.$v.repeatPassword.$error) {
-        this.$api.put('actualizar_pass/' + this.code, { password: this.password }).then(res => {
-          if (res) {
-            this.$q.notify({
-              color: 'positive',
-              message: 'Contraseña restablecida con éxito'
-            })
-            this.cambio = false
-          }
-        })
+        this.$api
+          .put('actualizar_pass/' + this.code, { password: this.password })
+          .then(res => {
+            if (res) {
+              this.$q.notify({
+                color: 'positive',
+                message: 'Contraseña restablecida con éxito'
+              })
+              this.cambio = false
+            }
+          })
       }
     },
     ...mapMutations('generals', ['login']),
@@ -237,19 +358,21 @@ export default {
         // this.simulateProgress()
         this.loading2 = true
         this.$q.loading.show()
-        await this.$api.get('email_send_app/' + this.email).then(res => {
-          this.$q.loading.hide()
-          if (res) {
-            this.$q.notify({
-              message: 'Se envió un correo para recuperar tu contraseña',
-              color: 'positive'
-            })
-            this.loading2 = false
-            this.slide = '2'
-          } else {
-            this.loading2 = false
-          }
-        })
+        await this.$api
+          .get('email_send_app/' + this.email)
+          .then(res => {
+            this.$q.loading.hide()
+            if (res) {
+              this.$q.notify({
+                message: 'Se envió un correo para recuperar tu contraseña',
+                color: 'positive'
+              })
+              this.loading2 = false
+              this.slide = '2'
+            } else {
+              this.loading2 = false
+            }
+          })
           .catch(error => console.log(error))
       } else {
         this.$q.notify({
@@ -268,14 +391,14 @@ export default {
               this.loguear()
             } else {
               this.$q.loading.hide()
-              this.$q.dialog({
-                title: 'Atención',
-                message: 'Este usuario fué bloqueado por el administrador de la aplicación',
-                cancel: false,
-                persistent: true
-              }).onOk(() => {
-                // ok
-              })
+              this.$q
+                .notify({
+                  message: 'Usuario incorrecto',
+                  color: 'negative'
+                })
+                .onOk(() => {
+                  // ok
+                })
             }
             this.$q.loading.hide()
           } else {
@@ -294,6 +417,7 @@ export default {
         this.$api.post('login', this.form).then(res => {
           if (res) {
             this.user = res.SESSION_INFO
+            // puede estar aca el error
             this.login(res)
             if (this.user.roles[0] === 1 || this.user.roles[0] === 3) {
               this.$router.push('/administrador')
@@ -314,5 +438,5 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-  @import url(../scss/Login.scss);
+@import url(../scss/Login.scss);
 </style>
