@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h4>Lista de categorías</h4>
     <table class="q-table">
       <thead>
         <tr class="q-table__header">
@@ -12,37 +13,61 @@
           <!-- Nueva columna para el ícono de eliminar -->
         </tr>
       </thead>
-   <tbody>
-  <tr
-    v-for="category in categories.sort((a, b) => a.id - b.id)"
-    :key="category._id"
-    class="q-table__body"
-  >
-    <td class="text-left">{{ category.id }}</td>
-    <td class="text-left">{{ category.name }}</td>
-    <td class="text-left">{{ category.description }}</td>
-    <td class="text-left">{{ formatDate(category.created_at) }}</td>
-    <td class="text-left">{{ formatDate(category.updated_at) }}</td>
-    <td class="text-left">
-      <!-- Icono de edición -->
-      <q-icon
-        name="edit"
-        class="text-primary"
-        style="font-size: 24px; cursor: pointer; margin-right: 10px;"
-        @click="editarCategoria(category)"
-      />
-      <!-- Icono de eliminación -->
-      <q-icon
-        name="delete"
-        class="text-danger"
-        style="font-size: 24px; cursor: pointer"
-        @click="eliminarCategoria(category._id)"
-      />
-    </td>
-  </tr>
-</tbody>
-
+      <tbody>
+        <tr
+          v-for="category in categories.sort((a, b) => a.id - b.id)"
+          :key="category._id"
+          class="q-table__body"
+        >
+          <td class="text-left">{{ category.id }}</td>
+          <td class="text-left">{{ category.name }}</td>
+          <td class="text-left">{{ category.description }}</td>
+          <td class="text-left">{{ formatDate(category.created_at) }}</td>
+          <td class="text-left">{{ formatDate(category.updated_at) }}</td>
+          <td class="text-left">
+            <!-- Icono de edición -->
+            <q-icon
+              name="edit"
+              class="text-primary"
+              style="font-size: 24px; cursor: pointer; margin-right: 10px"
+              @click="abrirModal(category._id)"
+            />
+            <!-- Icono de eliminación -->
+            <q-icon
+              name="delete"
+              class="text-danger"
+              style="font-size: 24px; cursor: pointer"
+              @click="eliminarCategoria(category._id)"
+            />
+          </td>
+        </tr>
+      </tbody>
     </table>
+    <!-- Modal de edición -->
+    <div v-if="showEditModal" class="p-4">
+      <h4>Editar Categoría</h4>
+      <q-input v-model="editedCategory.id" label="id" class="margen" />
+      <q-input v-model="editedCategory.name" label="Nombre" class="margen" />
+      <q-input
+        v-model="editedCategory.description"
+        label="Descripción"
+        class="margen"
+      />
+      <q-btn
+        type="submit"
+        label="Guardar Cambios"
+        color="primary"
+        class="margen"
+        @click="actualizarCategoria"
+      />
+      <q-btn
+        type="submit"
+        label="Cancelar Edición"
+        color="primary"
+        class="margen"
+        @click="cancelarEdicion"
+      />
+    </div>
   </div>
 </template>
 
@@ -50,7 +75,14 @@
 export default {
   data () {
     return {
-      categories: []
+      categories: [],
+      showEditModal: false,
+      editedCategory: {
+        _id: '',
+        id: '',
+        name: '', // Nombre de la categoría
+        description: '' // Descripción de la categoría
+      }
     }
   },
   created () {
@@ -69,7 +101,6 @@ export default {
         })
     },
     formatDate (dateString) {
-      // Formatea la fecha en formato dd-MM-yyyy
       const date = new Date(dateString)
       const day = date.getDate()
       const month = date.getMonth() + 1
@@ -79,23 +110,64 @@ export default {
     eliminarCategoria (categoriaId) {
       // Mostrar un cuadro de diálogo de confirmación
       if (confirm('¿Estás seguro de que deseas eliminar esta categoría?')) {
-        // Si el usuario confirma, proceder con la eliminación
         this.$api
           .delete(`categories/${categoriaId}`)
           .then(() => {
-            // Una vez que la categoría se haya eliminado correctamente,
-            // vuelves a cargar las categorías actualizadas
             this.fetchCategorias()
             alert('Categoría eliminada con éxito')
           })
           .catch(error => {
             console.error('Error al eliminar la categoría:', error)
-            // Puedes mostrar un mensaje de error al usuario aquí
           })
       } else {
-        // Si el usuario cancela, no hacer nada
         console.log('Eliminación cancelada por el usuario')
       }
+    },
+    buscarCategoriaPorId (categoriaId) {
+      const categoriaEncontrada = this.categories.find(
+        categoria => categoria._id === categoriaId
+      )
+      if (categoriaEncontrada) {
+        return categoriaEncontrada
+      } else {
+        alert('No se encontró la categoría con el ID especificado')
+        return null
+      }
+    },
+    abrirModal (categoriaId) {
+      const categoria = this.buscarCategoriaPorId(categoriaId)
+      if (categoria) {
+        // Carga los valores de la categoría
+        this.editedCategory._id = categoria._id
+        this.editedCategory.id = categoria.id
+        this.editedCategory.name = categoria.name
+        this.editedCategory.description = categoria.description
+        this.showEditModal = true
+      }
+    },
+    actualizarCategoria () {
+      this.$api
+        .put(`categories/${this.editedCategory._id}`, {
+          name: this.editedCategory.name,
+          description: this.editedCategory.description
+        })
+        .then(() => {
+          // Actualiza la lista de categorías después de la actualización
+          this.fetchCategorias()
+          alert('Categoría actualizada con éxito')
+          // Cierra el modal
+          this.showEditModal = false
+        })
+        .catch(error => {
+          console.error('Error al actualizar la categoría:', error)
+        })
+    },
+    cancelarEdicion () {
+      this.editedCategory._id = ''
+      this.editedCategory.id = ''
+      this.editedCategory.name = ''
+      this.editedCategory.description = ''
+      this.showEditModal = false
     }
   }
 }
@@ -128,5 +200,8 @@ export default {
 
 .text-danger {
   color: red; /* Color del ícono de eliminar */
+}
+.margen{
+  margin: 10px 20px;
 }
 </style>

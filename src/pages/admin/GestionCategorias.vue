@@ -2,13 +2,10 @@
   <div class="margin">
     <div>
       <h4>Modulo Categorias</h4>
-      <Tabla/>
-    </div>
-    <div>
-        <CrearCategoria/>
-    </div>
-    <div>
-      <EditarCategoria/>
+      <div>
+        <CrearCategoria class="auto" />
+      </div>
+      <Tabla />
     </div>
   </div>
 </template>
@@ -16,13 +13,11 @@
 <script>
 import Tabla from '../../components/categorias/Tabla.vue'
 import CrearCategoria from '../../components/categorias/CrearCategoria'
-import EditarCategoria from '../../components/categorias/EditarCategoria.vue'
 
 export default {
   components: {
     Tabla,
-    CrearCategoria,
-    EditarCategoria
+    CrearCategoria
   }
 }
 </script>
@@ -30,5 +25,8 @@ export default {
 <style>
 .margin {
   margin: 50px;
+}
+.auto{
+  margin: 40px 30%;
 }
 </style>
