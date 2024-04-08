@@ -60,7 +60,7 @@
       </div>
     </div>
 
-    <div class="q-pa-lg flex">
+    <div  style="width: 100%; display: flex; gap:8%; padding: 0 200px;">
       <PremiumPorcentaje />
       <CategoriasPorcentaje />
     </div>

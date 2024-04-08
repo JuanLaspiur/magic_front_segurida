@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-lg">
+  <div>
     <h6>Porcentaje Usuarios Premium</h6>
     <div class="q-pa-lg flex" style="display: flex; flex-direction: row">
       <div>
@@ -12,7 +12,7 @@
           class="q-ma-md"
         />
       </div>
-      <div class="q-pl-md" style="width:max-content; padding: 0 50px;">
+      <div class="q-pl-md" style="width:max-content; padding: 0 100px;">
        <h6>{{ premiumPercentage.toFixed(1) }} % de usuarios premium</h6>
       </div>
     </div>

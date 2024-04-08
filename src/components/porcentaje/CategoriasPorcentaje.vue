@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 600px; margin-top: 19px;">
+  <div style="width: 40%; margin-top: 19px;">
     <h6>Eventos según categoría</h6>
     <!-- Aquí se mostrarán las categorías -->
     <div v-for="(category, index) in categories" :key="index">
