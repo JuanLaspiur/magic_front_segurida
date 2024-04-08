@@ -205,36 +205,38 @@
           margin-bottom: 50px;
         "
       >
-        <q-card>
-          <q-card-section class="q-pa-md">
-            <!-- Contenido de la encuesta -->
-            <h5 style="text-align: center; margin-bottom: 20px">
-              {{ ultimaEncuesta.pregunta }}
-            </h5>
-            <div>
-              <div
-                v-for="(opcion, index) in opcionesUltimaEncuesta"
-                :key="index"
-              >
-                <input
-                  type="radio"
-                  :id="'opcion_' + index"
-                  :value="opcion._id"
-                  v-model="opcionSeleccionada"
-                  @change="actualizarSeleccion(index)"
-                />
-                <label :for="'opcion_' + index">{{ opcion.texto }}</label>
+        <div>
+          <q-card>
+            <q-card-section class="q-pa-md">
+              <!-- Contenido de la encuesta -->
+              <h5 style="text-align: center; margin-bottom: 20px">
+                {{ ultimaEncuesta.pregunta }}
+              </h5>
+              <div>
+                <div
+                  v-for="(opcion, index) in opcionesUltimaEncuesta"
+                  :key="index"
+                >
+                  <input
+                    type="radio"
+                    :id="'opcion_' + index"
+                    :value="opcion._id"
+                    v-model="opcionSeleccionada"
+                    @change="actualizarSeleccion(index)"
+                  />
+                  <label :for="'opcion_' + index">{{ opcion.texto }}</label>
+                </div>
               </div>
-            </div>
-          </q-card-section>
-          <q-card-actions align="center">
-            <q-btn
-              color="primary"
-              label="Enviar"
-              @click="enviarEncuesta(opcionSeleccionada)"
-            ></q-btn>
-          </q-card-actions>
-        </q-card>
+            </q-card-section>
+            <q-card-actions>
+              <q-btn
+                color="primary"
+                label="Enviar"
+                @click="enviarEncuesta(opcionSeleccionada)"
+              ></q-btn>
+            </q-card-actions>
+          </q-card>
+        </div>
       </div>
       <div
         v-if="width < 500"
@@ -642,12 +644,35 @@ export default {
         .post('opciones_admin123/votar', data)
         .then(response => {
           this.opcionesUltimaEncuesta = response.data
-          alert('Encuesta enviada')
+          this.$q.notify({
+            message: 'Encuesta enviada',
+            color: 'positive'
+          })
         })
         .catch(error => {
           console.error('Error al enviar la encuesta:', error)
           alert('No se pudo enviar su respuesta.. intente más tarde')
         })
+    },
+    isRespondioTrue () {
+      // Verificar si isRespondioTrue es false y si hay opciones de encuesta
+      if (!this.opcionesUltimaEncuesta) {
+        return false // Si no hay opciones de encuesta, devolver false
+      }
+
+      // Iterar sobre cada opción en opcionesUltimaEncuesta
+      for (const option of this.opcionesUltimaEncuesta) {
+        if (option.usuarioIds.includes(this.user_id)) {
+          console.log('Respuesta es ' + true)
+          return true // Si this.user_id está incluido en el arreglo usuarioIds de alguna opción, devolver true
+        }
+      }
+      console.log('Respuesta es ' + false)
+      // Si this.user_id no está incluido en ninguna opción, devolver false y recargar la lista
+      if (!this.isRespondioTrue) {
+        this.obtenerUltimaEncuesta() // Recargar la lista de opciones de encuesta
+      }
+      return false
     }
   }
 }
@@ -671,3 +696,6 @@ export default {
 
 @import url(../../scss/user/Inicio.scss);
 </style>
+
+/*Falta hacer que cuando se envie la respuesta, se muestre gracias por su
+respuesta. */
