@@ -60,8 +60,12 @@
             <!-- Aquí puedes mostrar la encuesta actual -->
             <p>Encuesta actual: {{ ultimaEncuesta.pregunta }}</p>
             <ul>
-              <li v-for="(opcion, index) in opcionesUltimaEncuesta" :key="index">
-                {{ opcion.texto }}
+              <li
+                v-for="(opcion, index) in opcionesUltimaEncuesta"
+                :key="index"
+              >
+                {{ opcion.texto }} total votos:
+                {{ opcion.usuario_ids ? contarObjetos (opcion.usuario_ids) : 0 }}
               </li>
             </ul>
           </div>
@@ -128,6 +132,13 @@ export default {
         .catch(error => {
           console.error('Error al obtener todas las opciones:', error)
         })
+    },
+    contarObjetos (cadena) {
+      // Eliminar espacios en blanco y dividir la cadena por comas
+      const objetos = cadena.replace(/\s/g, '').split(',')
+
+      // Retornar la cantidad de objetos
+      return objetos.length
     }
   },
   mounted () {
