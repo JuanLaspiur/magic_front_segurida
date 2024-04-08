@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-lg">
     <h4>Gráficos</h4>
-    <div class="q-pa-lg flex" style="gap: 70px">
+    <div class="flex" style="gap:10%">
       <h6>Porcentaje de Hombres</h6>
       <q-circular-progress
         :value="malePercentage"
@@ -13,7 +13,7 @@
       />
       <p class="absolute">Porcentaje hombres {{malePercentage.toFixed(1)}}%</p>
 
-      <div style="width: 500px">
+      <div style="width:40%">
         <h6>Rango etario Hombres</h6>
         <div v-for="(value, index) in maleAgeGroups" :key="index">
           <q-linear-progress
@@ -109,6 +109,6 @@ export default {
 }
 .absolute{
   position: absolute;
-  top: 20%;
+  top: 40%;
 }
 </style>

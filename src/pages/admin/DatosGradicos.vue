@@ -1,11 +1,15 @@
 <template>
-  <div style="contenedor">
-    <div class="q-pa-md">
+  <div>
+    <div >
       <!-- Contenido dinámico -->
-      <div class="text-center">
-        <!-- Mostrar el componente actual -->
-        <div v-if="currentIndex === 0">
-          <UsuariosPorcentaje />
+      <div class="text-center" style="padding: 50px">
+        <!--  semi-colon expected -->
+        <div v-if="currentIndex === 0"  >
+          <h4>Gráficos</h4>
+          <div style="display: flex; ; gap:10%">
+            <UsuariosPorcentaje />
+            <UsuariosPlanesPorcentaje/>
+          </div>
         </div>
         <div v-else-if="currentIndex === 1">
           <HombrePorcentaje />
@@ -74,6 +78,7 @@ import PremiumPorcentaje from '../../components/porcentaje/PremiumPorcentaje.vue
 import CategoriasPorcentaje from '../../components/porcentaje/CategoriasPorcentaje.vue'
 import NoBinariosPorcentaje from '../../components/porcentaje/NoBinariosPorcentaje.vue'
 import UsuariosPorcentaje from '../../components/porcentaje/UsuariosPorcentaje.vue'
+import UsuariosPlanesPorcentaje from '../../components/porcentaje/UsuariosPlanesPorcentaje.vue'
 import TabloidePorcentaje from '../../components/porcentaje/TabloidePorcentaje.vue'
 
 export default {
@@ -96,6 +101,7 @@ export default {
     PremiumPorcentaje,
     CategoriasPorcentaje,
     UsuariosPorcentaje,
+    UsuariosPlanesPorcentaje,
     TabloidePorcentaje
   }
 }
@@ -113,5 +119,11 @@ export default {
 .flex{
   display: flex;
   flex-direction: row;
+}
+.gap{
+  gap:70px
+}
+.maxWidth{
+  width: 1000px
 }
 </style>

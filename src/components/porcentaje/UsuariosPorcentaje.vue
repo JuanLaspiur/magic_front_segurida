@@ -1,8 +1,7 @@
 <template>
-  <div class="q-pa-lg">
-    <h4>Gráficos</h4>
-    <div class="q-pa-lg flex" style="gap: 70px">
-      <div style="width: 100%; padding: 10px 300px;">
+  <div style="width: 100%;">
+    <div >
+      <div>
         <h6>Rango etario Usuarios</h6>
         <div v-for="(value, index) in allUsersAgeGroups" :key="index">
           <q-linear-progress
