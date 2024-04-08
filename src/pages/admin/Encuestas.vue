@@ -136,7 +136,6 @@ export default {
     contarObjetos (cadena) {
       // Eliminar espacios en blanco y dividir la cadena por comas
       const objetos = cadena.replace(/\s/g, '').split(',')
-
       // Retornar la cantidad de objetos
       return objetos.length
     }

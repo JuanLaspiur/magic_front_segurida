@@ -231,7 +231,7 @@
             <q-btn
               color="primary"
               label="Enviar"
-              @click="enviarEncuesta"
+              @click="enviarEncuesta(opcionSeleccionada)"
             ></q-btn>
           </q-card-actions>
         </q-card>
@@ -631,6 +631,23 @@ export default {
           opcion.seleccionada = false
         }
       })
+    },
+    enviarEncuesta (idOpcion) {
+      const data = {
+        opcionId: idOpcion,
+        usuarioId: this.user._id
+      }
+
+      this.$api
+        .post('opciones_admin123/votar', data)
+        .then(response => {
+          this.opcionesUltimaEncuesta = response.data
+          alert('Encuesta enviada')
+        })
+        .catch(error => {
+          console.error('Error al enviar la encuesta:', error)
+          alert('No se pudo enviar su respuesta.. intente más tarde')
+        })
     }
   }
 }
