@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h4>Lista de categorías</h4>
+    <h6>Lista de categorías</h6>
     <table class="q-table">
       <thead>
         <tr class="q-table__header">

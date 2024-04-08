@@ -1,6 +1,6 @@
 /*Anotaciones: Consultar si el boton hay que mostrar en la tabla tambien  */
 <template>
-  <div class="q-pa-lg">
+  <div class="q-pa-lg" style="padding: 90px;">
     <div class="q-pa-lg" style="display: flex; gap:20px">
       <q-input
         v-model="filtroNombre"

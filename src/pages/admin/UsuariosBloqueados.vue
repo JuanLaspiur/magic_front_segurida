@@ -1,9 +1,10 @@
 <template>
-    <div>
-      <q-btn dense class=" bg-primary text-white " style=" display: absolute; top: 10px; margin-left: 10px; "  @click=" descargaExcel() " >Exportar usuarios</q-btn>
-      <div class="text-center text-h6 q-my-sm">Usuarios</div>
+    <div >
+      <SolicitudesDeBaja/>
+      <div style="padding: 40px;"></div>
+      <div class="text-center text-h6 q-my-sm" >Usuarios</div>
       <q-separator />
-      <div class="q-px-md q-py-md">
+      <div class="q-px-md q-py-md" style="margin: 45px;">
         <q-input v-model="filter" dense rounded outlined bg-color="grey-3" placeholder="Buscar usuario..."
         @input="filterFn(filter)">
           <template v-slot:append>
@@ -21,6 +22,7 @@
         table-header-class="text-black"
         no-data-label="No hay Usuarios"
         no-results-label="No hay Usuarios"
+        style="margin: 50px;"
       >
         <template v-slot:body-cell-fullName="props">
           <q-td :props="props">
@@ -143,12 +145,17 @@
           <div>{{form.description}}</div>
         </q-card>
       </q-dialog>
+      <q-btn dense class=" bg-primary text-white " style=" display: absolute; top: 10px; margin-left: 10px; margin:5px 70px"  @click=" descargaExcel() " >Exportar usuarios</q-btn>
     </div>
   </template>
 <script>
 import env from '../../env'
 import moment from 'moment'
+import SolicitudesDeBaja from '../../components/SolicitudesDeBaja.vue'
 export default {
+  components: {
+    SolicitudesDeBaja
+  },
   data () {
     return {
       pagination: {

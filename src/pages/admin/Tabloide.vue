@@ -1,5 +1,5 @@
 <template>
-  <div class="tabloide q-ma-md">
+  <div class="tabloide q-ma-md" style="padding: 90px;">
     <div class="col_2">
       <div class="text-gray-10 q-ma-md text-bold text-h5">Tabloides</div>
       <div class="nuevo_tabloide q-pa-lg shadow-2" style="border-radius:10px">

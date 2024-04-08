@@ -3,9 +3,9 @@
     <div>
       <h4>Modulo Categorias</h4>
       <div>
-        <CrearCategoria class="auto" />
+        <Tabla />
       </div>
-      <Tabla />
+      <CrearCategoria class="auto" />
     </div>
   </div>
 </template>

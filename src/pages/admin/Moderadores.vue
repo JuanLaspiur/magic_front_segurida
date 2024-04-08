@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md">
+  <div class="q-pa-md" style="padding: 90px;">
     <div class="text-h5 text-bold">Módulo de moderadores</div>
 
     <div class="q-py-md q-mb-md" style="width:50%">

@@ -1,8 +1,6 @@
-/* Comentarios:
-Verificar el correcto funcionamiento
-*/
+/* Comentarios: Verificar el correcto funcionamiento */
 <template>
-  <div class="container-fluid">
+  <div class="container-fluid" style="padding: 80px">
     <div class="row justify-content-center">
       <!-- Tarjeta para crear encuesta -->
       <div class="col-md-6">
@@ -60,10 +58,10 @@ Verificar el correcto funcionamiento
           </div>
           <div class="card-body">
             <!-- Aquí puedes mostrar la encuesta actual -->
-            <p>Encuesta actual:</p>
+            <p>Encuesta actual: {{ ultimaEncuesta.pregunta }}</p>
             <ul>
-              <li v-for="(opcion, index) in opcionesActuales" :key="index">
-                {{ opcion }}
+              <li v-for="(opcion, index) in opcionesUltimaEncuesta" :key="index">
+                {{ opcion.texto }}
               </li>
             </ul>
           </div>
@@ -80,7 +78,8 @@ export default {
       pregunta: '',
       cantidadOpciones: 0,
       opciones: [],
-      opcionesActuales: [] // Actualizado para almacenar la última encuesta
+      ultimaEncuesta: [],
+      opcionesUltimaEncuesta: []
     }
   },
   methods: {
@@ -108,20 +107,32 @@ export default {
       this.$api
         .get('/encuestas-admin')
         .then(response => {
-          console.log('Todas las encuestas:', response.data)
-          // Asignar la última encuesta a opcionesActuales
-          this.opcionesActuales =
-            response.data.length > 0
-              ? response.data[response.data.length - 1]
-              : []
+          // Asignar la última encuesta a ultimaEncuesta
+          this.ultimaEncuesta =
+            response.length > 0 ? response[response.length - 1] : []
+
+          // Llamar a obtenerOpcionesEncuesta dentro de la promesa
+          this.obtenerOpcionesEncuesta(this.ultimaEncuesta._id)
         })
         .catch(error => {
           console.error('Error al obtener todas las encuestas:', error)
+        })
+    },
+    obtenerOpcionesEncuesta (enuestaId) {
+      this.$api
+        .get('opciones_admin123/id/' + enuestaId)
+        .then(response => {
+          // Asignar la última encuesta a ultimaEncuesta
+          this.opcionesUltimaEncuesta = response
+        })
+        .catch(error => {
+          console.error('Error al obtener todas las opciones:', error)
         })
     }
   },
   mounted () {
     this.obtenerUltimaEncuesta()
+    console.log('Opciones actuales: ' + this.ultimaEncuesta[1])
   }
 }
 </script>
