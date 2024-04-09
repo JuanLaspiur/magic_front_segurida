@@ -1,6 +1,6 @@
 <template>
-  <div style="width: 100%;">
-    <div >
+  <div style="width: 100%">
+    <div>
       <div>
         <h6>Rango etario Usuarios</h6>
         <div v-for="(value, index) in allUsersAgeGroups" :key="index">
@@ -18,6 +18,12 @@
 
 <script>
 export default {
+  props: {
+    totalUsers: {
+      type: Array, // Suponiendo que totalUsers es una lista de usuarios
+      default: () => [] // Valor predeterminado de una lista vacía si no se proporciona
+    }
+  },
   data () {
     return {
       allUsersAgeRanges: ['0-18', '19-30', '31-50', '51+'],
@@ -28,44 +34,40 @@ export default {
     }
   },
   created () {
-    this.fetchUserStatistics()
+    // No es necesario llamar a fetchUserStatistics() ya que los datos se proporcionan directamente en totalUsers
+    this.calculateUserStatistics()
   },
   methods: {
-    fetchUserStatistics () {
-      this.$api
-        .get('all_user_admin')
-        .then(res => {
-          if (res.success) {
-            const totalUsers = res.data.length
+    calculateUserStatistics () {
+      const totalUsers = this.totalUsers
 
-            const ageGroupsCount = [0, 0, 0, 0]
+      if (totalUsers.length > 0) {
+        const ageGroupsCount = [0, 0, 0, 0]
 
-            res.data.forEach(user => {
-              const age = this.calculateAge(user.birthdate)
-              if (age >= 0 && age <= 18) {
-                ageGroupsCount[0]++
-              } else if (age >= 19 && age <= 30) {
-                ageGroupsCount[1]++
-              } else if (age >= 31 && age <= 50) {
-                ageGroupsCount[2]++
-              } else {
-                ageGroupsCount[3]++
-              }
-            })
-
-            // Calcula el porcentaje de usuarios en cada grupo de edad
-            const percentages = ageGroupsCount.map(count => count / totalUsers)
-
-            // No modifiques esta linea
-            this.allUsersPercentage = 100 // Se establece como 100 porque estamos mostrando todos los usuarios
-
-            // de aca en mas si. Que sea un porcentaje del 0 a 1
-            this.allUsersAgeGroups = percentages.map(percentage => percentage)
+        totalUsers.forEach(user => {
+          const age = this.calculateAge(user.birthdate)
+          if (age >= 0 && age <= 18) {
+            ageGroupsCount[0]++
+          } else if (age >= 19 && age <= 30) {
+            ageGroupsCount[1]++
+          } else if (age >= 31 && age <= 50) {
+            ageGroupsCount[2]++
+          } else {
+            ageGroupsCount[3]++
           }
         })
-        .catch(error => {
-          console.error('Error fetching user statistics:', error)
-        })
+
+        const totalUsersCount = totalUsers.length
+
+        // Calcula el porcentaje de usuarios en cada grupo de edad
+        const percentages = ageGroupsCount.map(count => count / totalUsersCount)
+
+        // Establece las estadísticas calculadas en los datos del componente
+        this.allUsersPercentage = 100 // Se establece como 100 porque estamos mostrando todos los usuarios
+        this.allUsersAgeGroups = percentages
+      } else {
+        console.error('Error: No hay usuarios para calcular estadísticas.')
+      }
     },
 
     calculateAge (birthdate) {
@@ -74,7 +76,6 @@ export default {
       let age = today.getFullYear() - birthDate.getFullYear()
       const month = today.getMonth() - birthDate.getMonth()
 
-      // Si el mes actual es anterior al mes de nacimiento o es el mismo mes pero el día actual es anterior al día de nacimiento, restamos 1 al age
       if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
         age--
       }

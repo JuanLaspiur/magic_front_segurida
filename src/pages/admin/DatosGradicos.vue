@@ -7,15 +7,15 @@
         <div v-if="currentIndex === 0">
           <h4>Gráficos</h4>
           <div style="display: flex; gap: 10%">
-            <UsuariosPorcentaje />
-            <UsuariosPlanesPorcentaje />
+            <UsuariosPorcentaje :totalUsers="totalUsers" />
+            <UsuariosPlanesPorcentaje :totalUsers="totalUsers"  :totalQuedadas="totalQuedadas"/>
           </div>
         </div>
         <div v-else-if="currentIndex === 1">
           <HombrePorcentaje :totalUsers="totalUsers" />
         </div>
         <div v-else-if="currentIndex === 2">
-          <MujeresPorcentaje :totalUsers="totalUsers"/>
+          <MujeresPorcentaje :totalUsers="totalUsers" />
         </div>
         <div v-else-if="currentIndex === 3">
           <SinDefinirPorcentaje :totalUsers="totalUsers" />
@@ -85,11 +85,13 @@ export default {
   data () {
     return {
       currentIndex: 0,
-      totalUsers: 0
+      totalUsers: 0,
+      totalQuedadas: []
     }
   },
   created () {
     this.fetchTotalUsers()
+    this.fetchTotalQuedadas()
   },
   methods: {
     // Método para cambiar el componente según el índice
@@ -106,6 +108,17 @@ export default {
         })
         .catch(error => {
           console.error('Error fetching user statistics:', error)
+        })
+    },
+    fetchTotalQuedadas () {
+      this.$api
+        .get('all_quedadas_admin')
+        .then(response => {
+          this.totalQuedadas = response
+          console.log('this.totalQuedadas padre ' + this.totalQuedadas)
+        })
+        .catch(error => {
+          console.error('Error al obtener las quedadas:', error)
         })
     }
   },

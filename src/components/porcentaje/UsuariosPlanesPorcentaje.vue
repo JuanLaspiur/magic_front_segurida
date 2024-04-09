@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100%;">
+  <div style="width: 100%">
     <div>
       <div>
         <h6>Rango etario Usuarios que crean Planes</h6>
@@ -18,63 +18,63 @@
 
 <script>
 export default {
+  props: {
+    totalUsers: {
+      default: () => [] // Valor predeterminado de una lista vacía si no se proporciona
+    },
+    totalQuedadas: {
+      default: () => [] // Valor predeterminado de una lista vacía si no se proporciona
+    }
+  },
   data () {
     return {
       allUsersAgeRanges: ['0-18', '19-30', '31-50', '51+'],
       barColors: ['primary', 'warning', 'secondary', 'accent'],
-      allUsersAgeGroups: [0, 0, 0, 0],
-      quedadas: [],
-      allUsers: []
+      allUsersAgeGroups: [0, 0, 0, 0]
     }
   },
   created () {
-    this.fetchUsers()
+    this.fetchQuedadas()
+  },
+  mounted () {
+    this.fetchQuedadas()
   },
   methods: {
-    fetchUsers () {
-      this.$api
-        .get('all_user_admin')
-        .then(response => {
-          this.allUsers = response.data
-          this.fetchQuedadas()
-        })
-        .catch(error => {
-          console.error('Error al obtener los usuarios:', error)
-        })
-    },
     fetchQuedadas () {
-      this.$api
-        .get('all_quedadas_admin')
-        .then(response => {
-          this.quedadas = response
-          const uniqueUserIds = [
-            ...new Set(this.quedadas.map(quedada => quedada.user_id))
-          ]
-          const usersWithQuedadas = this.allUsers.filter(user =>
-            uniqueUserIds.includes(user._id)
-          )
-          const ageGroupsCount = [0, 0, 0, 0]
-          usersWithQuedadas.forEach(user => {
-            const age = this.calculateAge(user.birthdate)
-            if (age >= 0 && age <= 18) {
-              ageGroupsCount[0]++
-            } else if (age >= 19 && age <= 30) {
-              ageGroupsCount[1]++
-            } else if (age >= 31 && age <= 50) {
-              ageGroupsCount[2]++
-            } else {
-              ageGroupsCount[3]++
-            }
-          })
-          const totalUsersWithQuedadas = usersWithQuedadas.length
-          const percentages = ageGroupsCount.map(
-            count => count / totalUsersWithQuedadas
-          )
-          this.allUsersAgeGroups = percentages
-        })
-        .catch(error => {
-          console.error('Error al obtener las quedadas:', error)
-        })
+      console.log('ThisTotalQuedadas hijo ' + this.totalQuedadas)
+      const uniqueUserIds = [
+        ...new Set(this.totalQuedadas.map(quedada => quedada.user_id))
+      ]
+      console.log('total quedadas ' + this.totalQuedadas) // vacio
+      const usersWithQuedadas = this.totalUsers.filter(user =>
+        uniqueUserIds.includes(user._id)
+      )
+      const totalUsersWithQuedadas = usersWithQuedadas.length
+
+      if (totalUsersWithQuedadas === 0) {
+        // Evitar división por cero
+        this.allUsersAgeGroups = [0, 0, 0, 0]
+        return
+      }
+
+      const ageGroupsCount = [0, 0, 0, 0]
+      usersWithQuedadas.forEach(user => {
+        const age = this.calculateAge(user.birthdate)
+        if (age >= 0 && age <= 18) {
+          ageGroupsCount[0]++
+        } else if (age >= 19 && age <= 30) {
+          ageGroupsCount[1]++
+        } else if (age >= 31 && age <= 50) {
+          ageGroupsCount[2]++
+        } else {
+          ageGroupsCount[3]++
+        }
+      })
+
+      const percentages = ageGroupsCount.map(
+        count => count / totalUsersWithQuedadas
+      )
+      this.allUsersAgeGroups = percentages
     },
     calculateAge (birthdate) {
       const today = new Date()
@@ -96,7 +96,7 @@ export default {
 .text-grey {
   color: #777;
 }
-.width{
-    width: 100%;
+.width {
+  width: 100%;
 }
 </style>
