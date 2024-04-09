@@ -626,7 +626,7 @@ export default {
     enviarEncuestaAlChat (encuesta) {
       // Realizar la solicitud POST para crear la encuesta
       this.$api
-        .post('encuestas-admin/', encuesta)
+        .post('encuestas/', encuesta)
         .then(response => {
           // Verificar si la respuesta contiene la encuesta creada con su _id
           if (

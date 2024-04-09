@@ -11,7 +11,9 @@
         track-color="pink"
         class="q-ma-md"
       />
-      <p class="absolute">Porcentaje mujeres {{femalePercentage.toFixed(1)}}%</p>
+      <p class="absolute">
+        Porcentaje mujeres {{ femalePercentage.toFixed(1) }}%
+      </p>
       <div style="width: 40%">
         <h6>Rango etario Mujeres</h6>
         <div v-for="(value, index) in femaleAgeGroups" :key="index">
@@ -29,6 +31,12 @@
 
 <script>
 export default {
+  props: {
+    totalUsers: {
+      type: Number,
+      default: 0
+    }
+  },
   data () {
     return {
       femaleAgeRanges: ['0-18', '19-30', '31-50', '51+'],
@@ -43,43 +51,34 @@ export default {
   },
   methods: {
     fetchUserStatistics () {
-      this.$api
-        .get('all_user_admin')
-        .then(res => {
-          if (res.success) {
-            const femaleUsers = res.data.filter(user => user.gender === 'Mujer')
-            const totalFemaleUsers = femaleUsers.length
+      const femaleUsers = this.totalUsers.filter(
+        user => user.gender === 'Mujer'
+      )
+      const totalFemaleUsers = femaleUsers.length
 
-            const ageGroupsCount = [0, 0, 0, 0]
+      const ageGroupsCount = [0, 0, 0, 0]
 
-            femaleUsers.forEach(user => {
-              const age = this.calculateAge(user.birthdate)
-              if (age >= 0 && age <= 18) {
-                ageGroupsCount[0]++
-              } else if (age >= 19 && age <= 30) {
-                ageGroupsCount[1]++
-              } else if (age >= 31 && age <= 50) {
-                ageGroupsCount[2]++
-              } else {
-                ageGroupsCount[3]++
-              }
-            })
+      femaleUsers.forEach(user => {
+        const age = this.calculateAge(user.birthdate)
+        if (age >= 0 && age <= 18) {
+          ageGroupsCount[0]++
+        } else if (age >= 19 && age <= 30) {
+          ageGroupsCount[1]++
+        } else if (age >= 31 && age <= 50) {
+          ageGroupsCount[2]++
+        } else {
+          ageGroupsCount[3]++
+        }
+      })
 
-            // Calcula el porcentaje de usuarias femeninas en cada grupo de edad
-            const percentages = ageGroupsCount.map(
-              count => count / totalFemaleUsers
-            )
+      // Calcula el porcentaje de usuarias femeninas en cada grupo de edad
+      const percentages = ageGroupsCount.map(count => count / totalFemaleUsers)
 
-            // No modifiques esta linea
-            this.femalePercentage = (totalFemaleUsers / res.data.length) * 100
+      // No modifiques esta linea
+      this.femalePercentage = (totalFemaleUsers / this.totalUsers.length) * 100
 
-            // de aca en mas si. Que sea un porcentaje del 0 a 1
-            this.femaleAgeGroups = percentages
-          }
-        })
-        .catch(error => {
-          console.error('Error fetching user statistics:', error)
-        })
+      // de aca en mas si. Que sea un porcentaje del 0 a 1
+      this.femaleAgeGroups = percentages
     },
     calculateAge (birthdate) {
       const today = new Date()
@@ -105,7 +104,7 @@ export default {
 .text-grey {
   color: #777;
 }
-.absolute{
+.absolute {
   position: absolute;
   top: 40%;
 }

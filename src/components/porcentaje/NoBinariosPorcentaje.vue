@@ -11,7 +11,9 @@
         track-color="orange"
         class="q-ma-md"
       />
-      <p class="absolute">Porcentaje no-binarios {{nonBinaryPercentage.toFixed(1)}}%</p>
+      <p class="absolute">
+        Porcentaje no-binarios {{ nonBinaryPercentage.toFixed(1) }}%
+      </p>
 
       <div style="width: 40%">
         <h6>Rango etario No binarios</h6>
@@ -30,6 +32,12 @@
 
 <script>
 export default {
+  props: {
+    totalUsers: {
+      type: Number,
+      default: 0
+    }
+  },
   data () {
     return {
       nonBinaryAgeRanges: ['0-18', '19-30', '31-50', '51+'],
@@ -39,52 +47,39 @@ export default {
     }
   },
   created () {
-    this.fetchNonBinaryStatistics()
+    this.calculateNonBinaryStatistics()
   },
   methods: {
-    fetchNonBinaryStatistics () {
-      this.$api
-        .get('all_user_admin')
-        .then(res => {
-          if (res.success) {
-            const nonBinaryUsers = res.data.filter(
-              user => user.gender === 'No binario'
-            )
-            const totalNonBinaryUsers = nonBinaryUsers.length
+    calculateNonBinaryStatistics () {
+      const nonBinaryUsers = this.totalUsers.filter(
+        user => user.gender === 'No binario'
+      )
+      const totalNonBinaryUsers = nonBinaryUsers.length
+      const nonBinaryPercentage = (totalNonBinaryUsers / this.totalUsers.length) * 100
+      this.nonBinaryPercentage = nonBinaryPercentage
 
-            const ageGroupsCount = [0, 0, 0, 0]
+      // Calcular el porcentaje de usuarios no binarios en cada grupo de edad
+      const ageGroupsCount = [0, 0, 0, 0]
+      nonBinaryUsers.forEach(user => {
+        const age = this.calculateAge(user.birthdate)
+        if (age >= 0 && age <= 18) {
+          ageGroupsCount[0]++
+        } else if (age >= 19 && age <= 30) {
+          ageGroupsCount[1]++
+        } else if (age >= 31 && age <= 50) {
+          ageGroupsCount[2]++
+        } else {
+          ageGroupsCount[3]++
+        }
+      })
 
-            nonBinaryUsers.forEach(user => {
-              const age = this.calculateAge(user.birthdate)
-              if (age >= 0 && age <= 18) {
-                ageGroupsCount[0]++
-              } else if (age >= 19 && age <= 30) {
-                ageGroupsCount[1]++
-              } else if (age >= 31 && age <= 50) {
-                ageGroupsCount[2]++
-              } else {
-                ageGroupsCount[3]++
-              }
-            })
+      // Calcula el porcentaje de usuarios no binarios en cada grupo de edad
+      const percentages = ageGroupsCount.map(
+        count => count / totalNonBinaryUsers
+      )
 
-            // Calcula el porcentaje de usuarios no binarios en cada grupo de edad
-            const percentages = ageGroupsCount.map(
-              count => count / totalNonBinaryUsers
-            )
-
-            // No modifiques esta linea
-            this.nonBinaryPercentage =
-              (totalNonBinaryUsers / res.data.length) * 100
-
-            // de aca en mas si. Que sea un porcentaje del 0 a 1
-            this.nonBinaryAgeGroups = percentages.map(percentage => percentage)
-          }
-        })
-        .catch(error => {
-          console.error('Error fetching user statistics:', error)
-        })
+      this.nonBinaryAgeGroups = percentages
     },
-
     calculateAge (birthdate) {
       const today = new Date()
       const birthDate = new Date(birthdate)
@@ -109,7 +104,7 @@ export default {
 .text-grey {
   color: #777;
 }
-.absolute{
+.absolute {
   position: absolute;
   top: 40%;
 }

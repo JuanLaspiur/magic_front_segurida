@@ -1,27 +1,27 @@
 <template>
   <div>
-    <div >
+    <div>
       <!-- Contenido dinámico -->
       <div class="text-center" style="padding: 50px">
         <!--  semi-colon expected -->
-        <div v-if="currentIndex === 0"  >
+        <div v-if="currentIndex === 0">
           <h4>Gráficos</h4>
-          <div style="display: flex; ; gap:10%">
+          <div style="display: flex; gap: 10%">
             <UsuariosPorcentaje />
-            <UsuariosPlanesPorcentaje/>
+            <UsuariosPlanesPorcentaje />
           </div>
         </div>
         <div v-else-if="currentIndex === 1">
-          <HombrePorcentaje />
+          <HombrePorcentaje :totalUsers="totalUsers" />
         </div>
         <div v-else-if="currentIndex === 2">
-          <MujeresPorcentaje />
+          <MujeresPorcentaje :totalUsers="totalUsers"/>
         </div>
         <div v-else-if="currentIndex === 3">
-          <SinDefinirPorcentaje />
+          <SinDefinirPorcentaje :totalUsers="totalUsers" />
         </div>
         <div v-else>
-          <NoBinariosPorcentaje />
+          <NoBinariosPorcentaje :totalUsers="totalUsers" />
         </div>
       </div>
 
@@ -60,12 +60,12 @@
       </div>
     </div>
 
-    <div  style="width: 100%; display: flex; gap:8%; padding: 0 200px;">
+    <div style="width: 100%; display: flex; gap: 8%; padding: 0 200px">
       <PremiumPorcentaje />
       <CategoriasPorcentaje />
     </div>
     <div class="q-pa-lg">
-       <TabloidePorcentaje/>
+      <TabloidePorcentaje />
     </div>
   </div>
 </template>
@@ -84,13 +84,29 @@ import TabloidePorcentaje from '../../components/porcentaje/TabloidePorcentaje.v
 export default {
   data () {
     return {
-      currentIndex: 0
+      currentIndex: 0,
+      totalUsers: 0
     }
+  },
+  created () {
+    this.fetchTotalUsers()
   },
   methods: {
     // Método para cambiar el componente según el índice
     changeComponent (index) {
       this.currentIndex = index
+    },
+    fetchTotalUsers () {
+      this.$api
+        .get('all_user_admin')
+        .then(res => {
+          if (res.success) {
+            this.totalUsers = res.data
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching user statistics:', error)
+        })
     }
   },
   components: {
@@ -109,21 +125,21 @@ export default {
 
 <style scoped>
 /* Estilos específicos del componente */
-.espacio_botontes{
+.espacio_botontes {
   width: max-content;
   display: flex;
-  gap:5px;
+  gap: 5px;
   padding: 0 10px;
   margin: auto;
 }
-.flex{
+.flex {
   display: flex;
   flex-direction: row;
 }
-.gap{
-  gap:70px
+.gap {
+  gap: 70px;
 }
-.maxWidth{
-  width: 1000px
+.maxWidth {
+  width: 1000px;
 }
 </style>
