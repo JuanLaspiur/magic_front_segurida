@@ -5,6 +5,7 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       // Admin
+      { path: '/modulo_insignas-usuarios', component: () => import('pages/admin/UsuariosModuloInsignas.vue') },
       { path: '/modulo_insignas', component: () => import('pages/admin/ModuloInsignas.vue') },
       { path: '/datos_graficos', component: () => import('pages/admin/DatosGradicos.vue') },
       { path: '/administrador', component: () => import('pages/admin/Inicio.vue') },
