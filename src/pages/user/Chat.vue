@@ -8,7 +8,7 @@
         >
           <div class="row">
             <q-btn
-              flat
+              flatz
               @click="$router.go(-1)"
               color="white"
               round
@@ -639,9 +639,7 @@ export default {
               index + 1
             }" name="opcion${
               index + 1
-            }" value="${opcion}" onclick="enviarRespuesta('${opcion}', '${
-              response.data.encuesta._id
-            }')">
+            }" value="${opcion}" onclick="enviarRespuesta('${opcion}')">
                     <label for="opcion${index + 1}">${
               index + 1
             }. ${opcion}</label><br>`
@@ -669,8 +667,8 @@ export default {
           console.error('Error al crear la encuesta:', error)
         })
     },
-    enviarRespuesta (opcionSeleccionada, encuestaId) {
-      console.log(opcionSeleccionada + ' y ' + encuestaId)
+    enviarRespuesta (opcionSeleccionada) {
+      console.log(opcionSeleccionada + ' es la opcion seleccionada')
       return opcionSeleccionada
     },
 
