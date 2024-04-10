@@ -152,6 +152,11 @@ export default {
           ruta: '/tabloides'
         },
         {
+          label: 'Gestion de Insignas',
+          src: 'chat4 2.png',
+          ruta: '/modulo_insignas'
+        },
+        {
           label: 'Encuestas',
           src: 'chat4 2.png',
           ruta: '/encuestas'
