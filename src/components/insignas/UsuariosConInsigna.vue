@@ -1,7 +1,6 @@
 <template>
   <div style="margin: 75px">
-    <p style="font-size: 20px">Lista de usuarios con insignia</p>
-
+    <p style="font-size: 20px; margin-bottom: 73px;">Lista de usuarios con insignia</p>
     <table v-if="usuarios.length > 0" class="custom-table">
       <!-- Encabezado de la tabla -->
       <thead>

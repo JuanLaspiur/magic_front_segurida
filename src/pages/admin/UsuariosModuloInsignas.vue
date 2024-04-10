@@ -1,9 +1,9 @@
 <template>
-  <div class="q-pa-lg" style="padding: 90px">
+  <div class="q-pa-lg" style="padding:35px 90px">
     <h4>Usuarios insignas</h4>
     <div style="display: flex; gap: 20%">
-      <TablaUsuariosInsigna style="max-width: 500px" />
-      <UsuariosConInsigna style="max-width: 500px" />
+      <TablaUsuariosInsigna style="width: 49%;" />
+      <UsuariosConInsigna style="width: 49%;"  />
     </div>
   </div>
 </template>
