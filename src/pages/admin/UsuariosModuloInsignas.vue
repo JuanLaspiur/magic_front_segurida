@@ -5,6 +5,10 @@
       <TablaUsuariosInsigna style="width: 49%;" />
       <UsuariosConInsigna style="width: 49%;"  />
     </div>
+    <div style="margin-top: 6%;">
+      <q-btn color="primary" label="Volver" @click="$router.push('/modulo_insignas')" />
+
+    </div>
   </div>
 </template>
 
