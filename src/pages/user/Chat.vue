@@ -631,7 +631,6 @@ export default {
         .post('encuestas/', encuesta)
         .then(response => {
           // Verificar si la respuesta contiene la encuesta creada con su _id
-
           // Utilizar el _id de la encuesta creada en el mensajeChat
           let mensajeChat = `- ${encuesta.pregunta}<br><br>`
           encuesta.opciones.forEach((opcion, index) => {
@@ -639,7 +638,9 @@ export default {
               index + 1
             }" name="opcion${
               index + 1
-            }" value="${opcion}" onclick="enviarRespuesta('${opcion}')">
+            }" value="${opcion}" onclick="enviarRespuesta('${opcion}', '${
+              response._id
+            }' )">
                     <label for="opcion${index + 1}">${
               index + 1
             }. ${opcion}</label><br>`
@@ -667,11 +668,47 @@ export default {
           console.error('Error al crear la encuesta:', error)
         })
     },
-    enviarRespuesta (opcionSeleccionada) {
-      console.log(opcionSeleccionada + ' es la opcion seleccionada')
-      return opcionSeleccionada
-    },
+    async enviarRespuesta (opcionSeleccionada, idEncuesta) {
+      console.log(idEncuesta)
+      try {
+        // Paso 1: Obtener todas las opciones asociadas a la encuesta
+        const opcionesResponse = await this.$api.get(
+          `opciones-usuario/id/${idEncuesta}`
+        )
 
+        // Verificar si la respuesta contiene datos válidos
+        if (!opcionesResponse) {
+          console.error('Error obtener lista')
+        }
+        // Paso 2: Buscar la opción que coincide con el texto seleccionado por el usuario
+        const opciones = opcionesResponse
+        const opcionSeleccionadaObj = opciones.find(
+          opcion => opcion.texto === opcionSeleccionada
+        )
+        if (!opcionSeleccionadaObj) {
+          throw new Error(
+            'La opción seleccionada no se encontró en las opciones de la encuesta.'
+          )
+        }
+        console.log('Verificacion del ultimo post ' + opcionSeleccionadaObj._id + ' usuario ' + this.logueado_id)
+
+        // Paso 3: Enviar una solicitud para registrar el voto del usuario por esa opción
+        const votoResponse = await this.$api.post('opciones-usuario/votar', {
+          opcionId: opcionSeleccionadaObj._id,
+          usuarioId: this.logueado_id // Asumiendo que logueado_id contiene el ID del usuario actual
+        })
+
+        // Si la solicitud se completa con éxito, podrías devolver algún tipo de confirmación al usuario
+        console.log('Voto registrado exitosamente:', votoResponse)
+
+        // Aquí podrías devolver algún mensaje de confirmación si lo deseas
+        return 'Voto registrado exitosamente'
+      } catch (error) {
+        console.error('Error al enviar la respuesta:', error.message)
+        // Aquí podrías manejar el error y devolver un mensaje de error adecuado
+        return 'Error al enviar la respuesta. Por favor, inténtalo de nuevo.'
+      }
+    },
     cerrarEncuestaModle () {
       this.mostrarDialogoEncuesta = false
     }
