@@ -37,6 +37,15 @@ export default {
     // No es necesario llamar a fetchUserStatistics() ya que los datos se proporcionan directamente en totalUsers
     this.calculateUserStatistics()
   },
+  mounted () {
+    this.calculateUserStatistics()
+  },
+  watch: {
+    totalUsers: {
+      handler: 'calculateUserStatistics', // Llama a calculateUserStatistics() cuando totalUsers cambia
+      immediate: true // Activa el watcher inmediatamente después del montaje
+    }
+  },
   methods: {
     calculateUserStatistics () {
       const totalUsers = this.totalUsers

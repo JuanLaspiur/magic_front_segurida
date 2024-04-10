@@ -39,6 +39,12 @@ export default {
   mounted () {
     this.fetchQuedadas()
   },
+  watch: {
+    totalQuedadas: {
+      handler: 'fetchQuedadas', // Llama a fetchQuedadas() cuando totalQuedadas cambia
+      immediate: true // Activa el watcher inmediatamente después del montaje
+    }
+  },
   methods: {
     fetchQuedadas () {
       console.log('ThisTotalQuedadas hijo ' + this.totalQuedadas)
