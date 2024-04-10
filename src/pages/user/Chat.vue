@@ -669,7 +669,6 @@ export default {
         })
     },
     async enviarRespuesta (opcionSeleccionada, idEncuesta) {
-      console.log(idEncuesta)
       try {
         // Paso 1: Obtener todas las opciones asociadas a la encuesta
         const opcionesResponse = await this.$api.get(
@@ -690,22 +689,18 @@ export default {
             'La opción seleccionada no se encontró en las opciones de la encuesta.'
           )
         }
-        console.log('Verificacion del ultimo post ' + opcionSeleccionadaObj._id + ' usuario ' + this.logueado_id)
 
         // Paso 3: Enviar una solicitud para registrar el voto del usuario por esa opción
         const votoResponse = await this.$api.post('opciones-usuario/votar', {
           opcionId: opcionSeleccionadaObj._id,
           usuarioId: this.logueado_id // Asumiendo que logueado_id contiene el ID del usuario actual
         })
-
+        console.log(votoResponse)
         // Si la solicitud se completa con éxito, podrías devolver algún tipo de confirmación al usuario
-        console.log('Voto registrado exitosamente:', votoResponse)
-
-        // Aquí podrías devolver algún mensaje de confirmación si lo deseas
+        alert('Voto registrado exitosamente')
         return 'Voto registrado exitosamente'
       } catch (error) {
         console.error('Error al enviar la respuesta:', error.message)
-        // Aquí podrías manejar el error y devolver un mensaje de error adecuado
         return 'Error al enviar la respuesta. Por favor, inténtalo de nuevo.'
       }
     },
