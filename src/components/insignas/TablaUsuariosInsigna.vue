@@ -104,19 +104,7 @@ export default {
       filtroCorreo: '', // Variable para filtrar por correo electrónico
       paginaActual: 1,
       tamañoPagina: 10,
-      insignias: [
-        {
-          name: 'Insignia 1',
-          description: 'Descripción de la Insignia 1',
-          image: '/assets/insignia1.png' // Ruta de la imagen de la insignia 1
-        },
-        {
-          name: 'Insignia 2',
-          description: 'Descripción de la Insignia 2',
-          image: '/assets/insignia2.png' // Ruta de la imagen de la insignia 2
-        }
-        // Agrega más insignias según sea necesario
-      ],
+      insignias: [],
       selectedInsignia: null
     }
   },
@@ -143,6 +131,7 @@ export default {
   },
   created () {
     this.getAllUsers()
+    this.fetchTraerInsignas() // Llama a fetchTraerInsignas al crear el componente
   },
   methods: {
     getAllUsers () {
@@ -156,6 +145,21 @@ export default {
         .catch(error => {
           console.error('Error al obtener usuarios:', error)
         })
+    },
+    fetchTraerInsignas () {
+      try {
+        this.$api
+          .get('/insignas')
+          .then(response => {
+            this.insignias = response
+            console.log('Insignias cargadas:', this.insignias)
+          })
+          .catch(error => {
+            console.error('Error al obtener las insignias:', error)
+          })
+      } catch (error) {
+        console.error('Error al obtener las insignias:', error)
+      }
     },
     agregarInsigna (userId) {
       console.log('Boton agregar insignia para el usuario con ID:', userId)
