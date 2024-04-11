@@ -4,7 +4,7 @@
 
     <!-- Input de búsqueda -->
     <q-input
-    style="width:500px; margin: 20px 0;"
+      style="width: 500px; margin: 20px 0"
       v-model="filtroCorreo"
       label="Buscar por correo electrónico"
       outlined
@@ -33,7 +33,7 @@
           <td>{{ user.participo ? user.participo : 0 }}</td>
           <td>{{ user.tiempoWeb }}</td>
           <td>
-            <button @click="agregarInsigna(user._id)">Agregar insigna</button>
+            <button @click="openModal">Agregar insigna</button>
           </td>
         </tr>
       </tbody>
@@ -58,6 +58,40 @@
         color="primary"
       />
     </div>
+
+    <!-- Modal -->
+    <q-dialog ref="modal" v-model="showModal" persistent>
+      <q-card>
+        <q-card-section class="row items-center justify-center">
+          <h4>Selecciona una Insignia</h4>
+        </q-card-section>
+
+        <!-- Lista de Insignias -->
+        <q-list bordered separator>
+          <q-item
+            v-for="(insignia, index) in insignias"
+            :key="index"
+            clickable
+            @click="selectInsignia(insignia)"
+          >
+            <q-item-section avatar>
+              <q-avatar>
+                <img :src="insignia.image" alt="Insignia" />
+              </q-avatar>
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>{{ insignia.name }}</q-item-label>
+              <q-item-label caption>{{ insignia.description }}</q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-list>
+
+        <!-- Botón para cerrar el modal -->
+        <q-card-actions align="right">
+          <q-btn color="primary" label="Cerrar" @click="closeModal" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
@@ -65,10 +99,25 @@
 export default {
   data () {
     return {
+      showModal: false,
       usuarios: [],
       filtroCorreo: '', // Variable para filtrar por correo electrónico
       paginaActual: 1,
-      tamañoPagina: 10
+      tamañoPagina: 10,
+      insignias: [
+        {
+          name: 'Insignia 1',
+          description: 'Descripción de la Insignia 1',
+          image: '/assets/insignia1.png' // Ruta de la imagen de la insignia 1
+        },
+        {
+          name: 'Insignia 2',
+          description: 'Descripción de la Insignia 2',
+          image: '/assets/insignia2.png' // Ruta de la imagen de la insignia 2
+        }
+        // Agrega más insignias según sea necesario
+      ],
+      selectedInsignia: null
     }
   },
   computed: {
@@ -109,7 +158,18 @@ export default {
         })
     },
     agregarInsigna (userId) {
-      console.log('Boton agregar insigna para el usuario con ID:', userId)
+      console.log('Boton agregar insignia para el usuario con ID:', userId)
+    },
+    openModal () {
+      this.showModal = true
+    },
+    closeModal () {
+      this.showModal = false
+    },
+    selectInsignia (insignia) {
+      // Aquí puedes manejar la lógica cuando se selecciona una insignia
+      this.selectedInsignia = insignia
+      console.log('Insignia seleccionada:', insignia)
     }
   }
 }
