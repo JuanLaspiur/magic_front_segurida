@@ -1,6 +1,8 @@
 <template>
   <div style="margin: 75px">
-    <p style="font-size: 20px; margin-bottom: 73px;">Lista de usuarios con insignia</p>
+    <p style="font-size: 20px; margin-bottom: 73px">
+      Lista de usuarios con insignia
+    </p>
     <table v-if="usuarios.length > 0" class="custom-table">
       <!-- Encabezado de la tabla -->
       <thead>
@@ -89,8 +91,11 @@ export default {
         })
     },
     eliminarInsignia (userId) {
-      console.log('Boton eliminar insignia para el usuario con ID:', userId)
       // Aquí deberías implementar la lógica para eliminar la insignia del usuario con el ID proporcionado
+      if (confirm('¿Seguro que desea eliminarle la insignia al usuario?')) {
+        console.log('Boton eliminar insignia para el usuario con ID:', userId)
+        // Lógica para eliminar la insignia
+      }
     }
   }
 }
