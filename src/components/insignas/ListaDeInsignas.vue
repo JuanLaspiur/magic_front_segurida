@@ -6,7 +6,7 @@
         <q-avatar style="margin-right: 10px">
           <img :src="insignia.imagen" alt="Imagen de Insignia" />
         </q-avatar>
-        <div class="q-item-main">
+        <div class="q-item-main" style="width: 390px;">
           <p>{{ insignia.name }}</p>
           <p>{{ insignia.description }}</p>
         </div>
