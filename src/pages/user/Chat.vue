@@ -684,7 +684,7 @@ export default {
           mensajeChat += `<br/> 
                     <input
                       type="button" 
-                      style="padding: 3px 5px; margin-top: 15px; cursor: pointer; background-color: #007bff; color: #fff; border: none; border-radius: 3px;"
+                      style="padding: 5px 5px; margin-top: 15px; cursor: pointer; background-color: #007bff; color: #fff; border: none; border-radius: 3px;"
                       value="Ver Resultado" 
                       onclick="enviarRespuesta('2', '${response._id}',true )"
                   >  
