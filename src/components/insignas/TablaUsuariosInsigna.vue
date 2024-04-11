@@ -33,7 +33,7 @@
           <td>{{ user.participo ? user.participo : 0 }}</td>
           <td>{{ user.tiempoWeb }}</td>
           <td>
-            <button @click="openModal">Agregar insigna</button>
+            <button @click="openModal(user)">Agregar insigna</button>
           </td>
         </tr>
       </tbody>
@@ -59,39 +59,48 @@
       />
     </div>
 
-    <!-- Modal -->
-    <q-dialog ref="modal" v-model="showModal" persistent>
-      <q-card>
-        <q-card-section class="row items-center justify-center">
-          <h4>Selecciona una Insignia</h4>
-        </q-card-section>
+ <!-- Modal -->
+<q-dialog ref="modal" v-model="showModal" persistent>
+  <q-card>
+    <q-card-section class="row items-center justify-center">
+      <h5>Selecciona una Insignia para: </h5>
+      <div style="width: 100%; height: 12px;"></div>
+      <p>{{ selectedUser ? selectedUser.name : 'N/A' }}  {{ selectedUser ? selectedUser.last_name : 'N/A' }}</p>
 
-        <!-- Lista de Insignias -->
-        <q-list bordered separator>
-          <q-item
-            v-for="(insignia, index) in insignias"
-            :key="index"
-            clickable
-            @click="selectInsignia(insignia)"
-          >
-            <q-item-section avatar>
-              <q-avatar>
-                <img :src="insignia.image" alt="Insignia" />
-              </q-avatar>
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>{{ insignia.name }}</q-item-label>
-              <q-item-label caption>{{ insignia.description }}</q-item-label>
-            </q-item-section>
-          </q-item>
-        </q-list>
+    </q-card-section>
+    <q-list bordered separator>
+      <q-item
+        v-for="(insignia, index) in insignias"
+        :key="index"
+        clickable
+        @click="seleccionarInsignia(insignia)"
+      >
+        <q-item-section avatar>
+          <q-avatar>
+            <img :src="insignia.image" alt="Insignia" />
+          </q-avatar>
+        </q-item-section>
+        <q-item-section>
+          <q-item-label>{{ insignia.name }}</q-item-label>
+          <q-item-label caption>{{ insignia.description }}</q-item-label>
+        </q-item-section>
+      </q-item>
+    </q-list>
 
-        <!-- Botón para cerrar el modal -->
-        <q-card-actions align="right">
+      <!-- Botones para cerrar el modal y agregar la insignia -->
+      <q-card-actions align="right">
           <q-btn color="primary" label="Cerrar" @click="closeModal" />
+          <!-- Mostrar el botón solo si se ha seleccionado una insignia -->
+          <q-btn
+            v-if="selectedInsignia"
+            color="primary"
+            label="Agregar Insignia"
+            @click="agregarInsigna(selectedUserId)"
+          />
         </q-card-actions>
-      </q-card>
-    </q-dialog>
+  </q-card>
+</q-dialog>
+
   </div>
 </template>
 
@@ -105,7 +114,10 @@ export default {
       paginaActual: 1,
       tamañoPagina: 10,
       insignias: [],
-      selectedInsignia: null
+      selectedUser: null,
+      selectedInsignia: null,
+      selectedUserId: null, // Nuevo: ID del usuario seleccionado
+      selectedInsigniaId: null // Nuevo: ID de la insignia seleccionada
     }
   },
   computed: {
@@ -164,15 +176,25 @@ export default {
     agregarInsigna (userId) {
       console.log('Boton agregar insignia para el usuario con ID:', userId)
     },
-    openModal () {
+    openModal (user) {
+      // Nuevo: Asignar el ID del usuario seleccionado
+      console.log(user)
+      this.selectedUser = user
+      this.selectedUserId = user._id
       this.showModal = true
     },
     closeModal () {
+      // Nuevo: Restablecer los valores cuando se cierra el modal
+      this.selectedUserId = null
+      this.selectedInsigniaId = null
+      this.selectedUser = null
+      this.selectInsignia = null
       this.showModal = false
     },
-    selectInsignia (insignia) {
-      // Aquí puedes manejar la lógica cuando se selecciona una insignia
+    seleccionarInsignia (insignia) {
+      // Nuevo: Asignar el ID de la id
       this.selectedInsignia = insignia
+      this.selectedInsigniaId = insignia._id
       console.log('Insignia seleccionada:', insignia)
     }
   }
