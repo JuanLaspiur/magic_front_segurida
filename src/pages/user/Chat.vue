@@ -376,6 +376,32 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
+    <q-dialog v-model="mostrarModalResultado">
+      <q-card>
+        <q-card-section class="text-center">
+          <div class="text-h6">Resultados de la encuesta</div>
+          <!-- Mostrar la pregunta de la encuesta si está disponible -->
+          <div class="text-body1" v-if="preguntaEncuestaResultado">
+            {{ preguntaEncuestaResultado }}
+          </div>
+          <!-- Mostrar las opciones y sus resultados si están disponibles -->
+          <div v-if="opcionesEncuestaResultado.length > 0">
+            <div
+              v-for="(opcion, index) in opcionesEncuestaResultado"
+              :key="index"
+            >
+              {{ index + 1 }}. {{ opcion }}:
+              {{ resultadosEncuestaResultado[index] }} votos
+            </div>
+          </div>
+          <!-- Mostrar un mensaje si no hay datos disponibles -->
+          <div v-else>No hay datos disponibles.</div>
+        </q-card-section>
+        <q-card-actions align="center">
+          <q-btn label="Cerrar" color="primary" @click="cerrarModalResultado" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 <script>
@@ -414,7 +440,11 @@ export default {
       cantidadOpciones: 0,
       opcionesEncuesta: [],
       model: '', // Define la propiedad "model" en tus datos
-      img: ''
+      img: '',
+      mostrarModalResultado: false,
+      preguntaEncuestaResultado: '', // La pregunta de la encuesta en el modal de resultados
+      opcionesEncuestaResultado: [], // Las opciones de la encuesta en el modal de resultados
+      resultadosEncuestaResultado: []
     }
   },
   validations: {
@@ -453,6 +483,10 @@ export default {
     }
   },
   methods: {
+    verResultado (idEncuesta) {
+      this.traerEncuestaPorId(idEncuesta)
+      this.mostrarModalResultado = true
+    },
     scrollToElement (el) {
       const target = getScrollTarget(el)
       const offset = el.offsetTop
@@ -645,6 +679,11 @@ export default {
               index + 1
             }. ${opcion}</label><br>`
           })
+          // mensajeChat += `<button @onclick="verResultado('${response._id}')" style="padding:3px 5px; margin-top:15px">Ver Resultado</button>`
+          mensajeChat += `<input type="checkbox" 
+                    click="verResultado('${response._id}')" 
+                    value="Ver Resultado" 
+                    style="padding: 3px 5px; margin-top: 15px; cursor: pointer; background-color: #007bff; color: #fff; border: none; border-radius: 3px;">`
 
           // Crear formData para enviar el mensaje de la encuesta al chat
           const formData = new FormData()
@@ -674,11 +713,27 @@ export default {
         const opcionesResponse = await this.$api.get(
           `opciones-usuario/id/${idEncuesta}`
         )
+        // Paso 2: Verificar si el usuario actual ya ha votado en alguna opción
+        const yaVoto = opcionesResponse.some(opcion => {
+          // Verificar si usuario_ids está definido
+          if (opcion.usuario_ids === undefined) {
+            return false // Si no está definido, retornar falso (no ha votado)
+          }
+          const usuarioIds = opcion.usuario_ids.split(',')
+          return usuarioIds.includes(this.logueado_id)
+        })
 
-        // Verificar si la respuesta contiene datos válidos
-        if (!opcionesResponse) {
-          console.error('Error obtener lista')
+        // Si el usuario ya ha votado, muestra una alerta y sal del método
+        if (yaVoto) {
+          this.$q.dialog({
+            title: 'Ya has votado',
+            message:
+              'Ya has votado en esta encuesta y no puedes volver a votar.',
+            color: 'negative'
+          })
+          return
         }
+
         // Paso 2: Buscar la opción que coincide con el texto seleccionado por el usuario
         const opciones = opcionesResponse
         const opcionSeleccionadaObj = opciones.find(
@@ -696,8 +751,7 @@ export default {
           usuarioId: this.logueado_id // Asumiendo que logueado_id contiene el ID del usuario actual
         })
         console.log(votoResponse)
-        // Si la solicitud se completa con éxito, podrías devolver algún tipo de confirmación al usuario
-        alert('Voto registrado exitosamente')
+        this.verResultado(idEncuesta)
         return 'Voto registrado exitosamente'
       } catch (error) {
         console.error('Error al enviar la respuesta:', error.message)
@@ -706,6 +760,46 @@ export default {
     },
     cerrarEncuestaModle () {
       this.mostrarDialogoEncuesta = false
+    },
+    // Método para cerrar el modal de resultado de la encuesta
+    cerrarModalResultado () {
+      this.mostrarModalResultado = false
+    },
+    async traerEncuestaPorId (encuestaId) {
+      try {
+        // Realizar la solicitud GET para obtener los detalles de la encuesta por su ID
+        const encuestaResponse = await this.$api.get(`encuestas/${encuestaId}`)
+
+        // Verificar si se obtuvo una respuesta válida
+        if (encuestaResponse) {
+          // Asignar la pregunta de la encuesta en el modal de resultados
+          this.preguntaEncuestaResultado = encuestaResponse.pregunta
+
+          // Obtener las opciones de la encuesta junto con sus resultados
+          const opcionesResponse = await this.$api.get(
+            `opciones-usuario/id/${encuestaId}`
+          )
+
+          // Verificar si se obtuvo una respuesta válida
+          if (opcionesResponse) {
+            // Extraer las opciones y sus resultados
+            this.opcionesEncuestaResultado = opcionesResponse.map(
+              opcion => opcion.texto
+            )
+            this.resultadosEncuestaResultado = opcionesResponse.map(opcion =>
+              this.contarObjetos(opcion.usuario_ids)
+            )
+          }
+        }
+      } catch (error) {
+        console.error('Error al obtener la encuesta:', error)
+      }
+    },
+    contarObjetos (cadena) {
+      // Eliminar espacios en blanco y dividir la cadena por comas
+      const objetos = cadena.replace(/\s/g, '').split(',')
+      // Retornar la cantidad de objetos
+      return objetos.length
     }
   }
 }
