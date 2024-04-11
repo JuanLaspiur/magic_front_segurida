@@ -1,16 +1,16 @@
 <template>
   <div>
     <h5>Crear Insignia</h5>
-    <q-form @submit="submitInsignia">
+    <q-form @submit.prevent="submitInsignia">
       <div style="width: 500px">
         <q-input
-          v-model="insignia.nombre"
+          v-model="insignia.name"
           label="Nombre de la Insignia"
           required
         />
 
         <q-input
-          v-model="insignia.descripcion"
+          v-model="insignia.description"
           label="Descripción"
           type="textarea"
           required
@@ -41,29 +41,38 @@ export default {
   data () {
     return {
       insignia: {
-        nombre: '',
-        descripcion: '',
-        imagen: null
+        name: '',
+        description: '',
+        image: null
       },
       imageUrl: null
     }
   },
   methods: {
-    submitInsignia () {
-      // Implementa la lógica para enviar los datos de la insignia (por ejemplo, a una API)
-      console.log('Insignia creada:', this.insignia)
-      // Limpia el formulario
-      this.insignia = {
-        nombre: '',
-        descripcion: '',
-        imagen: null
+    async submitInsignia () {
+      try {
+        const formData = new FormData()
+        formData.append('name', this.insignia.name)
+        formData.append('description', this.insignia.description)
+        formData.append('image', this.insignia.image)
+
+        await this.$api.post('/insignas', formData)
+
+        // Limpia el formulario
+        this.insignia = {
+          name: '',
+          description: '',
+          image: null
+        }
+        this.imageUrl = null
+      } catch (error) {
+        console.error('Error al crear la insignia:', error)
       }
-      this.imageUrl = null
     },
     handleImageUpload (event) {
       const file = event.target.files[0]
       if (file) {
-        this.insignia.imagen = file
+        this.insignia.image = file
         const reader = new FileReader()
         reader.readAsDataURL(file)
         reader.onload = e => {
