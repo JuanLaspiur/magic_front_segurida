@@ -666,24 +666,33 @@ export default {
         .then(response => {
           // Verificar si la respuesta contiene la encuesta creada con su _id
           // Utilizar el _id de la encuesta creada en el mensajeChat
-          let mensajeChat = `- ${encuesta.pregunta}<br><br>`
+          let mensajeChat = `- ${encuesta.pregunta}<br><br>  `
           encuesta.opciones.forEach((opcion, index) => {
-            mensajeChat += `<input type="checkbox" id="opcion${
-              index + 1
-            }" name="opcion${
-              index + 1
-            }" value="${opcion}" onclick="enviarRespuesta('${opcion}', '${
+            mensajeChat += `<input 
+                              type="checkbox" 
+                              id="opcion${index + 1}" 
+                              name="opcion${index + 1}"
+                              value="${opcion}"
+                              onclick="enviarRespuesta('${opcion}', '${
               response._id
-            }' )">
+            }' , false)"
+                            >
                     <label for="opcion${index + 1}">${
               index + 1
             }. ${opcion}</label><br>`
           })
-          // mensajeChat += `<button @onclick="verResultado('${response._id}')" style="padding:3px 5px; margin-top:15px">Ver Resultado</button>`
-          mensajeChat += `<input type="checkbox" 
-                    click="verResultado('${response._id}')" 
-                    value="Ver Resultado" 
-                    style="padding: 3px 5px; margin-top: 15px; cursor: pointer; background-color: #007bff; color: #fff; border: none; border-radius: 3px;">`
+          mensajeChat += `<br/> 
+                    <input
+                      type="button" 
+                      style="padding: 3px 5px; margin-top: 15px; cursor: pointer; background-color: #007bff; color: #fff; border: none; border-radius: 3px;"
+                      value="Ver Resultado" 
+                      onclick="enviarRespuesta('2', '${response._id}',true )"
+                  >  
+                    
+                    
+                    
+                    
+                    `
 
           // Crear formData para enviar el mensaje de la encuesta al chat
           const formData = new FormData()
@@ -707,55 +716,63 @@ export default {
           console.error('Error al crear la encuesta:', error)
         })
     },
-    async enviarRespuesta (opcionSeleccionada, idEncuesta) {
-      try {
-        // Paso 1: Obtener todas las opciones asociadas a la encuesta
-        const opcionesResponse = await this.$api.get(
-          `opciones-usuario/id/${idEncuesta}`
-        )
-        // Paso 2: Verificar si el usuario actual ya ha votado en alguna opción
-        const yaVoto = opcionesResponse.some(opcion => {
-          // Verificar si usuario_ids está definido
-          if (opcion.usuario_ids === undefined) {
-            return false // Si no está definido, retornar falso (no ha votado)
-          }
-          const usuarioIds = opcion.usuario_ids.split(',')
-          return usuarioIds.includes(this.logueado_id)
-        })
-
-        // Si el usuario ya ha votado, muestra una alerta y sal del método
-        if (yaVoto) {
-          this.$q.dialog({
-            title: 'Ya has votado',
-            message:
-              'Ya has votado en esta encuesta y no puedes volver a votar.',
-            color: 'negative'
-          })
-          return
-        }
-
-        // Paso 2: Buscar la opción que coincide con el texto seleccionado por el usuario
-        const opciones = opcionesResponse
-        const opcionSeleccionadaObj = opciones.find(
-          opcion => opcion.texto === opcionSeleccionada
-        )
-        if (!opcionSeleccionadaObj) {
-          throw new Error(
-            'La opción seleccionada no se encontró en las opciones de la encuesta.'
+    async enviarRespuesta (opcionSeleccionada, idEncuesta, bool) {
+      if (!bool) {
+        try {
+          // Paso 1: Obtener todas las opciones asociadas a la encuesta
+          const opcionesResponse = await this.$api.get(
+            `opciones-usuario/id/${idEncuesta}`
           )
-        }
 
-        // Paso 3: Enviar una solicitud para registrar el voto del usuario por esa opción
-        const votoResponse = await this.$api.post('opciones-usuario/votar', {
-          opcionId: opcionSeleccionadaObj._id,
-          usuarioId: this.logueado_id // Asumiendo que logueado_id contiene el ID del usuario actual
-        })
-        console.log(votoResponse)
+          // Paso 2: Verificar si el usuario actual ya ha votado en alguna opción
+          const yaVoto = opcionesResponse.some(opcion => {
+            // Verificar si usuario_ids está definido
+            if (opcion.usuario_ids === undefined) {
+              return false // Si no está definido, retornar falso (no ha votado)
+            }
+            const usuarioIds = opcion.usuario_ids.split(',')
+            return usuarioIds.includes(this.logueado_id)
+          })
+
+          // Si el usuario ya ha votado, muestra una alerta y sal del método
+          if (yaVoto) {
+            this.$q.dialog({
+              title: 'Ya has votado',
+              message:
+                'Ya has votado en esta encuesta y no puedes volver a votar.',
+              color: 'negative'
+            })
+            return
+          }
+
+          // Paso 3: Buscar la opción que coincide con el texto seleccionado por el usuario
+          const opcionSeleccionadaObj = opcionesResponse.find(
+            opcion => opcion.texto === opcionSeleccionada
+          )
+          if (!opcionSeleccionadaObj) {
+            throw new Error(
+              'La opción seleccionada no se encontró en las opciones de la encuesta.'
+            )
+          }
+
+          // Paso 4: Enviar una solicitud para registrar el voto del usuario por esa opción
+          const votoResponse = await this.$api.post('opciones-usuario/votar', {
+            opcionId: opcionSeleccionadaObj._id,
+            usuarioId: this.logueado_id // Asumiendo que logueado_id contiene el ID del usuario actual
+          })
+
+          console.log(votoResponse)
+
+          // Paso 5: Mostrar los resultados
+          this.verResultado(idEncuesta)
+
+          return 'Voto registrado exitosamente'
+        } catch (error) {
+          console.error('Error al enviar la respuesta:', error.message)
+          return 'Error al enviar la respuesta. Por favor, inténtalo de nuevo.'
+        }
+      } else {
         this.verResultado(idEncuesta)
-        return 'Voto registrado exitosamente'
-      } catch (error) {
-        console.error('Error al enviar la respuesta:', error.message)
-        return 'Error al enviar la respuesta. Por favor, inténtalo de nuevo.'
       }
     },
     cerrarEncuestaModle () {
@@ -796,6 +813,10 @@ export default {
       }
     },
     contarObjetos (cadena) {
+      // Verificar si la cadena es undefined
+      if (cadena === undefined) {
+        return 0
+      }
       // Eliminar espacios en blanco y dividir la cadena por comas
       const objetos = cadena.replace(/\s/g, '').split(',')
       // Retornar la cantidad de objetos
