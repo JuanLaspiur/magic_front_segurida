@@ -177,8 +177,28 @@ export default {
         console.error('Error al obtener las insignias:', error)
       }
     },
-    agregarInsigna (userId, insignaId) {
-      console.log('Boton agregar insignia para el usuario con ID:', userId)
+    async agregarInsigna (userId, insignaId) {
+      try {
+        await this.$api.put(`/insignas/${insignaId}/usuarios/${userId}`)
+        // Mostrar mensaje de éxito usando Quasar Notify
+        this.$q.notify({
+          color: 'positive',
+          message: 'Insignia agregada correctamente',
+          position: 'bottom',
+          timeout: 2000 // Duración del mensaje en milisegundos
+        })
+        // Cerrar el modal después de agregar la insignia correctamente
+        this.closeModal()
+      } catch (error) {
+        console.error('Error al agregar el usuario a la insignia:', error)
+        // Mostrar mensaje de error usando Quasar Notify
+        this.$q.notify({
+          color: 'negative',
+          message: 'Error al agregar la insignia',
+          position: 'bottom',
+          timeout: 2000 // Duración del mensaje en milisegundos
+        })
+      }
     },
     openModal (user) {
       // Nuevo: Asignar el ID del usuario seleccionado
