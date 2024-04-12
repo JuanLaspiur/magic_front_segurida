@@ -84,20 +84,24 @@ export default {
       try {
         const res = await this.$api.get('all_user_admin')
         if (res.success) {
-          // Obtener los usuarios con insignia
-          console.log(
-            'Lista completa de usuarios antes del filtro: ' + res.data.length
-          )
-          const usuariosConInsigniaString = this.usuariosConInsignia.join(',')
+          this.usuarios = res.data
+          const listaTexto = JSON.stringify(this.usuariosConInsignia)
+          const ids = listaTexto.split(',')
+          const usuariosCORRECTOS = []
 
-          // Filtrar los usuarios basados en los IDs en la cadena
-          this.usuarios = this.usuarios.filter(user =>
-            usuariosConInsigniaString.includes(user._id)
-          )
+          for (let i = 0; i < this.usuarios.length; i++) {
+            console.error('Usuario ID:', this.usuarios[i]._id)
+            for (let j = 0; j < ids.length; j++) {
+              const idInsignia = ids[j].replace(/["[\]]/g, '') // Eliminar corchetes y comillas
+              console.error('ID de Insigna:', idInsignia)
+              if (idInsignia === this.usuarios[i]._id) {
+                usuariosCORRECTOS.push(this.usuarios[i])
+                break // Salir del bucle interior si se encuentra una coincidencia
+              }
+            }
+          }
 
-          console.log(
-            'Lista de usuarios despues del filtro ' + this.usuarios.length
-          )
+          this.usuarios = usuariosCORRECTOS
         }
       } catch (error) {
         console.error('Error al obtener usuarios con insignia:', error)
