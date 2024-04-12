@@ -26,11 +26,28 @@
           <td>{{ user.creados ? user.creados : 0 }}</td>
           <td>{{ user.participo ? user.participo : 0 }}</td>
           <td>{{ user.tiempoWeb }}</td>
-          <td>{{buscarInsignaPorUsuario (user._id) && buscarInsignaPorUsuario (user._id).name}}</td>
-          <td>{{buscarInsignaPorUsuario (user._id) && buscarInsignaPorUsuario (user._id).description}}</td>
-          <td></td>
           <td>
-            <button @click="buscarInsignaPorUsuario(user._id)">
+            {{
+              buscarInsignaPorUsuario(user._id) &&
+              buscarInsignaPorUsuario(user._id).name
+            }}
+          </td>
+          <td>
+            {{
+              buscarInsignaPorUsuario(user._id) &&
+              buscarInsignaPorUsuario(user._id).description
+            }}
+          </td>
+          <td>
+            <q-avatar style="margin-right: 10px">
+              <img
+                :src="buscarInsignaPorUsuario(user._id).image"
+                alt="Imagen de Insignia"
+              />
+            </q-avatar>
+          </td>
+          <td>
+            <button @click="eliminarInsignia(user._id)">
               Eliminar insignia
             </button>
           </td>
@@ -118,9 +135,11 @@ export default {
         if (res) {
           this.listaDeInsignias = res
           res.forEach(insignia => {
-            // Dividir el string de usuario_ids por comas y agregar los IDs a la lista
-            const ids = insignia.usuario_ids.split(',').map(id => id.trim())
-            this.usuariosConInsignia.push(...ids)
+            if (insignia.usuario_ids) {
+              // Dividir el string de usuario_ids por comas y agregar los IDs a la lista
+              const ids = insignia.usuario_ids.split(',').map(id => id.trim())
+              this.usuariosConInsignia.push(...ids)
+            }
           })
         }
       } catch (error) {
@@ -133,7 +152,9 @@ export default {
       for (const insignia of this.listaDeInsignias) {
         // Inicializar una lista para almacenar los IDs de usuario de la insignia sin corchetes y comillas
         const idsSinCorchetes = []
-        // Recorrer la lista de IDs de usuario de la insignia
+        if (!insignia.usuario_ids) {
+          return
+        }
         for (const id of insignia.usuario_ids.split(',')) {
           // Eliminar los corchetes y comillas y agregar el ID a la lista
           idsSinCorchetes.push(id.replace(/["[\]]/g, ''))
@@ -153,8 +174,47 @@ export default {
     eliminarInsignia (userId) {
       // Aquí deberías implementar la lógica para eliminar la insignia del usuario con el ID proporcionado
       if (confirm('¿Seguro que desea eliminarle la insignia al usuario?')) {
-        console.log('Boton eliminar insignia para el usuario con ID:', userId)
-        // Lógica para eliminar la insignia
+        const insignia = this.buscarInsignaPorUsuario(userId)
+        if (insignia) {
+          // Convertir la cadena de IDs en un array
+          const idsArray = insignia.usuario_ids.split(',')
+
+          // Buscar el índice del userId en el array
+          const index = idsArray.indexOf(userId)
+
+          // Si se encuentra el userId, eliminarlo del array
+          if (index !== -1) {
+            idsArray.splice(index, 1)
+          }
+
+          // Volver a unir los elementos del array en una cadena
+          insignia.usuario_ids = idsArray.join(',')
+          this.actualizarInsignia(insignia._id, insignia.usuario_ids)
+        }
+      }
+    },
+    async actualizarInsignia (idInsigna, usuariosIds) {
+      // Crear un objeto con los datos actualizados de la insignia
+      console.log('Id de insignia: ' + idInsigna)
+      console.log('Id de usario ' + usuariosIds)
+      const datosInsignia = {
+        usuario_ids: usuariosIds
+      }
+
+      try {
+        // Realizar la solicitud PUT para actualizar la insignia
+        const response = await this.$api.put(
+          `/insignas/${idInsigna}`,
+          datosInsignia
+        )
+
+        if (response.success) {
+          console.log('Insignia actualizada con éxito')
+        } else {
+          console.error('Error al actualizar la insignia:', response)
+        }
+      } catch (error) {
+        console.error('Error al realizar la solicitud PUT:', error)
       }
     }
   }
