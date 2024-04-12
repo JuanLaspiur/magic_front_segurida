@@ -12,6 +12,9 @@
           <th>Planes creados</th>
           <th>Planes participó</th>
           <th>Tiempo conectado</th>
+          <th>Tipo de Insigna</th>
+          <th>Descriptcion Insigna</th>
+          <th>Imagen Insignia</th>
           <th>Eliminar insignia</th>
         </tr>
       </thead>
@@ -23,8 +26,11 @@
           <td>{{ user.creados ? user.creados : 0 }}</td>
           <td>{{ user.participo ? user.participo : 0 }}</td>
           <td>{{ user.tiempoWeb }}</td>
+          <td>{{buscarInsignaPorUsuario (user._id) && buscarInsignaPorUsuario (user._id).name}}</td>
+          <td>{{buscarInsignaPorUsuario (user._id) && buscarInsignaPorUsuario (user._id).description}}</td>
+          <td></td>
           <td>
-            <button @click="eliminarInsignia(user._id)">
+            <button @click="buscarInsignaPorUsuario(user._id)">
               Eliminar insignia
             </button>
           </td>
@@ -90,10 +96,9 @@ export default {
           const usuariosCORRECTOS = []
 
           for (let i = 0; i < this.usuarios.length; i++) {
-            console.error('Usuario ID:', this.usuarios[i]._id)
             for (let j = 0; j < ids.length; j++) {
               const idInsignia = ids[j].replace(/["[\]]/g, '') // Eliminar corchetes y comillas
-              console.error('ID de Insigna:', idInsignia)
+
               if (idInsignia === this.usuarios[i]._id) {
                 usuariosCORRECTOS.push(this.usuarios[i])
                 break // Salir del bucle interior si se encuentra una coincidencia
@@ -111,7 +116,7 @@ export default {
       try {
         const res = await this.$api.get('/insignas')
         if (res) {
-          // Crear una lista de usuarios con insignias
+          this.listaDeInsignias = res
           res.forEach(insignia => {
             // Dividir el string de usuario_ids por comas y agregar los IDs a la lista
             const ids = insignia.usuario_ids.split(',').map(id => id.trim())
@@ -121,6 +126,29 @@ export default {
       } catch (error) {
         console.error('Error al obtener las insignias:', error)
       }
+    },
+    buscarInsignaPorUsuario (usuarioId) {
+      // Inicializar la variable para almacenar la insignia encontrada
+      let insigniaEncontrada = null
+      for (const insignia of this.listaDeInsignias) {
+        // Inicializar una lista para almacenar los IDs de usuario de la insignia sin corchetes y comillas
+        const idsSinCorchetes = []
+        // Recorrer la lista de IDs de usuario de la insignia
+        for (const id of insignia.usuario_ids.split(',')) {
+          // Eliminar los corchetes y comillas y agregar el ID a la lista
+          idsSinCorchetes.push(id.replace(/["[\]]/g, ''))
+        }
+
+        // Verificar si el usuarioId está presente en la lista de usuario_ids de la insignia (sin corchetes ni comillas)
+        if (idsSinCorchetes.includes(usuarioId)) {
+          // Si se encuentra coincidencia, asignar la insignia a la variable y salir del bucle
+          insigniaEncontrada = insignia
+          break
+        }
+      }
+
+      // Devolver la insignia encontrada (o null si no se encontró ninguna)
+      return insigniaEncontrada
     },
     eliminarInsignia (userId) {
       // Aquí deberías implementar la lógica para eliminar la insignia del usuario con el ID proporcionado
