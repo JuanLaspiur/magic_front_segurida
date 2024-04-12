@@ -59,8 +59,10 @@ export default {
   data () {
     return {
       usuarios: [], // Lista de usuarios con insignia
+      listaDeInsignias: [], // Lista de insignias
       paginaActual: 1,
-      tamañoPagina: 10
+      tamañoPagina: 10,
+      usuariosConInsignia: []
     }
   },
   computed: {
@@ -75,20 +77,46 @@ export default {
   },
   created () {
     this.getAllUsersWithBadge()
+    this.fetchInsignias() // Llama a la función para cargar las insignias al inicio
   },
   methods: {
-    getAllUsersWithBadge () {
-      // Llama a la API para obtener los usuarios con insignia
-      this.$api
-        .get('all_user_admin')
-        .then(res => {
-          if (res.success) {
-            this.usuarios = res.data.filter(user => user.deleted !== true)
-          }
-        })
-        .catch(error => {
-          console.error('Error al obtener usuarios con insignia:', error)
-        })
+    async getAllUsersWithBadge () {
+      try {
+        const res = await this.$api.get('all_user_admin')
+        if (res.success) {
+          // Obtener los usuarios con insignia
+          console.log(
+            'Lista completa de usuarios antes del filtro: ' + res.data.length
+          )
+          const usuariosConInsigniaString = this.usuariosConInsignia.join(',')
+
+          // Filtrar los usuarios basados en los IDs en la cadena
+          this.usuarios = this.usuarios.filter(user =>
+            usuariosConInsigniaString.includes(user._id)
+          )
+
+          console.log(
+            'Lista de usuarios despues del filtro ' + this.usuarios.length
+          )
+        }
+      } catch (error) {
+        console.error('Error al obtener usuarios con insignia:', error)
+      }
+    },
+    async fetchInsignias () {
+      try {
+        const res = await this.$api.get('/insignas')
+        if (res) {
+          // Crear una lista de usuarios con insignias
+          res.forEach(insignia => {
+            // Dividir el string de usuario_ids por comas y agregar los IDs a la lista
+            const ids = insignia.usuario_ids.split(',').map(id => id.trim())
+            this.usuariosConInsignia.push(...ids)
+          })
+        }
+      } catch (error) {
+        console.error('Error al obtener las insignias:', error)
+      }
     },
     eliminarInsignia (userId) {
       // Aquí deberías implementar la lógica para eliminar la insignia del usuario con el ID proporcionado
@@ -100,7 +128,6 @@ export default {
   }
 }
 </script>
-
 <style>
 .custom-table {
   width: 100%;
