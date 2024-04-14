@@ -129,16 +129,17 @@ export default {
       for (const option of this.opcionesUltimaEncuesta) {
         if (option.usuario_ids) {
           // sí no es undefined, entonces..
-          const usuarioIds = option.usuario_ids
+          const usuarioIds = option.usuario_ids // de la opcion toma los ids, quitando todo excedente.
             .replace(/["[\]]/g, '')
             .split(',')
-          console.error('Usuarios filtrados  ' + this.usuario._id)
+
           if (usuarioIds.includes(this.user_id)) {
             console.log('Respuesta es true')
             return true
           }
         }
       }
+      return false
     }
   }
 }
