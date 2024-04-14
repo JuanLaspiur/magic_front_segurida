@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import { Notify } from 'quasar'
 export default {
   props: {
     ultimaEncuesta: {
@@ -77,9 +78,11 @@ export default {
     },
     enviarEncuesta (opcionSeleccionada) {
       if (this.isRespondioTrue()) {
-        console.log('Respondió ')
-      } else {
-        console.log('No resondio')
+        Notify.create({
+          message: 'Ya respondió. Solo es posible responder una vez. Agradecemos su participacion',
+          color: 'negative' // Color rojo para indicar un mensaje de advertencia
+        })
+        return
       }
 
       const data = {
@@ -122,24 +125,27 @@ export default {
       }
     },
     isRespondioTrue () {
-      if (!this.opcionesUltimaEncuesta) {
-        return false
+      if (!this.opcionesUltimaEncuesta || !this.user || !this.user._id) {
+        return false // Si falta información, no se puede determinar si el usuario respondió
       }
+
+      const usuarioId = this.user._id // ID del usuario actual
 
       for (const option of this.opcionesUltimaEncuesta) {
         if (option.usuario_ids) {
-          // sí no es undefined, entonces..
-          const usuarioIds = option.usuario_ids // de la opcion toma los ids, quitando todo excedente.
-            .replace(/["[\]]/g, '')
-            .split(',')
-
-          if (usuarioIds.includes(this.user_id)) {
+          // Si la cadena de usuarios existe en la opción
+          const usuarioIds = option.usuario_ids
+            .replace(/["[\]]/g, '') // Eliminar caracteres no deseados
+            .split(',') // Dividir los IDs usando la coma
+            .map(id => id.trim()) // Eliminar espacios en blanco de cada ID
+          console.error('Id de los usuarios sin [Ñ[]] ni ""   ' + usuarioIds)
+          if (usuarioIds.includes(usuarioId)) {
             console.log('Respuesta es true')
-            return true
+            return true // Si el usuario actual está en la lista de IDs, retorna true
           }
         }
       }
-      return false
+      return false // Si el usuario actual no se encuentra en ninguna opción, retorna false
     }
   }
 }
