@@ -238,6 +238,9 @@
           </q-card>
         </div>
       </div>
+      <div style="padding: 50px;">
+        <EncuestaUsuario :ultimaEncuesta="ultimaEncuesta" />
+      </div>
       <div
         v-if="width < 500"
         class="row q-mt-xl justify-center items-center cursor-pointer shadow-1 inicio_banner"
@@ -315,7 +318,7 @@
     </div>
 
     <div class="inicio_col_left">
-      <SideBar />
+      <SideBar :ultimaEncuesta="ultimaEncuesta" />
     </div>
   </div>
 </template>
@@ -330,6 +333,8 @@ import CarouselForLastPlans from '../../components/CarouselForLastPlans.vue'
 import CarouselWithoutImg from '../../components/CarouselWithoutImg.vue'
 import ContainerCards from '../../components/ContainerCards.vue'
 import ContainerAll from '../../components/ContainerAll.vue'
+import EncuestaUsuario from '../../components/EncuestaUsuario.vue'
+
 export default {
   components: {
     SideBar,
@@ -337,7 +342,8 @@ export default {
     CarouselForLastPlans,
     ContainerCards,
     ContainerAll,
-    CarouselWithoutImg
+    CarouselWithoutImg,
+    EncuestaUsuario
   },
   data () {
     return {
