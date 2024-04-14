@@ -391,16 +391,6 @@ export default {
       height: '',
       tabloideForShow: [],
       slide: 1,
-      encuestas: [
-        {
-          pregunta: '¿Qué prefieres?',
-          opciones: ['Opción A', 'Opción B', 'Opción C']
-        },
-        {
-          pregunta: '¿Cuál es tu color favorito?',
-          opciones: ['Rojo', 'Azul', 'Verde']
-        }
-      ],
       indiceEncuestaActual: 0,
       ultimaEncuesta: [],
       opcionesUltimaEncuesta: [],
