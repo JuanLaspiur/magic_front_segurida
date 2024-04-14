@@ -1,5 +1,8 @@
 <template>
-  <q-card style="padding: 0px 20px 10px 20px; border-radius: 5px">
+  <q-card
+    style="padding: 0px 20px 10px 20px; border-radius: 5px"
+    v-if="ultimaEncuesta"
+  >
     <q-card-section class="q-pa-md">
       <!-- Contenido de la encuesta -->
       <h5 style="text-align: center; margin-bottom: 20px">
@@ -31,7 +34,7 @@
 <script>
 export default {
   props: {
-    ultimaEncuesta: []
+    ultimaEncuesta: Object
   },
   data () {
     return {
@@ -39,8 +42,11 @@ export default {
       opcionSeleccionada: null
     }
   },
-  mounted () {
-    this.obtenerOpcionesEncuesta(this.ultimaEncuesta._id)
+  watch: {
+    ultimaEncuesta: {
+      handler: 'obtenerOpcionesEncuesta', // Llama a la función obtenerOpcionesEncuesta cuando ultimaEncuesta cambia
+      immediate: true // Llama a la función obtenerOpcionesEncuesta inmediatamente después de la creación del componente
+    }
   },
   methods: {
     actualizarSeleccion (index) {
@@ -70,20 +76,19 @@ export default {
           alert('No se pudo enviar su respuesta.. intente más tarde')
         })
     },
-    obtenerOpcionesEncuesta (encuestaId) {
-      console.log('Entre ')
-      this.$api
-        .get('opciones_admin123/id/' + encuestaId)
-        .then(response => {
-          // Asignar la última encuesta a ultimaEncuesta
-          this.opcionesUltimaEncuesta = response
-          console.error(
-            'Opciones de la encuesta  ' + this.opcionesUltimaEncuesta
-          )
-        })
-        .catch(error => {
-          console.error('Error al obtener todas las opciones:', error)
-        })
+    obtenerOpcionesEncuesta () {
+      const nuevaEncuesta = this.ultimaEncuesta
+      if (nuevaEncuesta) {
+        this.$api
+          .get('opciones_admin123/id/' + nuevaEncuesta._id)
+          .then(response => {
+            this.opcionesUltimaEncuesta = response
+            console.log('Opciones de la encuesta:', this.opcionesUltimaEncuesta)
+          })
+          .catch(error => {
+            console.error('Error al obtener todas las opciones:', error)
+          })
+      }
     }
   }
 }
