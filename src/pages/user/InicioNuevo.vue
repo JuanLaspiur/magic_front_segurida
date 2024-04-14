@@ -206,9 +206,8 @@
         "
       >
         <div>
-          <q-card style="padding: 0px 20px 10px 20px; border-radius: 5px;">
-            <q-card-section class="q-pa-md" >
-              <!-- Contenido de la encuesta -->
+          <!--  q-card style="padding: 0px 20px 10px 20px; border-radius: 5px">
+            <q-card-section class="q-pa-md">
               <h5 style="text-align: center; margin-bottom: 20px">
                 {{ ultimaEncuesta.pregunta }}
               </h5>
@@ -235,11 +234,8 @@
                 @click="enviarEncuesta(opcionSeleccionada)"
               ></q-btn>
             </q-card-actions>
-          </q-card>
+          </q-card> -->
         </div>
-      </div>
-      <div style="padding: 50px;">
-        <EncuestaUsuario :ultimaEncuesta="ultimaEncuesta" />
       </div>
       <div
         v-if="width < 500"
@@ -319,6 +315,10 @@
 
     <div class="inicio_col_left">
       <SideBar :ultimaEncuesta="ultimaEncuesta" />
+      <EncuestaUsuario
+        :ultimaEncuesta="ultimaEncuesta"
+        style="position: fixed; top: 70%"
+      />
     </div>
   </div>
 </template>
@@ -669,7 +669,9 @@ export default {
       for (const option of this.opcionesUltimaEncuesta) {
         console.error(option.usuario_ids)
         if (option.usuario_ids) {
-          const usuarioIds = option.usuario_ids.replace(/["[\]]/g, '').split(',')
+          const usuarioIds = option.usuario_ids
+            .replace(/["[\]]/g, '')
+            .split(',')
           console.error('Usuarios filtrados  ' + usuarioIds)
           if (usuarioIds.includes(this.user_id)) {
             console.log('Respuesta es true')
