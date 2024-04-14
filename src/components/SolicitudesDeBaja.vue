@@ -77,10 +77,8 @@ export default {
         this.$api
           .delete('eliminarUsuario/' + userId)
           .then(res => {
-            if (res.status >= 200 && res.status < 300) {
+            if (res.status >= 200 && res.status <= 300) {
               alert('Usuario eliminado')
-            } else {
-              alert('Error al eliminar usuario')
             }
           })
           .catch(error => {

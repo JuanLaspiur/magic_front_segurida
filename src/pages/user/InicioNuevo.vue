@@ -206,8 +206,8 @@
         "
       >
         <div>
-          <q-card>
-            <q-card-section class="q-pa-md">
+          <q-card style="padding: 0px 20px 10px 20px; border-radius: 5px;">
+            <q-card-section class="q-pa-md" >
               <!-- Contenido de la encuesta -->
               <h5 style="text-align: center; margin-bottom: 20px">
                 {{ ultimaEncuesta.pregunta }}
@@ -635,6 +635,7 @@ export default {
       })
     },
     enviarEncuesta (idOpcion) {
+      console.log('Pregunta de la última encuesta  ' + this.isRespondioTrue())
       const data = {
         opcionId: idOpcion,
         usuarioId: this.user._id
@@ -655,23 +656,28 @@ export default {
         })
     },
     isRespondioTrue () {
-      // Verificar si isRespondioTrue es false y si hay opciones de encuesta
       if (!this.opcionesUltimaEncuesta) {
-        return false // Si no hay opciones de encuesta, devolver false
+        return false
       }
 
-      // Iterar sobre cada opción en opcionesUltimaEncuesta
       for (const option of this.opcionesUltimaEncuesta) {
-        if (option.usuarioIds.includes(this.user_id)) {
-          console.log('Respuesta es ' + true)
-          return true // Si this.user_id está incluido en el arreglo usuarioIds de alguna opción, devolver true
+        console.error(option.usuario_ids)
+        if (option.usuario_ids) {
+          const usuarioIds = option.usuario_ids.replace(/["[\]]/g, '').split(',')
+          console.error('Usuarios filtrados  ' + usuarioIds)
+          if (usuarioIds.includes(this.user_id)) {
+            console.log('Respuesta es true')
+            return true
+          }
         }
       }
-      console.log('Respuesta es ' + false)
-      // Si this.user_id no está incluido en ninguna opción, devolver false y recargar la lista
+
+      console.log('Respuesta es false')
+
       if (!this.isRespondioTrue) {
-        this.obtenerUltimaEncuesta() // Recargar la lista de opciones de encuesta
+        this.obtenerUltimaEncuesta()
       }
+
       return false
     }
   }
