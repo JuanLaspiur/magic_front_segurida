@@ -16,8 +16,11 @@
             :value="opcion._id"
             v-model="opcionSeleccionada"
             @change="actualizarSeleccion(index)"
+            style="cursor: pointer"
           />
-          <label :for="'opcion_' + index">{{ opcion.texto }}</label>
+          <label :for="'opcion_' + index" style="cursor: pointer">{{
+            opcion.texto
+          }}</label>
         </div>
       </div>
     </q-card-section>
@@ -34,7 +37,14 @@
 <script>
 export default {
   props: {
-    ultimaEncuesta: Object
+    ultimaEncuesta: {
+      type: [Array, Object, String, Number, Boolean],
+      default: () => []
+    },
+    user: {
+      type: [Array, Object, String, Number, Boolean],
+      default: Object
+    }
   },
   data () {
     return {
@@ -44,11 +54,21 @@ export default {
   },
   watch: {
     ultimaEncuesta: {
-      handler: 'obtenerOpcionesEncuesta', // Llama a la función obtenerOpcionesEncuesta cuando ultimaEncuesta cambia
-      immediate: true // Llama a la función obtenerOpcionesEncuesta inmediatamente después de la creación del componente
+      handler: 'obtenerOpcionesEncuesta',
+      immediate: true
+    },
+    user: {
+      handler: 'remontarComponente',
+      immediate: true
     }
   },
   methods: {
+    remontarComponente () {
+      // Incrementamos la clave del componente para forzar su remontaje
+      this.$nextTick(() => {
+        this.$forceUpdate()
+      })
+    },
     actualizarSeleccion (index) {
       // Desmarcar todas las opciones excepto la seleccionada
       this.opcionesUltimaEncuesta.forEach((opcion, i) => {
@@ -56,16 +76,26 @@ export default {
       })
     },
     enviarEncuesta (opcionSeleccionada) {
-      // Lógica para enviar la encuesta
-      const data = {
-        opcionId: opcionSeleccionada,
-        usuarioId: this.user ? this.user._id : null // Asegúrate de tener definido user o manejar el caso de usuario no definido
+      if (this.isRespondioTrue()) {
+        console.log('Respondió ')
+      } else {
+        console.log('No resondio')
       }
 
+      const data = {
+        opcionId: opcionSeleccionada,
+        usuarioId: this.user._id
+      }
+      console.log(
+        'Descompocicion de data opciónId  ' +
+          data.opcionId +
+          '   usuarioId   ' +
+          data.usuarioId
+      )
       this.$api
         .post('opciones_admin123/votar', data)
         .then(response => {
-          this.opcionesUltimaEncuesta = response.data
+          this.opcionesUltimaEncuesta = response
           this.$q.notify({
             message: 'Encuesta enviada',
             color: 'positive'
@@ -78,7 +108,8 @@ export default {
     },
     obtenerOpcionesEncuesta () {
       const nuevaEncuesta = this.ultimaEncuesta
-      if (nuevaEncuesta) {
+      if (nuevaEncuesta && Object.keys(nuevaEncuesta).length !== 0) {
+        // Verificar que ultimaEncuesta no esté vacío
         this.$api
           .get('opciones_admin123/id/' + nuevaEncuesta._id)
           .then(response => {
@@ -88,6 +119,25 @@ export default {
           .catch(error => {
             console.error('Error al obtener todas las opciones:', error)
           })
+      }
+    },
+    isRespondioTrue () {
+      if (!this.opcionesUltimaEncuesta) {
+        return false
+      }
+
+      for (const option of this.opcionesUltimaEncuesta) {
+        if (option.usuario_ids) {
+          // sí no es undefined, entonces..
+          const usuarioIds = option.usuario_ids
+            .replace(/["[\]]/g, '')
+            .split(',')
+          console.error('Usuarios filtrados  ' + this.usuario._id)
+          if (usuarioIds.includes(this.user_id)) {
+            console.log('Respuesta es true')
+            return true
+          }
+        }
       }
     }
   }

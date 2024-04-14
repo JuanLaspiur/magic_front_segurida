@@ -316,7 +316,7 @@
     <div class="inicio_col_left">
       <SideBar :ultimaEncuesta="ultimaEncuesta" />
       <EncuestaUsuario
-        :ultimaEncuesta="ultimaEncuesta"
+        :ultimaEncuesta="ultimaEncuesta" :user="user"
         style="position: fixed; top: 70%"
       />
     </div>
@@ -631,12 +631,10 @@ export default {
       })
     },
     enviarEncuesta (idOpcion) {
-      console.log('Pregunta de la última encuesta  ' + this.isRespondioTrue())
       const data = {
         opcionId: idOpcion,
         usuarioId: this.user._id
       }
-
       this.$api
         .post('opciones_admin123/votar', data)
         .then(response => {
