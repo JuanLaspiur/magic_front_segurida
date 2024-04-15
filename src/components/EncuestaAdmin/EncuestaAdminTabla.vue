@@ -4,20 +4,44 @@
       <thead>
         <tr>
           <th>Pregunta</th>
+          <th>Fecha de creacion</th>
           <th>Acción</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="encuesta in encuestas" :key="encuesta.id">
+        <tr v-for="encuesta in encuestas" :key="encuesta._id">
           <td>{{ encuesta.pregunta }}</td>
+          <td>{{ convertirFecha(encuesta.created_at) }}</td>
           <td>
-            <button class="btn-primary" @click="verResultado(encuesta.id)">
+            <button class="btn-primary" @click="verResultado(encuesta)">
               Ver Resultado
             </button>
           </td>
         </tr>
       </tbody>
     </table>
+
+    <!-- Modal para mostrar los resultados -->
+    <q-dialog v-model="mostrarModal" persistent>
+      <q-card style="min-width: 300px;">
+        <q-card-section >
+          <!-- Aquí mostramos la pregunta y las opciones de la encuesta seleccionada -->
+          <h6>{{ preguntaSeleccionada }}</h6>
+          <ul>
+            <li
+              v-for="opcion in opcionesEncuestaSeleccionada"
+              :key="opcion._id"
+            >
+              {{ opcion.texto }}
+              {{ opcion.usuario_ids ? contarObjetos(opcion.usuario_ids) : 0 }}
+            </li>
+          </ul>
+        </q-card-section>
+        <q-card-actions align="right">
+          <q-btn label="Cerrar" color="primary" @click="cerrarModal" style="margin: 10px;"/>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
@@ -26,7 +50,11 @@ export default {
   props: { ultimaEncuesta: {} },
   data () {
     return {
-      encuestas: []
+      encuestas: [],
+      opcionesEncuestaSeleccionada: [],
+      mostrarModal: false,
+      preguntaSeleccionada: '',
+      opcionesSeleccionadas: []
     }
   },
   mounted () {
@@ -36,7 +64,7 @@ export default {
     ultimaEncuesta: {
       handler: 'fetchObtenerListaDeEncuestas',
       immediate: true
-    } // La coma extra aquí estaba causando el error
+    }
   },
   methods: {
     fetchObtenerListaDeEncuestas () {
@@ -44,20 +72,48 @@ export default {
         .get('/encuestas-admin')
         .then(response => {
           this.encuestas = response.slice(0, -1)
-          console.error(' Encuesta  ' + this.encuestas)
         })
         .catch(error => {
           console.error('Error al obtener las encuestas:', error)
         })
     },
-    verResultado (encuestaId) {
-      // Aquí puedes agregar el código para mostrar los resultados de la encuesta con el ID 'encuestaId'
-      this.$q.dialog({
-        title: 'Resultados de la encuesta',
-        message: `Mostrar resultados de la encuesta ${encuestaId}`,
-        color: 'primary'
-        // Puedes reemplazar este mensaje con tu lógica real para mostrar los resultados
-      })
+    fetchObtenerOpcionesEncuesta (enuestaId) {
+      this.$api
+        .get('opciones_admin123/id/' + enuestaId)
+        .then(response => {
+          this.opcionesEncuestaSeleccionada = response
+          console.error(
+            'Opciones de la encuesta seleccionada  ' +
+              this.opcionesEncuestaSeleccionada
+          )
+          this.mostrarModal = true
+        })
+        .catch(error => {
+          console.error('Error al obtener las opciones:', error)
+        })
+    },
+    verResultado (encuesta) {
+      this.preguntaSeleccionada = encuesta.pregunta
+      this.fetchObtenerOpcionesEncuesta(encuesta._id)
+    },
+    cerrarModal () {
+      this.mostrarModal = false
+    },
+    contarObjetos (cadena) {
+      // Eliminar espacios en blanco y dividir la cadena por comas
+      const objetos = cadena.replace(/\s/g, '').split(',')
+      // Retornar la cantidad de objetos
+      return objetos.length
+    },
+    convertirFecha (fechaISO) {
+      const fecha = new Date(fechaISO)
+      let dia = fecha.getDate()
+      let mes = fecha.getMonth() + 1
+      const anio = fecha.getFullYear()
+      dia = dia < 10 ? '0' + dia : dia
+      mes = mes < 10 ? '0' + mes : mes
+      const fechaFormateada = dia + '-' + mes + '-' + anio
+      return fechaFormateada
     }
   }
 }
@@ -91,7 +147,7 @@ tr:nth-child(even) {
 }
 
 .btn-primary {
-  background-color: #4caf50;
+  background-color: #0065d8;
   border: none;
   color: white;
   padding: 8px 20px;
@@ -104,6 +160,6 @@ tr:nth-child(even) {
 }
 
 .btn-primary:hover {
-  background-color: #45a049;
+  background-color: #fe1e26;
 }
 </style>

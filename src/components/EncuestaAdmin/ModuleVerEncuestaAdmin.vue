@@ -32,19 +32,6 @@ export default {
       opcionSeleccionada: null
     }
   },
-  watch: {
-    opcionSeleccionada () {
-      if (this.opcionSeleccionada !== null) {
-        // Aquí puedes agregar la lógica para enviar la encuesta con la opción seleccionada
-        this.$q.notify({
-          color: 'positive',
-          position: 'top',
-          message: 'Encuesta enviada correctamente'
-        })
-        this.cerrarModal()
-      }
-    }
-  },
   methods: {
     cerrarModal () {
       this.mostrarModal = false
