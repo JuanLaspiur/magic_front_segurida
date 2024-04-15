@@ -225,7 +225,19 @@ reactiva la cuenta y se cancela el proceso. */
                 **Nota: La calificación es otorgada por los participantes de un
                 plan creado por ti.
               </q-tooltip>
-            </div>
+            </div><div style="width:100%; padding: 10px 15px 0 15px;" v-if="buscarInsignaPorUsuario(user._id) !== null">
+    <q-avatar style="margin-right: 10px">
+        <img
+            :src="baseuInsigna + buscarInsignaPorUsuario(user._id).image"
+            alt="Imagen de Insignia"
+        />
+    </q-avatar>
+    <q-tooltip content-style="font-size: .8rem" :offset="[10, 10]">
+                Insigna  {{ buscarInsignaPorUsuario(user._id).name }}  <br />
+                **Nota: {{ buscarInsignaPorUsuario(user._id).description}}
+              </q-tooltip>
+</div>
+
             <div class="q-px-md q-py-xs">
               <div class="row justify-between">
                 <div>
@@ -1041,17 +1053,21 @@ export default {
       catSelected: [],
       categorias: [],
       width: '',
-      newWidth: ''
+      newWidth: '',
+      listaDeInsignias: [],
+      baseuInsigna: ''
     }
   },
   async mounted () {
     this.baseuPerfil = env.apiUrl + 'perfil_img/'
     this.baseuQuedada = env.apiUrl + 'quedada_img/'
+    this.baseuInsigna = env.apiUrl + 'insigna_img/'
     await this.getUser()
     await this.getAnimales()
     await this.getMedalla()
     window.addEventListener('resize', this.handleResize)
     this.handleResize()
+    this.fetchInsignias()
   },
   unmounted () {
     window.removeEventListener('resize', this.handleResize)
@@ -1340,6 +1356,48 @@ export default {
             this.$router.push('/login')
           }
         })
+    },
+    async fetchInsignias () {
+      try {
+        const res = await this.$api.get('/insignas')
+        if (res) {
+          this.listaDeInsignias = res
+          res.forEach(insignia => {
+            if (insignia.usuario_ids) {
+              // Dividir el string de usuario_ids por comas y agregar los IDs a la lista
+              const ids = insignia.usuario_ids.split(',').map(id => id.trim())
+              this.usuariosConInsignia.push(...ids)
+            }
+          })
+        }
+      } catch (error) {
+        console.error('Error al obtener las insignias:', error)
+      }
+    },
+    buscarInsignaPorUsuario (usuarioId) {
+      // Inicializar la variable para almacenar la insignia encontrada
+      let insigniaEncontrada = null
+      for (const insignia of this.listaDeInsignias) {
+        // Inicializar una lista para almacenar los IDs de usuario de la insignia sin corchetes y comillas
+        const idsSinCorchetes = []
+        if (!insignia.usuario_ids) {
+          return
+        }
+        for (const id of insignia.usuario_ids.split(',')) {
+          // Eliminar los corchetes y comillas y agregar el ID a la lista
+          idsSinCorchetes.push(id.replace(/["[\]]/g, ''))
+        }
+
+        // Verificar si el usuarioId está presente en la lista de usuario_ids de la insignia (sin corchetes ni comillas)
+        if (idsSinCorchetes.includes(usuarioId)) {
+          // Si se encuentra coincidencia, asignar la insignia a la variable y salir del bucle
+          insigniaEncontrada = insignia
+          break
+        }
+      }
+
+      // Devolver la insignia encontrada (o null si no se encontró ninguna)
+      return insigniaEncontrada
     }
   }
 }
