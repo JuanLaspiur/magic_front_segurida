@@ -16,15 +16,23 @@
           required
         />
 
-        <q-file
-          @change="handleImageUpload"
-          label="Imagen de la Insignia"
-          accept="image/*"
-          class="q-file--small"
-        />
+        <!-- Agregamos un id al input de archivo -->
+        <div style=" width: 100%; margin: 15px 0 ;">
+          <input
+            type="file"
+            id="fileInput"
+            @change="handleImageUpload"
+            accept="image/*"
+            style="display: none"
+          />
+          <label for="fileInput" class="q-btn">Seleccionar Archivo</label>
+        </div>
 
-        <q-img v-if="imageUrl" :src="imageUrl" alt="Imagen de Insignia" />
-
+        <div>
+          <q-avatar style="margin-right: 10px">
+            <img v-if="imageUrl" :src="imageUrl" alt="Imagen de Insignia" />
+          </q-avatar>
+        </div>
         <q-btn
           type="submit"
           color="primary"
@@ -50,70 +58,43 @@ export default {
   },
   methods: {
     async submitInsignia () {
-      /*   try {
+      try {
         const formData = new FormData()
         formData.append('name', this.insignia.name)
         formData.append('description', this.insignia.description)
-        formData.append('image', this.insignia.image)
+        formData.append('files', this.insignia.image)
 
-        await this.$api.post('/insignas', formData)
+        await this.$api.put('/cargarImagen', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
 
-        // Limpia el formulario
+        // Limpiar el formulario
         this.insignia = {
           name: '',
           description: '',
           image: null
         }
         this.imageUrl = null
+
+        // Mostrar notificación de éxito
+        this.$q.notify({
+          message: 'Insignia creada correctamente',
+          color: 'positive'
+        })
       } catch (error) {
         console.error('Error al crear la insignia:', error)
-      } */
-      try {
-        // Mostrar mensaje de carga
-        //    this.$q.loading.show({ message: 'Subiendo insignia...' })
-
-        // Crear una instancia de FormData
-        const formData = new FormData()
-
-        // Agregar el archivo de la insignia al FormData
-        formData.append('file', this.imageUrl)
-
-        // Hacer el POST request utilizando Axios
-        const response = await this.$api.post('/uploadInsignaImg', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        })
-
-        // Verificar si la solicitud fue exitosa
-        if (response.status === 200) {
-          // Ocultar el mensaje de carga
-          this.$q.loading.hide()
-
-          // Mostrar notificación de éxito
-          this.$q.notify({
-            message: 'Insignia subida correctamente',
-            color: 'positive'
-          })
-
-          // Realizar cualquier acción adicional, como actualizar la lista de insignias, etc.
-        }
-      } catch (error) {
-        // Manejar errores
-        console.error('Error al subir la insignia:', error)
-
-        // Ocultar el mensaje de carga
-        this.$q.loading.hide()
-
         // Mostrar notificación de error
         this.$q.notify({
-          message: 'Error al subir la insignia',
+          message: 'Error al crear la insignia',
           color: 'negative'
         })
       }
     },
     handleImageUpload (event) {
       const file = event.target.files[0]
+      console.log('Archivo seleccionado ' + file) // Comprobamos el archivo seleccionado
       if (file) {
         this.insignia.image = file
         const reader = new FileReader()
@@ -121,6 +102,8 @@ export default {
         reader.onload = e => {
           this.imageUrl = e.target.result
         }
+      } else {
+        console.error('No selecciono ningun archivo ')
       }
     }
   }
