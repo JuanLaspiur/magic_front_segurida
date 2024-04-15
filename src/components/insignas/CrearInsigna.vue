@@ -1,7 +1,7 @@
 <template>
   <div>
     <h5>Crear Insignia</h5>
-    <q-form @submit.prevent="submitInsignia">
+    <q-form @submit.prevent="submitInsigna">
       <div style="width: 500px">
         <q-input
           v-model="insignia.name"
@@ -17,7 +17,7 @@
         />
 
         <!-- Agregamos un id al input de archivo -->
-        <div style=" width: 100%; margin: 15px 0 ;">
+        <div style="width: 100%; margin: 15px 0">
           <input
             type="file"
             id="fileInput"
@@ -57,11 +57,23 @@ export default {
     }
   },
   methods: {
-    async submitInsignia () {
+    async submitInsigna () {
+      // oqirenbiu
       try {
         const formData = new FormData()
         formData.append('name', this.insignia.name)
         formData.append('description', this.insignia.description)
+
+        await this.$api.post('/insignas', formData)
+        await this.submitImagenInsigna()
+        this.imageUrl = null
+      } catch (error) {
+        console.error('Error al crear la insignia:', error)
+      }
+    },
+    async submitImagenInsigna () {
+      try {
+        const formData = new FormData()
         formData.append('files', this.insignia.image)
 
         await this.$api.put('cargarImagen', formData, {
@@ -94,7 +106,6 @@ export default {
     },
     handleImageUpload (event) {
       const file = event.target.files[0]
-      console.log('Archivo seleccionado ' + file) // Comprobamos el archivo seleccionado
       if (file) {
         this.insignia.image = file
         const reader = new FileReader()
