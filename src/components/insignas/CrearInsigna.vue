@@ -64,7 +64,7 @@ export default {
         formData.append('description', this.insignia.description)
         formData.append('files', this.insignia.image)
 
-        await this.$api.put('/cargarImagen', formData, {
+        await this.$api.put('cargarImagen', formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
