@@ -82,7 +82,7 @@
           >
             <q-item-section avatar>
               <q-avatar>
-                <img :src="insignia.image" alt="Insignia" />
+                <img :src="baseuInsigna+insignia.image" alt="Insignia" />
               </q-avatar>
             </q-item-section>
             <q-item-section>
@@ -109,9 +109,11 @@
 </template>
 
 <script>
+import env from '../../env'
 export default {
   data () {
     return {
+      baseuInsigna: '',
       showModal: false,
       usuarios: [],
       filtroCorreo: '', // Variable para filtrar por correo electrónico
@@ -124,6 +126,10 @@ export default {
       selectedInsigniaId: null // Nuevo: ID de la insignia seleccionada
     }
   },
+  mounted () {
+    this.baseuInsigna = env.apiUrl + 'insigna_img/'
+  },
+
   computed: {
     totalPaginas () {
       return Math.ceil(this.usuarios.length / this.tamañoPagina)

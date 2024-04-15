@@ -4,7 +4,7 @@
     <q-list>
       <q-item v-for="insignia in insignasDeLaApi" :key="insignia.id">
         <q-avatar style="margin-right: 10px">
-          <img :src="getImagenUrl(insignia.image)" alt="Imagen de Insignia" />
+          <img :src="baseuInsigna + insignia.image" alt="Imagen de Insignia" />
         </q-avatar>
         <div class="q-item-main" style="width: 390px">
           <p>{{ insignia.name }}</p>
@@ -19,9 +19,11 @@
 </template>
 
 <script>
+import env from '../../env'
 export default {
   data () {
     return {
+      baseuInsigna: '',
       insignasDeLaApi: [] // Inicializar insignasDeLaApi como un arreglo vacío
     }
   },
@@ -59,6 +61,7 @@ export default {
     }
   },
   mounted () {
+    this.baseuInsigna = env.apiUrl + 'insigna_img/'
     this.fetchTraerInsignas() // Llamar a fetchTraerInsignas cuando el componente se monta
   }
 }
