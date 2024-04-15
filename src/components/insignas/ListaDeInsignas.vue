@@ -4,9 +4,9 @@
     <q-list>
       <q-item v-for="insignia in insignasDeLaApi" :key="insignia.id">
         <q-avatar style="margin-right: 10px">
-          <img :src="insignia.image" alt="Imagen de Insignia" />
+          <img :src="getImagenUrl(insignia.image)" alt="Imagen de Insignia" />
         </q-avatar>
-        <div class="q-item-main" style="width: 390px;">
+        <div class="q-item-main" style="width: 390px">
           <p>{{ insignia.name }}</p>
           <p>{{ insignia.description }}</p>
         </div>
@@ -26,6 +26,13 @@ export default {
     }
   },
   methods: {
+    getImagenUrl (nombreImagen) {
+      if (nombreImagen) {
+        console.error(nombreImagen)
+        return '../../../magic_day_back-dev/storage/uploads/insignas/45d5318dfcde9463a21707bca9642628a8a3ba0d.jpg'
+      }
+      return ''
+    },
     confirmDelete (insignia) {
       if (confirm('¿Estás seguro de que deseas eliminar esta insignia?')) {
         this.$api
