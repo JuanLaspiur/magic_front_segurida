@@ -61,27 +61,15 @@ export default {
       // oqirenbiu
       try {
         const formData = new FormData()
+        formData.append('files', this.insignia.image)
         formData.append('name', this.insignia.name)
         formData.append('description', this.insignia.description)
 
-        await this.$api.post('/insignas', formData)
-        await this.submitImagenInsigna()
-        this.imageUrl = null
-      } catch (error) {
-        console.error('Error al crear la insignia:', error)
-      }
-    },
-    async submitImagenInsigna () {
-      try {
-        const formData = new FormData()
-        formData.append('files', this.insignia.image)
-
-        await this.$api.put('cargarImagen', formData, {
+        await this.$api.post('/insignas', formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
         })
-
         // Limpiar el formulario
         this.insignia = {
           name: '',
@@ -89,19 +77,8 @@ export default {
           image: null
         }
         this.imageUrl = null
-
-        // Mostrar notificación de éxito
-        this.$q.notify({
-          message: 'Insignia creada correctamente',
-          color: 'positive'
-        })
       } catch (error) {
         console.error('Error al crear la insignia:', error)
-        // Mostrar notificación de error
-        this.$q.notify({
-          message: 'Error al crear la insignia',
-          color: 'negative'
-        })
       }
     },
     handleImageUpload (event) {

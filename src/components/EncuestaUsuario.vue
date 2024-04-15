@@ -1,7 +1,7 @@
 <template >
   <q-card
     style="padding: 0px 20px 10px 20px; border-radius: 5px"
-    v-if="ultimaEncuesta && !isRespondioTrue()"
+    v-if="ultimaEncuesta"
   >
     <q-card-section class="q-pa-md">
       <!-- Contenido de la encuesta -->
