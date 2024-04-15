@@ -72,11 +72,16 @@
         </div>
       </div>
     </div>
+    <EncuestaAdminTabla :ultimaEncuesta="ultimaEncuesta"/>
   </div>
 </template>
 
 <script>
+import EncuestaAdminTabla from 'src/components/EncuestaAdmin/EncuestaAdminTabla.vue'
 export default {
+  components: {
+    EncuestaAdminTabla
+  },
   data () {
     return {
       pregunta: '',
@@ -142,7 +147,6 @@ export default {
   },
   mounted () {
     this.obtenerUltimaEncuesta()
-    console.log('Opciones actuales: ' + this.ultimaEncuesta[1])
   }
 }
 </script>
