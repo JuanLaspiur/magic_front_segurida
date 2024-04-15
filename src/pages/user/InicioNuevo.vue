@@ -177,7 +177,11 @@
             <div class="text-caption text-center">{{ item.name }}</div>
           </div>
         </div>
-      </q-scroll-area>
+      </q-scroll-area>    <EncuestaUsuario
+    :ultimaEncuesta="ultimaEncuesta" :user="user"
+    v-if="isAnchoSuficiente"
+    style="max-width: 300px; width: max-content; margin: auto;"
+  />
       <!-- Aqui estan las cards resultantes del filtrado por zona en el contenedor Responsive -->
       <div class="text-grey-10 text-h6 q-py-sm q-pl-sm text-bold">
         Proximos planes
@@ -395,6 +399,11 @@ export default {
       ultimaEncuesta: [],
       opcionesUltimaEncuesta: [],
       opcionSeleccionada: null
+    }
+  },
+  computed: {
+    isAnchoSuficiente () {
+      return window.innerWidth <= 1080
     }
   },
   async mounted () {
