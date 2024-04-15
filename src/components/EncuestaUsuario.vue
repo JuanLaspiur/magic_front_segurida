@@ -1,7 +1,7 @@
-<template>
+<template >
   <q-card
     style="padding: 0px 20px 10px 20px; border-radius: 5px"
-    v-if="ultimaEncuesta"
+    v-if="ultimaEncuesta && !isRespondioTrue()"
   >
     <q-card-section class="q-pa-md">
       <!-- Contenido de la encuesta -->
@@ -43,6 +43,7 @@ export default {
       default: () => []
     },
     user: {
+      mostrarComponente: true,
       type: [Array, Object, String, Number, Boolean],
       default: Object
     }
@@ -59,6 +60,10 @@ export default {
       immediate: true
     },
     user: {
+      handler: 'remontarComponente',
+      immediate: true
+    },
+    mostrarComponente: {
       handler: 'remontarComponente',
       immediate: true
     }
@@ -79,7 +84,8 @@ export default {
     enviarEncuesta (opcionSeleccionada) {
       if (this.isRespondioTrue()) {
         Notify.create({
-          message: 'Ya respondió. Solo es posible responder una vez. Agradecemos su participacion',
+          message:
+            'Ya respondió. Solo es posible responder una vez. Agradecemos su participacion',
           color: 'negative' // Color rojo para indicar un mensaje de advertencia
         })
         return
@@ -89,20 +95,17 @@ export default {
         opcionId: opcionSeleccionada,
         usuarioId: this.user._id
       }
-      console.log(
-        'Descompocicion de data opciónId  ' +
-          data.opcionId +
-          '   usuarioId   ' +
-          data.usuarioId
-      )
+
       this.$api
         .post('opciones_admin123/votar', data)
         .then(response => {
           this.opcionesUltimaEncuesta = response
           this.$q.notify({
-            message: 'Encuesta enviada',
+            message: 'Encuesta enviada. Gracias por responder',
             color: 'positive'
           })
+          this.mostrarComponente = false
+          this.remontarComponente()
         })
         .catch(error => {
           console.error('Error al enviar la encuesta:', error)
