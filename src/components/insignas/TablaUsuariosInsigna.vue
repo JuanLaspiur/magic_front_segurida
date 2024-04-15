@@ -82,7 +82,7 @@
           >
             <q-item-section avatar>
               <q-avatar>
-                <img :src="baseuInsigna+insignia.image" alt="Insignia" />
+                <img :src="baseuInsigna + insignia.image" alt="Insignia" />
               </q-avatar>
             </q-item-section>
             <q-item-section>

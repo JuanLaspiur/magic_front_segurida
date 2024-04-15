@@ -41,7 +41,7 @@
           <td>
             <q-avatar style="margin-right: 10px">
               <img
-                :src="buscarInsignaPorUsuario(user._id).image"
+                :src="baseuInsigna + buscarInsignaPorUsuario(user._id).image"
                 alt="Imagen de Insignia"
               />
             </q-avatar>
@@ -78,9 +78,11 @@
 </template>
 
 <script>
+import env from '../../env'
 export default {
   data () {
     return {
+      baseuInsigna: '',
       usuarios: [], // Lista de usuarios con insignia
       listaDeInsignias: [], // Lista de insignias
       paginaActual: 1,
@@ -101,6 +103,9 @@ export default {
   created () {
     this.getAllUsersWithBadge()
     this.fetchInsignias() // Llama a la función para cargar las insignias al inicio
+  },
+  mounted () {
+    this.baseuInsigna = env.apiUrl + 'insigna_img/'
   },
   methods: {
     async getAllUsersWithBadge () {
