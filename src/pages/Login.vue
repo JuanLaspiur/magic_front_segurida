@@ -260,7 +260,7 @@
 import packageV from '../../package.json'
 import { mapMutations, mapActions } from 'vuex'
 import { required, sameAs } from 'vuelidate/lib/validators'
-import GoogleLoginButton from 'src/components/GoogleLoginButton2.vue'
+import GoogleLoginButton from 'src/components/GoogleLoginButton.vue'
 
 export default {
   components: { GoogleLoginButton },

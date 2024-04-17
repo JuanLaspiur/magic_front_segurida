@@ -76,7 +76,10 @@ module.exports = function (/* ctx */) {
     devServer: {
       https: false,
       port: 8080,
-      open: true // opens browser window automatically
+      open: true, // Abre automáticamente la ventana del navegador
+      headers: {
+        'Access-Control-Allow-Origin': '*' // Permite todas las direcciones (origins)
+      }
     },
 
     // https://v1.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework

@@ -1,6 +1,7 @@
 <template>
   <div>
-    <button @click="signInWithGoogle">Iniciar sesión con Google</button>
+    <!-- Boton de inicio de sesión google-->
+    <div id="buttonDiv"></div>
     <q-dialog
       v-model="dialog"
       persistent
@@ -456,23 +457,21 @@
     </q-dialog>
   </div>
 </template>
-
 <script>
+import { mapMutations } from 'vuex'
 import moment from 'moment'
 import 'vue-advanced-cropper/dist/style.css'
-import env from '../env'
 import { required, email, minValue } from 'vuelidate/lib/validators'
-
+import env from '../env'
 export default {
   data () {
     return {
-      clientId: env.clientId,
-      clientSecret: env.clientSecret,
       baseuPerfil: env.apiUrl + 'perfil_img/',
       googleToken: null,
       dialog: false,
       maximizedToggle: true,
       isLogin: false,
+      google_client_id: env.google_client_id,
       showCropper: false,
       checkBox: {
         first: false,
@@ -530,8 +529,15 @@ export default {
     this.getCommunities()
     this.getCities()
     this.getAnimales()
-    // Llama a la función de inicialización con los valores de clientId y clientSecret
-    window.google.accounts.id.initialize(this.handleGoogleAuthCallback())
+    window.google.accounts.id.initialize({
+      client_id: this.google_client_id,
+      callback: this.saludar
+    })
+    window.google.accounts.id.renderButton(
+      document.getElementById('buttonDiv'),
+      { theme: 'outline', size: 'xlarge' } // customization attributes
+    )
+    // window.google.accounts.id.disableAutoSelect() //funcion para deslogear
   },
   methods: {
     handleCancel () {
@@ -542,44 +548,10 @@ export default {
       this.animal = null
       this.perfil = null
     },
-    signInWithGoogle () {
-      // Utiliza this.clientId y this.clientSecret
-      const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${this.clientId}&redirect_uri=http://localhost:8080&response_type=code&scope=email%20profile`
-      window.location.href = authUrl
-    },
-    async handleGoogleAuthCallback () {
-      const code = new URLSearchParams(window.location.search).get('code')
-      if (code) {
-        const tokenUrl = 'https://oauth2.googleapis.com/token'
-        const tokenParams = {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-          },
-          body: new URLSearchParams({
-            code,
-            client_id: this.clientId,
-            client_secret: this.clientSecret,
-            redirect_uri: 'http://localhost:8080',
-            grant_type: 'authorization_code'
-          })
-        }
-
-        try {
-          const response = await fetch(tokenUrl, tokenParams)
-          const data = await response.json()
-
-          const accessToken = data.access_token
-          console.log('Token de usuario:', accessToken)
-          return this.handleCredentialResponse(accessToken)
-        } catch (error) {
-          console.error('Error al obtener el token de acceso:', error)
-        }
-      }
-    },
-    async handleCredentialResponse (token) {
-      const res = await this.$api.post('loginByGoogle2', {
-        googleToken: token
+    ...mapMutations('generals', ['login']),
+    async handleCredentialResponse (response) {
+      const res = await this.$api.post('loginByGoogle', {
+        googleToken: response.credential
       })
       // . Le pasa el token
       if (res.success && res.login) {
@@ -591,7 +563,7 @@ export default {
           this.$router.push('/inicio')
         }
       } else if (res.success && res.newUser) {
-        this.googleToken = token
+        this.googleToken = response
         const { userData } = res
         this.perfil = true
         this.perfilImg = this.baseuPerfil + userData._id
@@ -601,7 +573,6 @@ export default {
         this.form.email = userData.email
         this.dialog = true // se abre q-dialog
       }
-      // Continuar con el resto del código
     },
     async actualizar () {
       this.$v.form.$touch()
@@ -639,9 +610,9 @@ export default {
         this.$v.repeatPassword.$touch()
         if (this.password === '') {
           this.errorPass = true
+        } else {
+          this.verifyPass(this.password)
         }
-        // else { this.verifyPass(this.password)   }
-
         if (
           !this.$v.form.email.$error &&
           !this.errorPass &&
@@ -739,3 +710,4 @@ export default {
   }
 }
 </script>
+<style lang=""></style>
