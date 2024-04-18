@@ -336,7 +336,7 @@
     </q-layout>
 
     {/*** Aquí empieza el modle de la encuesta */}
-    <q-dialog v-model="mostrarDialogoEncuesta" style="height: max-content;">
+    <q-dialog v-model="mostrarDialogoEncuesta" style="height: 1000px">
       <q-card>
   <!-- Sección para la pregunta de la encuesta -->
   <q-card-section>
@@ -359,29 +359,22 @@
 
   <!-- Sección para ingresar las opciones -->
   <q-card-section>
-    <div  v-for="index in cantidadOpciones" :key="index" >
-
+    <div v-for="(opcion, index) in opcionesEncuesta" style="margin-bottom: 10px;" :key="index">
       <q-input
-                  outlined
-                  v-model="opcionesEncuesta[index]"
-                  :label="'Opción ' + (index + 1)"
-                  dense
-                  required
-                />
+        outlined
+        v-model="opcionesEncuesta[index]"
+        :label="'Opción ' + (index + 1)"
+        dense
+        required
+      />
     </div>
   </q-card-section>
-  <q-btn
-  @click="cerrarDialogo()"
-  color="negative"
-  label="Salir"
-/>
 
-  <q-btn
-  @click="enviarEncuesta()"
-  color="primary"
-  label="Enviar Encuesta"
-/>
-
+  <!-- Botones -->
+  <q-card-actions align="right">
+    <q-btn @click="cerrarEncuestaModle()" color="negative" label="Salir" />
+    <q-btn @click="enviarEncuesta()" color="primary" label="Enviar Encuesta" />
+  </q-card-actions>
 </q-card>
 
     </q-dialog>
@@ -480,16 +473,9 @@ export default {
         this.scrollToElement(newValue)
       }
     },
-    cantidadOpciones (newVal, oldVal) {
-      if (newVal > oldVal) {
-        // Añadir nuevas opciones
-        for (let i = oldVal; i < newVal; i++) {
-          this.opcionesEncuesta.push('')
-        }
-      } else {
-        // Eliminar opciones si la cantidad ha disminuido
-        this.opcionesEncuesta.splice(newVal)
-      }
+
+    cantidadOpciones (newVal) {
+      this.opcionesEncuesta = new Array(parseInt(newVal)).fill('')
     }
   },
   methods: {
@@ -860,13 +846,5 @@ export default {
 
 .chat_for_answer_hidden {
   display: none;
-}
-
-.opcion-input {
-  margin-bottom: 12px;
-}
-
-.cantidad-opciones-section {
-  margin-bottom: 12px;
 }
 </style>
