@@ -8,13 +8,14 @@
         >
           <div class="row">
             <q-btn
-              flatz
+              flat
               @click="$router.go(-1)"
-              color="white"
+              color="green"
               round
               dense
               icon="arrow_back"
             />
+
             <q-item class="q-pl-sm text-white">
               <q-item-section
                 avatar
@@ -165,10 +166,13 @@
         </div>
       </q-page-container>
       <q-footer elevated class="full-width row" style="height: max-content">
+        <!--Aqui empieza el boton  para seleccionar una imagen -->
         <q-file
           v-if="data.evento_id"
           bg-color="white"
-          :display-value="image_chat && 'Subido'"
+          :display-value="
+            image_chat && 'Imagen cargada, escribe el mensaje de la imagen'
+          "
           standout="bg-green"
           class="col-2 max-width: 200 q-pa-sm"
           accept=".jpg, image/*"
@@ -185,6 +189,7 @@
             />
           </template>
         </q-file>
+        <!-- Abre el modal de encuestas -->
         <q-file class="col-1 max-width: 10 q-pa-sm">
           <q-btn
             flat
@@ -193,6 +198,7 @@
             @click="mostrarEncuestaDialogo()"
           />
         </q-file>
+        <!--Input de chat-->
         <q-input
           @keyup.enter="sendChat()"
           v-model="text"
@@ -402,6 +408,7 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
+    {/*** Aquí termina el modle de la encuesta */}
   </div>
 </template>
 <script>

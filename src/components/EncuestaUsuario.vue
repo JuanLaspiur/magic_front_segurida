@@ -1,4 +1,4 @@
-<template >
+<template>
   <q-card
     style="padding: 0px 20px 10px 20px; border-radius: 5px"
     v-if="ultimaEncuesta"
@@ -18,7 +18,7 @@
             @change="actualizarSeleccion(index)"
             style="cursor: pointer"
           />
-          <label :for="'opcion_' + index" style="cursor: pointer">{{
+          <label :for="'opcion_' + index" style="cursor: pointer; margin: 0 10px;">{{
             opcion.texto
           }}</label>
         </div>
@@ -88,6 +88,7 @@ export default {
             'Ya respondió. Solo es posible responder una vez. Agradecemos su participacion',
           color: 'negative' // Color rojo para indicar un mensaje de advertencia
         })
+        this.remontarComponente()
         return
       }
 
@@ -99,12 +100,10 @@ export default {
       this.$api
         .post('opciones_admin123/votar', data)
         .then(response => {
-          this.opcionesUltimaEncuesta = response
           this.$q.notify({
             message: 'Encuesta enviada. Gracias por responder',
             color: 'positive'
           })
-          this.mostrarComponente = false
           this.remontarComponente()
         })
         .catch(error => {
