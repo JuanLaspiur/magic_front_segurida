@@ -462,10 +462,11 @@ import moment from 'moment'
 import 'vue-advanced-cropper/dist/style.css'
 import env from '../env'
 import { required, email, minValue } from 'vuelidate/lib/validators'
-
+import { mapMutations } from 'vuex'
 export default {
   data () {
     return {
+      user: null,
       clientId: env.clientId,
       clientSecret: env.clientSecret,
       baseuPerfil: env.apiUrl + 'perfil_img/',
@@ -570,6 +571,7 @@ export default {
           const data = await response.json()
 
           const accessToken = data.access_token
+          this.googleToken = accessToken
           console.log('Token de usuario:', accessToken)
           return this.handleCredentialResponse(accessToken)
         } catch (error) {
@@ -577,13 +579,13 @@ export default {
         }
       }
     },
+    ...mapMutations('generals', ['login']),
     async handleCredentialResponse (token) {
       const res = await this.$api.post('loginByGoogle2', {
         googleToken: token
       })
-      // . Le pasa el token
       if (res.success && res.login) {
-        this.user = res.data.SESSION_INFO
+        this.user = res.data.SESSION_INFO // modifique ver si pasa
         this.login(res.data)
         if (this.user.roles[0] === 1 || this.user.roles[0] === 3) {
           this.$router.push('/administrador')
@@ -600,33 +602,66 @@ export default {
         this.form.last_name = userData.last_name
         this.form.email = userData.email
         this.dialog = true // se abre q-dialog
+      } else {
+        console.log(' TERCERA POSICION VIVA PERON   ')
       }
       // Continuar con el resto del código
     },
     async actualizar () {
+      // Validar el formulario
       this.$v.form.$touch()
+
+      // Validar el campo de edad
       this.$v.age.$touch()
+
+      // Verificar si no hay errores en la validación del formulario y en la validación de la edad
       if (!this.$v.form.$error && !this.$v.age.$error) {
+        // Mostrar un indicador de carga mientras se guarda la información
         this.$q.loading.show({
           message: 'Guardando...'
         })
+
+        // Asignar el ID del animal seleccionado al formulario
         this.form.animal = this.animal._id
+
+        // Establecer que el usuario ya no es nuevo
         this.form.newUser = false
-        await this.$api
-          .put('update_user_info_new_user/' + this.form._id, this.form)
-          .then(res => {
-            if (res.success) {
-              this.$q.loading.hide()
-              this.$q.notify({
-                message: 'Perfil guardado con éxito',
-                color: 'positive'
-              })
-              this.handleCredentialResponse(this.googleToken)
-            } else {
-              this.$q.loading.hide()
-            }
-          })
+
+        try {
+          // Enviar la solicitud PUT a la API para actualizar la información del usuario
+          const res = await this.$api.put(
+            'update_user_info_new_user/' + this.form._id,
+            this.form
+          )
+
+          // Verificar si la solicitud fue exitosa
+          if (res.success) {
+            // Ocultar el indicador de carga
+            this.$q.loading.hide()
+
+            // Mostrar una notificación de éxito
+            this.$q.notify({
+              message: 'Perfil guardado con éxito',
+              color: 'positive'
+            })
+
+            // Manejar la respuesta de la API (presumiblemente relacionado con las credenciales)
+            await this.handleCredentialResponse(this.googleToken)
+            console.log('NOOOOOOOOOOOOOOO AAaa')
+          } else {
+            // Si la solicitud no fue exitosa, simplemente ocultar el indicador de carga
+            this.$q.loading.hide()
+            console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
+          }
+        } catch (error) {
+          console.error(
+            'Error al actualizar la información del usuario:',
+            error
+          )
+          // Manejar errores de la solicitud
+        }
       } else {
+        // Mostrar una notificación al usuario indicando que debe ingresar todos los datos requeridos
         this.$q.notify({
           message: 'Debe ingresar todos los datos requeridos',
           color: 'negative'
