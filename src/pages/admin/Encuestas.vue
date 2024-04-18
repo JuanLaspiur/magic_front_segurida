@@ -7,8 +7,9 @@
         <div class="card mb-4">
           <div class="card-header">
             <h5 class="card-title mb-0">Crear Encuesta</h5>
+            <p style="font-size: 20px;">Crea una encuesta escribiendo la pregunta y el numero de opciones</p>
           </div>
-          <div class="card-body">
+          <div class="card-body" style="padding: 12px 30% 0 0;">
             <form @submit.prevent="submitEncuesta">
               <div class="mb-3">
                 <q-input
@@ -51,18 +52,20 @@
         </div>
       </div>
       <!-- Tarjeta para mostrar encuesta actual -->
-      <div class="col-md-6">
+      <div class="col-md-6" >
         <div class="card mb-4">
           <div class="card-header">
             <h5 class="card-title mb-0">Encuesta Actual</h5>
+            <p style="font-size: 20px;"> La encuesta actual se encuentra en el panel principal del usuario en este momento</p>
           </div>
-          <div class="card-body">
+          <div class="card-body" style="border: 5px solid #222;">
             <!-- Aquí puedes mostrar la encuesta actual -->
-            <p>Encuesta actual: {{ ultimaEncuesta.pregunta }}</p>
+            <p style="font-size: 20px;">Encuesta actual: {{ ultimaEncuesta.pregunta }}</p>
             <ul>
               <li
                 v-for="(opcion, index) in opcionesUltimaEncuesta"
                 :key="index"
+                style="font-size: 18px;"
               >
                 {{ opcion.texto }} total votos:
                 {{ opcion.usuario_ids ? contarObjetos (opcion.usuario_ids) : 0 }}
@@ -72,7 +75,8 @@
         </div>
       </div>
     </div>
-    <EncuestaAdminTabla :ultimaEncuesta="ultimaEncuesta"/>
+    <h5>Encuestas finalizadas y sus resultados</h5>
+    <EncuestaAdminTabla :ultimaEncuesta="ultimaEncuesta" style="padding:0 20%;"/>
   </div>
 </template>
 

@@ -196,7 +196,7 @@
       />
       <div v-else class="text-center q-py-lg">No hay resultados</div>
       <div style="display: flex; justify-content: center; align-items: center">
-        <q-btn @click="$router.push('/planes')" color="primary"
+        <q-btn @click="$router.push('/planes')" color="primary" style="padding: 4px;"
           >Ver todos los planes</q-btn
         >
       </div>

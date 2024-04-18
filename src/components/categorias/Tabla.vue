@@ -1,7 +1,7 @@
 <template>
   <div>
     <h6>Lista de categorías</h6>
-    <table class="q-table">
+    <table class="q-table" style="font-size: 18px;">
       <thead>
         <tr class="q-table__header">
           <th class="text-left">ID</th>
@@ -44,7 +44,7 @@
       </tbody>
     </table>
     <!-- Modal de edición -->
-    <div v-if="showEditModal" class="p-4">
+    <div v-if="showEditModal" class="p-4" style="padding: 0 35% 0 29%;">
       <h4>Editar Categoría</h4>
       <q-input v-model="editedCategory.id" label="id" class="margen" />
       <q-input v-model="editedCategory.name" label="Nombre" class="margen" />

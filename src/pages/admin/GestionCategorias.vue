@@ -2,6 +2,7 @@
   <div class="margin">
     <div>
       <h4>Modulo Categorias</h4>
+      <p style="font-size: 20px;">Gestión de categorias de planes. Aqui esta la lista actual de categorías, como administrador crear, eliminar, o editarlas</p>
       <div>
         <Tabla />
       </div>

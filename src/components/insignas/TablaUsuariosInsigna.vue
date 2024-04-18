@@ -33,7 +33,11 @@
           <td>{{ user.participo ? user.participo : 0 }}</td>
           <td>{{ user.tiempoWeb }}</td>
           <td>
-            <button @click="openModal(user)">Agregar insigna</button>
+            <q-btn
+              @click="openModal(user)"
+              color="primary"
+              label="Agregar insignia"
+            />
           </td>
         </tr>
       </tbody>

@@ -1,6 +1,6 @@
 <template>
   <div class="table-container">
-    <table class="table">
+    <table class="table" style="font-size: 18px;">
       <thead>
         <tr>
           <th>Pregunta</th>

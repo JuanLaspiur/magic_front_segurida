@@ -36,7 +36,7 @@
           color="primary"
           dense
         />
-        <q-radio
+        <!--q-radio
           v-model="selectedOption"
           val="option4"
           label="Por Día de Registro"
@@ -49,8 +49,8 @@
           label="Por Plataforma"
           color="primary"
           dense
-        />
-      </div>
+        />-->
+        </div>
 
       <div v-if="selectedOption === 'option1'">
         <q-input

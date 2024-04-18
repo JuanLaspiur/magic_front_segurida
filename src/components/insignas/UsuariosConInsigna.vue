@@ -53,9 +53,11 @@
           </td>
 
           <td>
-            <button @click="eliminarInsignia(user._id)">
-              Eliminar insignia
-            </button>
+            <q-btn
+              @click="eliminarInsignia(user._id)"
+              color="negative"
+              label="Eliminar insignia"
+            />
           </td>
         </tr>
       </tbody>

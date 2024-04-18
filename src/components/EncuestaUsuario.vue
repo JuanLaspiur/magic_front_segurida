@@ -5,22 +5,29 @@
   >
     <q-card-section class="q-pa-md">
       <!-- Contenido de la encuesta -->
-      <h5 style="text-align: center; margin-bottom: 20px">
+      <h5 class="text-blue text-center" style="margin-bottom: 20px">
         {{ ultimaEncuesta.pregunta }}
       </h5>
+
       <div>
-        <div v-for="(opcion, index) in opcionesUltimaEncuesta" :key="index">
-          <input
-            type="radio"
-            :id="'opcion_' + index"
-            :value="opcion._id"
-            v-model="opcionSeleccionada"
-            @change="actualizarSeleccion(index)"
-            style="cursor: pointer"
-          />
-          <label :for="'opcion_' + index" style="cursor: pointer; margin: 0 10px;">{{
-            opcion.texto
-          }}</label>
+        <div class="opciones-container">
+          <div
+            v-for="(opcion, index) in opcionesUltimaEncuesta"
+            :key="index"
+            class="opcion-item"
+          >
+            <input
+              type="radio"
+              :id="'opcion_' + index"
+              :value="opcion._id"
+              v-model="opcionSeleccionada"
+              @change="actualizarSeleccion(index)"
+              class="opcion-input"
+            />
+            <label :for="'opcion_' + index" class="opcion-label">{{
+              opcion.texto
+            }}</label>
+          </div>
         </div>
       </div>
     </q-card-section>
@@ -29,7 +36,8 @@
         color="primary"
         label="Enviar"
         @click="enviarEncuesta(opcionSeleccionada)"
-      ></q-btn>
+        class="custom-btn"
+      />
     </q-card-actions>
   </q-card>
 </template>
@@ -152,3 +160,52 @@ export default {
   }
 }
 </script>
+<style>
+
+.custom-btn {
+  font-size: 14px;
+  padding: 4px 8px;
+  border-radius: 5px;
+  text-transform: uppercase;
+}
+
+/* Estilos adicionales cuando el botón está en estado hover (sobre) */
+.custom-btn:hover {
+  background-color: #1976d2;
+  color: white;
+}
+.opciones-container {
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
+}
+
+.opcion-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.opcion-input {
+  cursor: pointer;
+  margin-right: 10px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #333;
+  outline: none;
+}
+
+.opcion-label {
+  cursor: pointer;
+  font-size: 16px;
+  color: #333;
+}
+
+/* Estilos cuando el botón de radio está seleccionado */
+.opcion-input:checked {
+  background-color: #1d70ff;
+}
+</style>
