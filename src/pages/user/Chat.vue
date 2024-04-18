@@ -336,51 +336,54 @@
     </q-layout>
 
     {/*** Aquí empieza el modle de la encuesta */}
-    <q-dialog v-model="mostrarDialogoEncuesta">
+    <q-dialog v-model="mostrarDialogoEncuesta" style="height: max-content;">
       <q-card>
-        <q-card-section>
-          <q-input
-            v-model="preguntaEncuesta"
-            label="Pregunta de la encuesta"
-            outlined
-          />
-        </q-card-section>
+  <!-- Sección para la pregunta de la encuesta -->
+  <q-card-section>
+    <q-input
+      v-model="preguntaEncuesta"
+      label="Pregunta de la encuesta"
+      outlined
+    />
+  </q-card-section>
 
-        <!-- Sección para la cantidad de opciones -->
-        <q-card-section>
-          <q-input
-            v-model="cantidadOpciones"
-            label="Cantidad de opciones"
-            type="number"
-            outlined
-          />
-        </q-card-section>
+  <!-- Sección para la cantidad de opciones -->
+  <q-card-section>
+    <q-input
+      v-model="cantidadOpciones"
+      label="Cantidad de opciones"
+      type="number"
+      outlined
+    />
+  </q-card-section>
 
-        <!-- Sección para las opciones de la encuesta -->
-        <q-card-section>
-          <div
-            v-for="(opcion, index) in opcionesEncuesta"
-            :key="index"
-            class="opcion-input"
-          >
-            <q-input
-              v-model="opcionesEncuesta[index]"
-              :label="'Opción ' + (index + 1)"
-              outlined
-            />
-          </div>
-        </q-card-section>
+  <!-- Sección para ingresar las opciones -->
+  <q-card-section>
+    <div  v-for="index in cantidadOpciones" :key="index" >
 
-        <!-- Acciones del diálogo -->
-        <q-card-actions>
-          <q-btn label="Cancelar" @click="cerrarEncuestaModle" />
-          <q-btn
-            label="Enviar Encuesta"
-            color="primary"
-            @click="enviarEncuesta"
-          />
-        </q-card-actions>
-      </q-card>
+      <q-input
+                  outlined
+                  v-model="opcionesEncuesta[index]"
+                  :label="'Opción ' + (index + 1)"
+                  dense
+                  required
+                />
+    </div>
+  </q-card-section>
+  <q-btn
+  @click="cerrarDialogo()"
+  color="negative"
+  label="Salir"
+/>
+
+  <q-btn
+  @click="enviarEncuesta()"
+  color="primary"
+  label="Enviar Encuesta"
+/>
+
+</q-card>
+
     </q-dialog>
     <q-dialog v-model="mostrarModalResultado">
       <q-card>
