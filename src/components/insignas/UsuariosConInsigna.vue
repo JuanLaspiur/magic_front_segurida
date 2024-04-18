@@ -41,11 +41,17 @@
           <td>
             <q-avatar style="margin-right: 10px">
               <img
+                v-if="
+                  user &&
+                  buscarInsignaPorUsuario(user._id) &&
+                  buscarInsignaPorUsuario(user._id).image
+                "
                 :src="baseuInsigna + buscarInsignaPorUsuario(user._id).image"
                 alt="Imagen de Insignia"
               />
             </q-avatar>
           </td>
+
           <td>
             <button @click="eliminarInsignia(user._id)">
               Eliminar insignia
@@ -154,26 +160,24 @@ export default {
     buscarInsignaPorUsuario (usuarioId) {
       // Inicializar la variable para almacenar la insignia encontrada
       let insigniaEncontrada = null
-      for (const insignia of this.listaDeInsignias) {
-        // Inicializar una lista para almacenar los IDs de usuario de la insignia sin corchetes y comillas
-        const idsSinCorchetes = []
-        if (!insignia.usuario_ids) {
-          return
-        }
-        for (const id of insignia.usuario_ids.split(',')) {
-          // Eliminar los corchetes y comillas y agregar el ID a la lista
-          idsSinCorchetes.push(id.replace(/["[\]]/g, ''))
-        }
 
-        // Verificar si el usuarioId está presente en la lista de usuario_ids de la insignia (sin corchetes ni comillas)
-        if (idsSinCorchetes.includes(usuarioId)) {
-          // Si se encuentra coincidencia, asignar la insignia a la variable y salir del bucle
-          insigniaEncontrada = insignia
-          break
+      // Iterar sobre la lista de insignias
+      for (const insignia of this.listaDeInsignias) {
+        // Verificar si la propiedad usuario_ids está presente y no es nula o vacía
+        if (insignia.usuario_ids && insignia.usuario_ids.trim() !== '') {
+          // Dividir los IDs de usuario en un array
+          const idsArray = insignia.usuario_ids.split(',')
+
+          // Verificar si usuarioId está presente en el array de IDs
+          if (idsArray.includes(usuarioId)) {
+            // Asignar la insignia encontrada y salir del bucle
+            insigniaEncontrada = insignia
+            break
+          }
         }
       }
 
-      // Devolver la insignia encontrada (o null si no se encontró ninguna)
+      // Devolver la insignia encontrada
       return insigniaEncontrada
     },
     eliminarInsignia (userId) {

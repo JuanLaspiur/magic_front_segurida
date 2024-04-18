@@ -225,16 +225,31 @@ reactiva la cuenta y se cancela el proceso. */
                 **Nota: La calificación es otorgada por los participantes de un
                 plan creado por ti.
               </q-tooltip>
-            </div><div style="width:100%; padding: 10px 15px 0 15px;" v-if="buscarInsignaPorUsuario(user._id) !== null">
+            </div>
+                <!-- aER-->
+    <div style="width:100%; padding: 10px 15px 0 15px;" v-if="user && buscarInsignaPorUsuario(user._id)">
     <q-avatar style="margin-right: 10px">
         <img
+        v-if="
+        user
+        && buscarInsignaPorUsuario(user._id)
+        && buscarInsignaPorUsuario(user._id).image"
             :src="baseuInsigna + buscarInsignaPorUsuario(user._id).image"
             alt="Imagen de Insignia"
         />
     </q-avatar>
-    <q-tooltip content-style="font-size: .8rem" :offset="[10, 10]">
-                Insigna  {{ buscarInsignaPorUsuario(user._id).name }}  <br />
-                **Nota: {{ buscarInsignaPorUsuario(user._id).description}}
+    <q-tooltip
+                content-style="font-size: .8rem"
+                :offset="[10, 10]"
+                v-if="
+                  user &&
+                  buscarInsignaPorUsuario(user._id) &&
+                  buscarInsignaPorUsuario(user._id).name &&
+                  buscarInsignaPorUsuario(user._id).description
+                "
+              >
+                Insigna {{ buscarInsignaPorUsuario(user._id).name }} <br />
+                **Nota: {{ buscarInsignaPorUsuario(user._id).description }}
               </q-tooltip>
 </div>
 
@@ -1067,7 +1082,8 @@ export default {
     await this.getMedalla()
     window.addEventListener('resize', this.handleResize)
     this.handleResize()
-    this.fetchInsignias()
+    await this.fetchInsignias()
+    this.buscarInsignaPorUsuario('66049ba58c62bd205051b47c')
   },
   unmounted () {
     window.removeEventListener('resize', this.handleResize)
@@ -1377,26 +1393,24 @@ export default {
     buscarInsignaPorUsuario (usuarioId) {
       // Inicializar la variable para almacenar la insignia encontrada
       let insigniaEncontrada = null
-      for (const insignia of this.listaDeInsignias) {
-        // Inicializar una lista para almacenar los IDs de usuario de la insignia sin corchetes y comillas
-        const idsSinCorchetes = []
-        if (!insignia.usuario_ids) {
-          return
-        }
-        for (const id of insignia.usuario_ids.split(',')) {
-          // Eliminar los corchetes y comillas y agregar el ID a la lista
-          idsSinCorchetes.push(id.replace(/["[\]]/g, ''))
-        }
 
-        // Verificar si el usuarioId está presente en la lista de usuario_ids de la insignia (sin corchetes ni comillas)
-        if (idsSinCorchetes.includes(usuarioId)) {
-          // Si se encuentra coincidencia, asignar la insignia a la variable y salir del bucle
-          insigniaEncontrada = insignia
-          break
+      // Iterar sobre la lista de insignias
+      for (const insignia of this.listaDeInsignias) {
+        // Verificar si la propiedad usuario_ids está presente y no es nula o vacía
+        if (insignia.usuario_ids && insignia.usuario_ids.trim() !== '') {
+          // Dividir los IDs de usuario en un array
+          const idsArray = insignia.usuario_ids.split(',')
+
+          // Verificar si usuarioId está presente en el array de IDs
+          if (idsArray.includes(usuarioId)) {
+            // Asignar la insignia encontrada y salir del bucle
+            insigniaEncontrada = insignia
+            break
+          }
         }
       }
 
-      // Devolver la insignia encontrada (o null si no se encontró ninguna)
+      // Devolver la insignia encontrada
       return insigniaEncontrada
     }
   }
