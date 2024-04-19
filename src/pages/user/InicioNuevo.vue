@@ -324,7 +324,9 @@
         style="position: fixed; top: 70%"
       />
     </div>
-  </div>
+   <!--  Aqui comienza el tutorial -->
+<Tutorial/>
+</div>
 </template>
 
 <script>
@@ -338,6 +340,7 @@ import CarouselWithoutImg from '../../components/CarouselWithoutImg.vue'
 import ContainerCards from '../../components/ContainerCards.vue'
 import ContainerAll from '../../components/ContainerAll.vue'
 import EncuestaUsuario from '../../components/EncuestaUsuario.vue'
+import Tutorial from '../../components/Tutorial/Tutorial'
 
 export default {
   components: {
@@ -347,7 +350,8 @@ export default {
     ContainerCards,
     ContainerAll,
     CarouselWithoutImg,
-    EncuestaUsuario
+    EncuestaUsuario,
+    Tutorial
   },
   data () {
     return {
