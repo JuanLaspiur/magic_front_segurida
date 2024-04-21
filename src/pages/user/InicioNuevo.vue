@@ -330,10 +330,9 @@
         style="position: fixed; top: 70%"
       />
     </div>
-    <!-- Corregir -->
-    <Tutorial v-if="isAnchoSuficienteGrande && isUserTutorial" :user="user" :style="{ opacity: isUserTutorial ? 1 : 0 }" />
-    <TutorialMovile v-if="isAnchoSuficiente && isUserTutorial" :user="user" :style="{ opacity: isUserTutorial ? 1 : 0 }" />
 
+    <!-- Corregir -->
+    <ContenedorComponentes v-if="tutorial" :user="user" :key="tutorial" />
   </div>
 </template>
 
@@ -348,8 +347,7 @@ import CarouselWithoutImg from '../../components/CarouselWithoutImg.vue'
 import ContainerCards from '../../components/ContainerCards.vue'
 import ContainerAll from '../../components/ContainerAll.vue'
 import EncuestaUsuario from '../../components/EncuestaUsuario.vue'
-import Tutorial from '../../components/Tutorial/Tutorial.vue'
-import TutorialMovile from '../../components/Tutorial/TutorialMovile.vue'
+import ContenedorComponentes from '../../components/Tutorial/ContenedorComponentes'
 
 export default {
   components: {
@@ -360,8 +358,7 @@ export default {
     ContainerAll,
     CarouselWithoutImg,
     EncuestaUsuario,
-    Tutorial,
-    TutorialMovile
+    ContenedorComponentes
   },
   data () {
     return {
@@ -412,24 +409,13 @@ export default {
       indiceEncuestaActual: 0,
       ultimaEncuesta: [],
       opcionesUltimaEncuesta: [],
-      opcionSeleccionada: null
+      opcionSeleccionada: null,
+      tutorial: false
     }
   },
   computed: {
-    isUserTutorial () {
-      return !this.user.tutorial
-      /*
-      True
-       undefinied --> False --> ! = true (muestra tutorial)
-       false   ---> False --> != true (muestra tutorial)
-       true --> true != false (no muestra tutorial)
-      */
-    },
     isAnchoSuficiente () {
       return window.innerWidth <= 1080
-    },
-    isAnchoSuficienteGrande () {
-      return window.innerWidth > 1080
     }
   },
   async mounted () {
@@ -477,6 +463,14 @@ export default {
         console.log(newValue, 'NV')
       }
     },
+    'user.tutorial': {
+      immediate: true,
+      handler (newValue, oldValue) {
+        if (newValue === false) {
+          this.tutorial = true
+        }
+      }
+    },
     width: {
       async handler (newValue, old) {
         if (this.width < 800) {
@@ -498,6 +492,11 @@ export default {
     }
   },
   methods: {
+    isTutorial () {
+      if (this.user.tutorial === false) {
+        this.tutorial = false
+      }
+    },
     ...mapMutations('generals', ['logout']),
     test () {
       this.$api.get('user_info2').then(res => {
@@ -524,6 +523,7 @@ export default {
       this.$api.get('user_info').then(res => {
         if (res) {
           this.user = res
+          this.isTutorial()
         }
       })
     },
@@ -729,6 +729,9 @@ export default {
   @media (min-width: 1080px) {
     display: none;
   }
+}
+.ocultar {
+  opacity: 0;
 }
 
 @import url(../../scss/user/Inicio.scss);
