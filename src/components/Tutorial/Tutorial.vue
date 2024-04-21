@@ -114,7 +114,8 @@
         <h5 style="color: black; margin-top: 1px">Tutorial</h5>
         <div style="max-width: 300px; margin-top: -24px; margin-bottom: 10px">
           <p style="font-size: 20px; color: black">
-            Tu <strong>perfil</strong> recibe reconocimientos y observa los datos que has compartido con la <strong>comunidad</strong>
+            Tu <strong>perfil</strong> recibe reconocimientos y observa los
+            datos que has compartido con la <strong>comunidad</strong>
           </p>
         </div>
         <q-btn
@@ -134,6 +135,124 @@
         <div class="arrow-left"></div>
       </div>
     </div>
+    <div class="tutorial-modal-SEIS" v-if="showTutorialModalSEIS">
+      <div class="modal-content" :style="{ transform: arrowMovementSEIS }">
+        <h5 style="color: black; margin-top: 1px">Tutorial</h5>
+        <div style="max-width: 300px; margin-top: -24px; margin-bottom: 10px">
+          <p style="font-size: 20px; color: black">
+            Tu Sala de <strong>chats</strong>, bandeja de mensajes
+          </p>
+        </div>
+        <q-btn
+          label="Cerrar Tutorial"
+          color="primary"
+          class="btn btn-primary"
+          style="margin-right: 10px"
+          @click="closeTutorialSEIS"
+        />
+        <!-- Botón para ir al siguiente paso del tutorial -->
+        <q-btn
+          label="Continuar"
+          color="primary"
+          style="margin-right: 10px"
+          @click="nextTutorialStepSEIS"
+        />
+        <div class="arrow-left"></div>
+      </div>
+    </div>
+    <div class="tutorial-modal-SIETE" v-if="showTutorialModalSIETE">
+  <div class="modal-content" :style="{ transform: arrowMovementSIETE }">
+    <h5 style="color: black; margin-top: 1px">Tutorial</h5>
+    <div style="max-width: 300px; margin-top: -24px; margin-bottom: 10px">
+      <p style="font-size: 20px; color: black">
+        ¡Acceso tu sección de  <strong>amistades</strong>, busca a tu amigos!
+      </p>
+    </div>
+    <q-btn
+      label="Cerrar Tutorial"
+      color="primary"
+      class="btn btn-primary"
+      style="margin-right: 10px"
+      @click="closeTutorialSIETE"
+    />
+    <!-- Botón para ir al siguiente paso del tutorial -->
+    <q-btn
+      label="Continuar"
+      color="primary"
+      style="margin-right: 10px"
+      @click="nextTutorialStepSIETE"
+    />
+    <div class="arrow-left"></div>
+  </div>
+</div>
+<div class="tutorial-modal-OCHO" v-if="showTutorialModalOCHO">
+  <div class="modal-content" :style="{ transform: arrowMovementOCHO }">
+    <h5 style="color: black; margin-top: 1px">Tutorial</h5>
+    <div style="max-width: 300px; margin-top: -24px; margin-bottom: 10px">
+      <p style="font-size: 20px; color: black">
+        ¡Accede a <strong> los rankings de planes </strong>¡Fijate si tu estas entre los más activos de la <strong> comunidad</strong>!
+      </p>
+    </div>
+    <q-btn
+      label="Cerrar Tutorial"
+      color="primary"
+      class="btn btn-primary"
+      style="margin-right: 10px"
+      @click="closeTutorialOCHO"
+    />
+    <!-- Botón para ir al siguiente paso del tutorial -->
+    <q-btn
+      label="Continuar"
+      color="primary"
+      style="margin-right: 10px"
+      @click="nextTutorialStepOCHO"
+    />
+    <div class="arrow-left"></div>
+  </div>
+</div>
+<div class="tutorial-modal-NUEVE" v-if="showTutorialModalNUEVE">
+  <div class="modal-content" :style="{ transform: arrowMovementNUEVE }">
+    <h5 style="color: black; margin-top: 1px">Tutorial</h5>
+    <div style="max-width: 300px; margin-top: -24px; margin-bottom: 10px">
+      <p style="font-size: 20px; color: black">
+        ¡Busca y accede a <strong> los de planes </strong> por <strong>categoría</strong> con información más detallada
+      </p>
+    </div>
+    <q-btn
+      label="Cerrar Tutorial"
+      color="primary"
+      class="btn btn-primary"
+      style="margin-right: 10px"
+      @click="closeTutorialNUEVE"
+    />
+    <!-- Botón para ir al siguiente paso del tutorial -->
+    <q-btn
+      label="Continuar"
+      color="primary"
+      style="margin-right: 10px"
+      @click="nextTutorialStepNUEVE"
+    />
+    <div class="arrow-left"></div>
+  </div>
+</div>
+<div class="tutorial-modal" v-if="showTutorialModalDIEZ">
+      <div class="modal-content">
+        <h5>Tutorial finalizado ¡Bienvenido a Magic!</h5>
+        <p style="margin-top: -24px; font-size: 20px">
+          Estamos muy <strong>contentos</strong> de que formes parte de
+          <strong>nuestra comunidad</strong>
+        </p>
+        <!-- Botón para cerrar el tutorial -->
+        <q-btn
+          label="¡Iniciar en Magic!"
+          color="primary"
+          class="btn btn-primary"
+          style="margin-right: 10px"
+          @click=" closeTutorialDIEZ"
+        />
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -145,7 +264,11 @@ export default {
       showTutorialModalDOS: false,
       showTutorialModalTRES: false,
       showTutorialModalCUATRO: false,
-      showTutorialModalCINCO: false
+      showTutorialModalCINCO: false,
+      showTutorialModalSIETE: false,
+      showTutorialModalOCHO: false,
+      showTutorialModalNUEVE: false,
+      showTutorialModalDIEZ: false
     }
   },
   methods: {
@@ -184,7 +307,43 @@ export default {
       this.showTutorialModalCINCO = false
     },
     nextTutorialStepCINCO () {
-      console.log('Tutorial 5')
+      this.showTutorialModalCINCO = false
+      this.showTutorialModalSEIS = true
+    },
+    closeTutorialSEIS () {
+      this.showTutorialModalSEIS = false
+    },
+    nextTutorialStepSEIS () {
+      this.showTutorialModalSEIS = false
+      this.showTutorialModalSIETE = true
+    },
+    closeTutorialSIETE () {
+      this.showTutorialModalSIETE = false
+    },
+    nextTutorialStepSIETE () {
+      this.showTutorialModalSIETE = false
+      this.showTutorialModalOCHO = true
+    },
+    closeTutorialOCHO () {
+      this.showTutorialModalOCHO = false
+    },
+    nextTutorialStepOCHO () {
+      this.showTutorialModalOCHO = false
+      this.showTutorialModalNUEVE = true
+    },
+    closeTutorialNUEVE () {
+      this.showTutorialModalNUEVE = false
+    },
+    nextTutorialStepNUEVE () {
+      this.showTutorialModalNUEVE = false
+      this.showTutorialModalDIEZ = true
+      console.log('Tutorial 9')
+    },
+    closeTutorialDIEZ () {
+      this.showTutorialModalDIEZ = false
+    },
+    nextTutorialStepDIEZ () {
+      console.log('Tutorial 9')
     }
   },
   computed: {
@@ -199,6 +358,18 @@ export default {
     },
     arrowMovementCINCO () {
       return this.showTutorialModalCINCO ? 'translateX(10px)' : 'none'
+    },
+    arrowMovementSEIS () {
+      return this.showTutorialModalSEIS ? 'translateX(10px)' : 'none'
+    },
+    arrowMovementSIETE () {
+      return this.showTutorialModalSIETE ? 'translateX(10px)' : 'none'
+    },
+    arrowMovementOCHO () {
+      return this.showTutorialModalOCHO ? 'translateX(10px)' : 'none'
+    },
+    arrowMovementNUEVE () {
+      return this.showTutorialModalNUEVE ? 'translateX(10px)' : 'none'
     }
   }
 }
@@ -347,7 +518,155 @@ export default {
     transform: translateX(0);
   }
   to {
-    transform: translateX(5px); /* Cambia la cantidad de movimiento según prefieras */
+    transform: translateX(
+      5px
+    ); /* Cambia la cantidad de movimiento según prefieras */
+  }
+}
+
+/* Estilos para el sexto modal de tutorial */
+.tutorial-modal-SEIS {
+  position: fixed;
+  top: 35.4%; /* Posición un poco más arriba */
+  left: 20%; /* Posición igual a la izquierda */
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 0, 0, 0.623); /* Fondo semi-transparente */
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+  animation: modalMovementSEIS 1s infinite alternate; /* Animación para el movimiento del panel */
+}
+
+.arrow-left-SEIS {
+  position: absolute;
+  top: 50%;
+  right: 100%; /* Coloca la flecha a la izquierda */
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid white; /* Color de la flecha */
+}
+
+@keyframes modalMovementSEIS {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(
+      5px
+    ); /* Cambia la cantidad de movimiento según prefieras */
+  }
+
+}
+
+/* Estilos para el septimo modal de tutorial */
+.tutorial-modal-SIETE {
+  position: fixed;
+  top: 33%; /* Posición un poco más arriba */
+  left: 20%; /* Posición igual a la izquierda */
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 0, 0, 0.623); /* Fondo semi-transparente */
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+  animation: modalMovementSIETE 1s infinite alternate; /* Animación para el movimiento del panel */
+}
+
+.arrow-left-SIETE {
+  position: absolute;
+  top: 50%;
+  right: 100%; /* Coloca la flecha a la izquierda */
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid white; /* Color de la flecha */
+}
+
+@keyframes modalMovementSIETE {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(
+      5px
+    ); /* Cambia la cantidad de movimiento según prefieras */
+  }
+
+}
+
+/* Estilos para el OCHO modal de tutorial */
+.tutorial-modal-OCHO {
+  position: fixed;
+  top: 29.7%; /* Posición un poco más arriba 28% TODOS LOS PLANES*/
+  left: 20%; /* Posición igual a la izquierda */
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 0, 0, 0.623); /* Fondo semi-transparente */
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+  animation: modalMovementOCHO 1s infinite alternate; /* Animación para el movimiento del panel */
+}
+
+.arrow-left-OCHO {
+  position: absolute;
+  top: 50%;
+  right: 100%; /* Coloca la flecha a la izquierda */
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid white; /* Color de la flecha */
+}
+
+@keyframes modalMovementOCHO {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(
+      5px
+    ); /* Cambia la cantidad de movimiento según prefieras */
+  }
+}
+
+/* Estilos para el NUEVE modal de tutorial */
+.tutorial-modal-NUEVE {
+  position: fixed;
+  top: 26.7%; /* Posición un poco más arriba 28% TODOS LOS PLANES*/
+  left: 20%; /* Posición igual a la izquierda */
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 0, 0, 0.623); /* Fondo semi-transparente */
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+  animation: modalMovementNUEVE 1s infinite alternate; /* Animación para el movimiento del panel */
+}
+
+.arrow-left-NUEVE {
+  position: absolute;
+  top: 50%;
+  right: 100%; /* Coloca la flecha a la izquierda */
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid white; /* Color de la flecha */
+}
+
+@keyframes modalMovementNUEVE {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(
+      5px
+    ); /* Cambia la cantidad de movimiento según prefieras */
   }
 }
 </style>
