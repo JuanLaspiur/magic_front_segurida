@@ -410,7 +410,8 @@ export default {
       ultimaEncuesta: [],
       opcionesUltimaEncuesta: [],
       opcionSeleccionada: null,
-      tutorial: false
+      tutorial: false,
+      limiteFechaTutorial: false
     }
   },
   computed: {
@@ -467,7 +468,9 @@ export default {
       immediate: true,
       handler (newValue, oldValue) {
         if (newValue === false) {
-          this.tutorial = true
+          if (this.isFecha(this.user.created_at)) {
+            this.tutorial = true
+          }
         }
       }
     },
@@ -492,9 +495,15 @@ export default {
     }
   },
   methods: {
-    isTutorial () {
-      if (this.user.tutorial === false) {
-        this.tutorial = false
+    isFecha (fechaCreacionUsuario) {
+      const fechaLimite = new Date('2024-04-21') // Fecha límite: 21 de abril de 2024
+      const fechaCreacion = new Date(fechaCreacionUsuario)
+      if (fechaCreacion > fechaLimite) {
+        this.limiteFechaTutorial = true
+        return true
+      } else {
+        this.limiteFechaTutorial = false
+        return false
       }
     },
     ...mapMutations('generals', ['logout']),
@@ -524,6 +533,7 @@ export default {
         if (res) {
           this.user = res
           this.isTutorial()
+          this.isFecha(res.created_at)
         }
       })
     },
