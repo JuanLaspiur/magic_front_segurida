@@ -3,6 +3,7 @@
     <div class="tutorial-modal" v-if="showTutorialModal">
       <div class="modal-content">
         <h5>¡Bienvenido a Magic!</h5>
+        <q-img src="./logo_final_png-02.png" style="height: 120px; width: 120px; position:absolute; top:0; right: 0;" />
         <p style="margin-top: -24px; font-size: 20px">
           Estamos muy <strong>contentos</strong> de que formes parte de
           <strong>nuestra comunidad</strong>
@@ -237,6 +238,7 @@
 </div>
 <div class="tutorial-modal" v-if="showTutorialModalDIEZ">
       <div class="modal-content">
+        <q-img src="./logo_final_png-02.png" style="height: 120px; width: 120px; position:absolute; top:0; right: 0;" />
         <h5>Tutorial finalizado ¡Bienvenido a Magic!</h5>
         <p style="margin-top: -24px; font-size: 20px">
           Estamos muy <strong>contentos</strong> de que formes parte de
@@ -257,6 +259,7 @@
 </template>
 
 <script>
+
 export default {
   data () {
     return {
@@ -400,7 +403,7 @@ export default {
 .tutorial-modal-DOS {
   position: fixed;
   top: 69px; /* Posición más arriba en la pantalla */
-  left: 10%; /* Posición más a la derecha en la pantalla */
+  left: 2%; /* Posición más a la derecha en la pantalla */
   background-color: rgba(230, 6, 6, 0.623); /* Fondo semi-transparente */
   padding: 20px;
   border-radius: 30px;
@@ -412,7 +415,7 @@ export default {
 .tutorial-modal-TRES {
   position: fixed;
   bottom: 20px; /* Posición más abajo en la pantalla */
-  right: 10%; /* Posición más a la derecha en la pantalla */
+  right: 2%; /* Posición más a la derecha en la pantalla */
   background-color: rgba(230, 6, 6, 0.623); /* Fondo semi-transparente */
   padding: 20px 20px 20px 10px;
   border-radius: 30px;

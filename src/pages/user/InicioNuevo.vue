@@ -340,7 +340,7 @@ import CarouselWithoutImg from '../../components/CarouselWithoutImg.vue'
 import ContainerCards from '../../components/ContainerCards.vue'
 import ContainerAll from '../../components/ContainerAll.vue'
 import EncuestaUsuario from '../../components/EncuestaUsuario.vue'
-import Tutorial from '../../components/Tutorial/Tutorial'
+import Tutorial from '../../components/Tutorial/TutorialMovile'
 
 export default {
   components: {
