@@ -325,7 +325,8 @@
       />
     </div>
    <!--  Aqui comienza el tutorial -->
-<Tutorial/>
+<Tutorial     v-if="isAnchoSuficienteGrande"/>
+<TutorialMovile      v-if="isAnchoSuficiente"/>
 </div>
 </template>
 
@@ -340,7 +341,8 @@ import CarouselWithoutImg from '../../components/CarouselWithoutImg.vue'
 import ContainerCards from '../../components/ContainerCards.vue'
 import ContainerAll from '../../components/ContainerAll.vue'
 import EncuestaUsuario from '../../components/EncuestaUsuario.vue'
-import Tutorial from '../../components/Tutorial/TutorialMovile'
+import Tutorial from '../../components/Tutorial/Tutorial.vue'
+import TutorialMovile from '../../components/Tutorial/TutorialMovile.vue'
 
 export default {
   components: {
@@ -351,7 +353,8 @@ export default {
     ContainerAll,
     CarouselWithoutImg,
     EncuestaUsuario,
-    Tutorial
+    Tutorial,
+    TutorialMovile
   },
   data () {
     return {
@@ -408,6 +411,9 @@ export default {
   computed: {
     isAnchoSuficiente () {
       return window.innerWidth <= 1080
+    },
+    isAnchoSuficienteGrande () {
+      return window.innerWidth > 1080
     }
   },
   async mounted () {

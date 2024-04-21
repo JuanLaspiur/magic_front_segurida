@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="tutorial-modal" v-if="showTutorialModal">
-      <div class="modal-content">
+    <div class="tutorial-mobile" v-if="showTutorialMobile">
+      <div class="mobile-content">
         <h5>¡Bienvenido a Magic!</h5>
         <q-img
           src="./logo_final_png-02.png"
@@ -37,8 +37,8 @@
         />
       </div>
     </div>
-    <div class="tutorial-modal-DOS" v-if="showTutorialModalDOS">
-      <div class="modal-content">
+    <div class="tutorial-mobile-DOS" v-if="showTutorialMobileDOS">
+      <div class="mobile-content">
         <h5>Tutorial:</h5>
         <h6 style="margin-top: -35px">Menú Principál</h6>
         <q-img
@@ -89,8 +89,8 @@
         />
       </div>
     </div>
-    <div class="tutorial-modal-TRES" v-if="showTutorialModalTRES">
-      <div class="modal-content">
+    <div class="tutorial-mobile-TRES" v-if="showTutorialMobileTRES">
+      <div class="mobile-content">
         <h5>Tutorial:</h5>
         <h6 style="margin-top: -35px">Menú Principal</h6>
         <q-img
@@ -123,8 +123,8 @@
         />
       </div>
     </div>
-    <div class="tutorial-modal-CUATRO" v-if="showTutorialModalCUATRO">
-      <div class="modal-content">
+    <div class="tutorial-mobile-CUATRO" v-if="showTutorialMobileCUATRO">
+      <div class="mobile-content">
         <h5>Tutorial:</h5>
         <h6 style="margin-top: -35px">Menú Principal</h6>
         <q-img
@@ -157,8 +157,8 @@
       </div>
     </div>
     <!-- Quinto modal -->
-    <div class="tutorial-modal-CINCO" v-if="showTutorialModalCINCO">
-      <div class="modal-content-CINCO">
+    <div class="tutorial-mobile-CINCO" v-if="showTutorialMobileCINCO">
+      <div class="mobile-content-CINCO">
         <h5>Tutorial:</h5>
         <h6 style="margin-top: -35px">Sección de mensajes</h6>
         <q-img
@@ -192,8 +192,8 @@
     </div>
 
     <!-- Sexto modal -->
-    <div class="tutorial-modal-SEIS" v-if="showTutorialModalSEIS">
-      <div class="modal-content-SEIS">
+    <div class="tutorial-mobile-SEIS" v-if="showTutorialMobileSEIS">
+      <div class="mobile-content-SEIS">
         <h5>Tutorial:</h5>
         <h6 style="margin-top: -35px">Tu Perfil</h6>
         <q-img
@@ -227,128 +227,131 @@
       </div>
     </div>
 
-    <!-- Séptimo modal -->
-    <div class="tutorial-modal-SIETE" v-if="showTutorialModalSIETE">
-      <div class="modal-content">
-        <h5 style="padding-right:50px ;">Tutorial finalizado ¡Bienvenido a Magic!</h5>
-        <q-img
-          src="./logo_final_png-02.png"
-          style="
-            height: 120px;
-            width: 120px;
-            position: absolute;
-            top: 0;
-            right: 0;
-          "
-        />
-        <p style="margin-top: -24px; font-size: 20px;margin-bottom: 30px">
-          Estamos muy <strong>contentos</strong> de que formes parte de
-          <strong>nuestra comunidad</strong>
-        </p>
-        <q-btn
-        label="¡Iniciar en Magic!"
-          color="primary"
-          class="btn btn-primary"
-          style="margin-right: 10px"
-          @click="closeTutorialSIETE"
-        />
-        <!-- Botón para ir al siguiente paso del tutorial
-        <q-btn
-          label=""
-          color="primary"
-          style="margin-right: 10px"
-          @click="nextTutorialStepSIETE"
-        /> -->
-      </div>
-    </div>
+ <!-- Séptimo modal -->
+<div class="tutorial-mobile-SIETE" v-if="showTutorialMobileSIETE">
+  <div class="mobile-content-SIETE">
+    <h5 style="padding-right: 50px">
+      Tutorial finalizado ¡Bienvenido a Magic!
+    </h5>
+    <q-img
+      src="./logo_final_png-02.png"
+      style="
+        height: 120px;
+        width: 120px;
+        position: absolute;
+        top: 0;
+        right: 0;
+      "
+    />
+    <p style="margin-top: -24px; font-size: 20px; margin-bottom: 30px">
+      Estamos muy <strong>contentos</strong> de que formes parte de
+      <strong>nuestra comunidad</strong>
+    </p>
+    <q-btn
+      label="¡Iniciar en Magic!"
+      color="primary"
+      class="btn btn-primary"
+      style="margin-right: 10px"
+      @click="closeTutorialSIETE"
+    />
+    <!-- Botón para ir al siguiente paso del tutorial
+      <q-btn
+        label=""
+        color="primary"
+        style="margin-right: 10px"
+        @click="nextTutorialStepSIETE"
+      /> -->
+  </div>
+</div>
+
   </div>
 </template>
 <script>
 export default {
   data () {
     return {
-      showTutorialModal: true,
-      showTutorialModalDOS: false,
-      showTutorialModalTRES: false,
-      showTutorialModalCUATRO: false,
-      showTutorialModalCINCO: false,
-      showTutorialModalSIETE: false,
-      showTutorialModalOCHO: false,
-      showTutorialModalNUEVE: false,
-      showTutorialModalDIEZ: false
+      showTutorialMobile: true,
+      showTutorialMobileDOS: false,
+      showTutorialMobileTRES: false,
+      showTutorialMobileCUATRO: false,
+      showTutorialMobileCINCO: false,
+      showTutorialMobileSIETE: false,
+      showTutorialMobileOCHO: false,
+      showTutorialMobileNUEVE: false,
+      showTutorialMobileDIEZ: false
     }
   },
   methods: {
     closeTutorial () {
-      this.showTutorialModal = false
+      this.showTutorialMobile = false
     },
     nextTutorialStep () {
-      this.showTutorialModal = false
-      this.showTutorialModalDOS = true
+      this.showTutorialMobile = false
+      this.showTutorialMobileDOS = true
       // Aquí podrías implementar la lógica para ir al siguiente paso del tutorial
     },
     closeTutorialDOS () {
-      this.showTutorialModalDOS = false
+      this.showTutorialMobileDOS = false
     },
     nextTutorialStepDOS () {
-      this.showTutorialModalDOS = false
-      this.showTutorialModalTRES = true
+      this.showTutorialMobileDOS = false
+      this.showTutorialMobileTRES = true
       console.log('Se tendria que mostrar el tutorial tres')
       // Aquí podrías implementar la lógica para ir al siguiente paso del tutorial
     },
     closeTutorialTRES () {
-      this.showTutorialModalTRES = false
+      this.showTutorialMobileTRES = false
     },
     nextTutorialStepTRES () {
       // Aquí podrías implementar la lógica para ir al siguiente paso del tutorial
-      this.showTutorialModalTRES = false
-      this.showTutorialModalCUATRO = true
+      this.showTutorialMobileTRES = false
+      this.showTutorialMobileCUATRO = true
     },
     closeTutorialCUATRO () {
-      this.showTutorialModalCUATRO = false
+      this.showTutorialMobileCUATRO = false
     },
     nextTutorialStepCUATRO () {
-      this.showTutorialModalCUATRO = false
-      this.showTutorialModalCINCO = true
+      this.showTutorialMobileCUATRO = false
+      this.showTutorialMobileCINCO = true
     },
     closeTutorialCINCO () {
-      this.showTutorialModalCINCO = false
+      this.showTutorialMobileCINCO = false
     },
     nextTutorialStepCINCO () {
-      this.showTutorialModalCINCO = false
-      this.showTutorialModalSEIS = true
+      this.showTutorialMobileCINCO = false
+      this.showTutorialMobileSEIS = true
     },
     closeTutorialSEIS () {
-      this.showTutorialModalSEIS = false
+      this.showTutorialMobileSEIS = false
     },
     nextTutorialStepSEIS () {
-      this.showTutorialModalSEIS = false
-      this.showTutorialModalSIETE = true
+      this.showTutorialMobileSEIS = false
+      this.showTutorialMobileSIETE = true
     },
     closeTutorialSIETE () {
-      this.showTutorialModalSIETE = false
+      this.showTutorialMobileSIETE = false
     },
     nextTutorialStepSIETE () {
-      this.showTutorialModalSIETE = false
-      this.showTutorialModalOCHO = true
+      this.showTutorialMobileSIETE = false
+      this.showTutorialMobileOCHO = true
     },
     closeTutorialOCHO () {
-      this.showTutorialModalOCHO = false
+      this.showTutorialMobileOCHO = false
     },
     nextTutorialStepOCHO () {
-      this.showTutorialModalOCHO = false
-      this.showTutorialModalNUEVE = true
+      this.showTutorialMobileOCHO = false
+      this.showTutorialMobileNUEVE = true
     },
     closeTutorialNUEVE () {
-      this.showTutorialModalNUEVE = false
+      this.showTutorialMobileNUEVE = false
     },
     nextTutorialStepNUEVE () {
-      this.showTutorialModalNUEVE = false
-      this.showTutorialModalDIEZ = true
+      this.showTutorialMobileNUEVE = false
+      this.showTutorialMobileDIEZ = true
       console.log('Tutorial 9')
     },
     closeTutorialDIEZ () {
-      this.showTutorialModalDIEZ = false
+      this.showTutorialMobileDIEZ = false
     },
     nextTutorialStepDIEZ () {
       console.log('Tutorial 9')
@@ -358,13 +361,13 @@ export default {
 </script>
 <style>
 /* Estilos para los modales de tutorial */
-.tutorial-modal,
-.tutorial-modal-DOS,
-.tutorial-modal-TRES,
-.tutorial-modal-CUATRO,
-.tutorial-modal-CINCO,
-.tutorial-modal-SEIS,
-.tutorial-modal-SIETE {
+.tutorial-mobile,
+.tutorial-mobile-DOS,
+.tutorial-mobile-TRES,
+.tutorial-mobile-CUATRO,
+.tutorial-mobile-CINCO,
+.tutorial-mobile-SEIS,
+.tutorial-mobile-SIETE {
   position: fixed;
   top: 0;
   left: 0;
@@ -376,13 +379,13 @@ export default {
   align-items: center;
 }
 
-.modal-content,
-.modal-content-DOS,
-.modal-content-TRES,
-.modal-content-CUATRO,
-.modal-content-CINCO,
-.modal-content-SEIS,
-.modal-content-SIETE {
+.mobile-content,
+.mobile-content-DOS,
+.mobile-content-TRES,
+.mobile-content-CUATRO,
+.mobile-content-CINCO,
+.mobile-content-SEIS,
+.mobile-content-SIETE {
   background-color: white;
   padding: 20px;
   border-radius: 10px;
@@ -425,24 +428,24 @@ p-SIETE {
 }
 
 /* Ajustes específicos para el séptimo modal */
-.tutorial-modal-SIETE .modal-content {
+.tutorial-mobile-SIETE .mobile-content {
   width: 80%;
   max-width: 400px;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
 }
 
-.modal-content-SIETE h5,
-.modal-content-SIETE h6,
-.modal-content-SIETE p,
-.modal-content-SIETE strong {
+.mobile-content-SIETE h5,
+.mobile-content-SIETE h6,
+.mobile-content-SIETE p,
+.mobile-content-SIETE strong {
   color: black;
 }
 
-.modal-content-SIETE q-img {
+.mobile-content-SIETE q-img {
   position: absolute;
 }
 
-.modal-content-SIETE q-btn {
+.mobile-content-SIETE q-btn {
   margin-right: 10px;
 }
 </style>
