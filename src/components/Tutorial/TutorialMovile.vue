@@ -22,7 +22,14 @@
           ¿Quieres comenzar un <strong>tutorial</strong>?
         </p>
         <q-btn
-          label="No"
+          label="Nunca"
+          color="primary"
+          class="btn btn-primary"
+          style="margin-right: 10px"
+          @click="nuncaTutorial"
+        />
+        <q-btn
+          label="Más tarde"
           color="primary"
           class="btn btn-primary"
           style="margin-right: 10px"
@@ -72,9 +79,15 @@
             width: 120px;
           "
         />
-
         <q-btn
-          label="Salir"
+          label="Nunca"
+          color="primary"
+          class="btn btn-primary"
+          style="margin-right: 10px"
+          @click="nuncaTutorial"
+        />
+        <q-btn
+          label="Más tarde"
           color="primary"
           class="btn btn-primary"
           style="margin-right: 10px"
@@ -108,7 +121,14 @@
           entre los más activos de la <strong> comunidad</strong>!
         </p>
         <q-btn
-          label="Salir"
+          label="Nunca"
+          color="primary"
+          class="btn btn-primary"
+          style="margin-right: 10px"
+          @click="nuncaTutorial"
+        />
+        <q-btn
+          label="   Más tarde"
           color="primary"
           class="btn btn-primary"
           style="margin-right: 10px"
@@ -141,7 +161,14 @@
           ¡Acceso tu sección de <strong>amistades</strong>, busca a tu amigos!
         </p>
         <q-btn
-          label="Salir"
+          label="Nunca"
+          color="primary"
+          class="btn btn-primary"
+          style="margin-right: 10px"
+          @click="nuncaTutorial"
+        />
+        <q-btn
+          label="Más tarde"
           color="primary"
           class="btn btn-primary"
           style="margin-right: 10px"
@@ -175,7 +202,14 @@
           Tu Sala de <strong>chats</strong>, bandeja de mensajes
         </p>
         <q-btn
-          label="Salir"
+          label="Nunca"
+          color="primary"
+          class="btn btn-primary"
+          style="margin-right: 10px"
+          @click="nuncaTutorial"
+        />
+        <q-btn
+          label="Más tarde"
           color="primary"
           class="btn btn-primary"
           style="margin-right: 10px"
@@ -211,7 +245,14 @@
           que has compartido con la <strong>comunidad</strong>
         </p>
         <q-btn
-          label="Salir"
+          label="Nunca"
+          color="primary"
+          class="btn btn-primary"
+          style="margin-right: 10px"
+          @click="nuncaTutorial"
+        />
+        <q-btn
+          label="Más tarde"
           color="primary"
           class="btn btn-primary"
           style="margin-right: 10px"
@@ -227,47 +268,51 @@
       </div>
     </div>
 
- <!-- Séptimo modal -->
-<div class="tutorial-mobile-SIETE" v-if="showTutorialMobileSIETE">
-  <div class="mobile-content-SIETE">
-    <h5 style="padding-right: 50px">
-      Tutorial finalizado ¡Bienvenido a Magic!
-    </h5>
-    <q-img
-      src="./logo_final_png-02.png"
-      style="
-        height: 120px;
-        width: 120px;
-        position: absolute;
-        top: 0;
-        right: 0;
-      "
-    />
-    <p style="margin-top: -24px; font-size: 20px; margin-bottom: 30px">
-      Estamos muy <strong>contentos</strong> de que formes parte de
-      <strong>nuestra comunidad</strong>
-    </p>
-    <q-btn
-      label="¡Iniciar en Magic!"
-      color="primary"
-      class="btn btn-primary"
-      style="margin-right: 10px"
-      @click="closeTutorialSIETE"
-    />
-    <!-- Botón para ir al siguiente paso del tutorial
+    <!-- Séptimo modal -->
+    <div class="tutorial-mobile-SIETE" v-if="showTutorialMobileSIETE">
+      <div class="mobile-content-SIETE">
+        <h5 style="padding-right: 50px">
+          Tutorial finalizado ¡Bienvenido a Magic!
+        </h5>
+        <q-img
+          src="./logo_final_png-02.png"
+          style="
+            height: 120px;
+            width: 120px;
+            position: absolute;
+            top: 0;
+            right: 0;
+          "
+        />
+        <p style="margin-top: -24px; font-size: 20px; margin-bottom: 30px">
+          Estamos muy <strong>contentos</strong> de que formes parte de
+          <strong>nuestra comunidad</strong>
+        </p>
+        <q-btn
+          label="¡Iniciar en Magic!"
+          color="primary"
+          class="btn btn-primary"
+          style="margin-right: 10px"
+          @click="nuncaTutorial"
+        />
+        <!-- Botón para ir al siguiente paso del tutorial
       <q-btn
         label=""
         color="primary"
         style="margin-right: 10px"
         @click="nextTutorialStepSIETE"
       /> -->
-  </div>
-</div>
-
+      </div>
+    </div>
   </div>
 </template>
 <script>
 export default {
+  props: {
+    user: {
+      type: Object
+    }
+  },
   data () {
     return {
       showTutorialMobile: true,
@@ -275,13 +320,28 @@ export default {
       showTutorialMobileTRES: false,
       showTutorialMobileCUATRO: false,
       showTutorialMobileCINCO: false,
-      showTutorialMobileSIETE: false,
-      showTutorialMobileOCHO: false,
-      showTutorialMobileNUEVE: false,
-      showTutorialMobileDIEZ: false
+      showTutorialMobileSIETE: false
     }
   },
   methods: {
+    nuncaTutorial () {
+      this.showTutorialMobile = false
+      this.showTutorialMobileDOS = false
+      this.showTutorialMobileTRES = false
+      this.showTutorialMobileCUATRO = false
+      this.showTutorialMobileCINCO = false
+      this.showTutorialMobileSIETE = false
+
+      this.$api
+        .put(`users/${this.user._id}/tutorial`, { tutorialState: true })
+        .then(response => {
+          console.log(response)
+        })
+        .catch(error => {
+          // Manejar errores de red u otras excepciones
+          console.error('Error al realizar la solicitud PUT:', error)
+        })
+    },
     closeTutorial () {
       this.showTutorialMobile = false
     },
@@ -333,28 +393,6 @@ export default {
     },
     nextTutorialStepSIETE () {
       this.showTutorialMobileSIETE = false
-      this.showTutorialMobileOCHO = true
-    },
-    closeTutorialOCHO () {
-      this.showTutorialMobileOCHO = false
-    },
-    nextTutorialStepOCHO () {
-      this.showTutorialMobileOCHO = false
-      this.showTutorialMobileNUEVE = true
-    },
-    closeTutorialNUEVE () {
-      this.showTutorialMobileNUEVE = false
-    },
-    nextTutorialStepNUEVE () {
-      this.showTutorialMobileNUEVE = false
-      this.showTutorialMobileDIEZ = true
-      console.log('Tutorial 9')
-    },
-    closeTutorialDIEZ () {
-      this.showTutorialMobileDIEZ = false
-    },
-    nextTutorialStepDIEZ () {
-      console.log('Tutorial 9')
     }
   }
 }

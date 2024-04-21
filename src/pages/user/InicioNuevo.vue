@@ -177,11 +177,13 @@
             <div class="text-caption text-center">{{ item.name }}</div>
           </div>
         </div>
-      </q-scroll-area>    <EncuestaUsuario
-    :ultimaEncuesta="ultimaEncuesta" :user="user"
-    v-if="isAnchoSuficiente"
-    style="max-width: 300px; width: max-content; margin: auto;"
-  />
+      </q-scroll-area>
+      <EncuestaUsuario
+        :ultimaEncuesta="ultimaEncuesta"
+        :user="user"
+        v-if="isAnchoSuficiente"
+        style="max-width: 300px; width: max-content; margin: auto"
+      />
       <!-- Aqui estan las cards resultantes del filtrado por zona en el contenedor Responsive -->
       <div class="text-grey-10 text-h6 q-py-sm q-pl-sm text-bold">
         Proximos planes
@@ -196,7 +198,10 @@
       />
       <div v-else class="text-center q-py-lg">No hay resultados</div>
       <div style="display: flex; justify-content: center; align-items: center">
-        <q-btn @click="$router.push('/planes')" color="primary" style="padding: 4px;"
+        <q-btn
+          @click="$router.push('/planes')"
+          color="primary"
+          style="padding: 4px"
           >Ver todos los planes</q-btn
         >
       </div>
@@ -320,14 +325,16 @@
     <div class="inicio_col_left">
       <SideBar :ultimaEncuesta="ultimaEncuesta" />
       <EncuestaUsuario
-        :ultimaEncuesta="ultimaEncuesta" :user="user"
+        :ultimaEncuesta="ultimaEncuesta"
+        :user="user"
         style="position: fixed; top: 70%"
       />
     </div>
-   <!--  Aqui comienza el tutorial -->
-<Tutorial     v-if="isAnchoSuficienteGrande"/>
-<TutorialMovile      v-if="isAnchoSuficiente"/>
-</div>
+    <!-- Corregir -->
+    <Tutorial v-if="isAnchoSuficienteGrande && isUserTutorial" :user="user" :style="{ opacity: isUserTutorial ? 1 : 0 }" />
+    <TutorialMovile v-if="isAnchoSuficiente && isUserTutorial" :user="user" :style="{ opacity: isUserTutorial ? 1 : 0 }" />
+
+  </div>
 </template>
 
 <script>
@@ -409,6 +416,15 @@ export default {
     }
   },
   computed: {
+    isUserTutorial () {
+      return !this.user.tutorial
+      /*
+      True
+       undefinied --> False --> ! = true (muestra tutorial)
+       false   ---> False --> != true (muestra tutorial)
+       true --> true != false (no muestra tutorial)
+      */
+    },
     isAnchoSuficiente () {
       return window.innerWidth <= 1080
     },

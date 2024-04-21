@@ -3,7 +3,16 @@
     <div class="tutorial-modal" v-if="showTutorialModal">
       <div class="modal-content">
         <h5>¡Bienvenido a Magic!</h5>
-        <q-img src="./logo_final_png-02.png" style="height: 120px; width: 120px; position:absolute; top:0; right: 0;" />
+        <q-img
+          src="./logo_final_png-02.png"
+          style="
+            height: 120px;
+            width: 120px;
+            position: absolute;
+            top: 0;
+            right: 0;
+          "
+        />
         <p style="margin-top: -24px; font-size: 20px">
           Estamos muy <strong>contentos</strong> de que formes parte de
           <strong>nuestra comunidad</strong>
@@ -13,7 +22,14 @@
           ¿Quieres comenzar un <strong>tutorial</strong>?
         </p>
         <q-btn
-          label="No"
+          label="Nunca"
+          color="primary"
+          class="btn btn-primary"
+          style="margin-right: 10px"
+          @click="nuncaTutorial"
+        />
+        <q-btn
+          label="Más tarde"
           color="primary"
           class="btn btn-primary"
           style="margin-right: 10px"
@@ -40,7 +56,14 @@
           </p>
         </div>
         <q-btn
-          label="Cerrar Tutorial"
+          label="Nunca"
+          color="primary"
+          class="btn btn-primary"
+          style="margin-right: 10px"
+          @click="nuncaTutorial"
+        />
+        <q-btn
+          label="Seguir tarde"
           color="primary"
           class="btn btn-primary"
           style="margin-right: 10px"
@@ -68,7 +91,14 @@
         </div>
 
         <q-btn
-          label="Cerrar Tutorial"
+          label="Nunca"
+          color="primary"
+          class="btn btn-primary"
+          style="margin-right: 10px"
+          @click="nuncaTutorial"
+        />
+        <q-btn
+          label="Seguir más tarde"
           color="primary"
           class="btn btn-primary"
           style="margin-right: 10px"
@@ -94,7 +124,14 @@
           </p>
         </div>
         <q-btn
-          label="Cerrar Tutorial"
+          label="Nunca"
+          color="primary"
+          class="btn btn-primary"
+          style="margin-right: 10px"
+          @click="nuncaTutorial"
+        />
+        <q-btn
+          label="Seguir más tarde"
           color="primary"
           class="btn btn-primary"
           style="margin-right: 10px"
@@ -120,7 +157,14 @@
           </p>
         </div>
         <q-btn
-          label="Cerrar Tutorial"
+          label="Nunca"
+          color="primary"
+          class="btn btn-primary"
+          style="margin-right: 10px"
+          @click="nuncaTutorial"
+        />
+        <q-btn
+          label="Seguir más tarde"
           color="primary"
           class="btn btn-primary"
           style="margin-right: 10px"
@@ -145,7 +189,14 @@
           </p>
         </div>
         <q-btn
-          label="Cerrar Tutorial"
+          label="Nunca"
+          color="primary"
+          class="btn btn-primary"
+          style="margin-right: 10px"
+          @click="nuncaTutorial"
+        />
+        <q-btn
+          label="Seguir más tarde"
           color="primary"
           class="btn btn-primary"
           style="margin-right: 10px"
@@ -162,83 +213,115 @@
       </div>
     </div>
     <div class="tutorial-modal-SIETE" v-if="showTutorialModalSIETE">
-  <div class="modal-content" :style="{ transform: arrowMovementSIETE }">
-    <h5 style="color: black; margin-top: 1px">Tutorial</h5>
-    <div style="max-width: 300px; margin-top: -24px; margin-bottom: 10px">
-      <p style="font-size: 20px; color: black">
-        ¡Acceso tu sección de  <strong>amistades</strong>, busca a tu amigos!
-      </p>
+      <div class="modal-content" :style="{ transform: arrowMovementSIETE }">
+        <h5 style="color: black; margin-top: 1px">Tutorial</h5>
+        <div style="max-width: 300px; margin-top: -24px; margin-bottom: 10px">
+          <p style="font-size: 20px; color: black">
+            ¡Acceso tu sección de <strong>amistades</strong>, busca a tu amigos!
+          </p>
+        </div>
+        <q-btn
+          label="Nunca"
+          color="primary"
+          class="btn btn-primary"
+          style="margin-right: 10px"
+          @click="nuncaTutorial"
+        />
+        <q-btn
+          label="Seguir más tarde"
+          color="primary"
+          class="btn btn-primary"
+          style="margin-right: 10px"
+          @click="closeTutorialSIETE"
+        />
+        <!-- Botón para ir al siguiente paso del tutorial -->
+        <q-btn
+          label="Continuar"
+          color="primary"
+          style="margin-right: 10px"
+          @click="nextTutorialStepSIETE"
+        />
+        <div class="arrow-left"></div>
+      </div>
     </div>
-    <q-btn
-      label="Cerrar Tutorial"
-      color="primary"
-      class="btn btn-primary"
-      style="margin-right: 10px"
-      @click="closeTutorialSIETE"
-    />
-    <!-- Botón para ir al siguiente paso del tutorial -->
-    <q-btn
-      label="Continuar"
-      color="primary"
-      style="margin-right: 10px"
-      @click="nextTutorialStepSIETE"
-    />
-    <div class="arrow-left"></div>
-  </div>
-</div>
-<div class="tutorial-modal-OCHO" v-if="showTutorialModalOCHO">
-  <div class="modal-content" :style="{ transform: arrowMovementOCHO }">
-    <h5 style="color: black; margin-top: 1px">Tutorial</h5>
-    <div style="max-width: 300px; margin-top: -24px; margin-bottom: 10px">
-      <p style="font-size: 20px; color: black">
-        ¡Accede a <strong> los rankings de planes </strong>¡Fijate si tu estas entre los más activos de la <strong> comunidad</strong>!
-      </p>
+    <div class="tutorial-modal-OCHO" v-if="showTutorialModalOCHO">
+      <div class="modal-content" :style="{ transform: arrowMovementOCHO }">
+        <h5 style="color: black; margin-top: 1px">Tutorial</h5>
+        <div style="max-width: 300px; margin-top: -24px; margin-bottom: 10px">
+          <p style="font-size: 20px; color: black">
+            ¡Accede a <strong> los rankings de planes </strong>¡Fijate si tu
+            estas entre los más activos de la <strong> comunidad</strong>!
+          </p>
+        </div>
+        <q-btn
+          label="Nunca"
+          color="primary"
+          class="btn btn-primary"
+          style="margin-right: 10px"
+          @click="nuncaTutorial"
+        />
+        <q-btn
+          label="Seguir más tarde"
+          color="primary"
+          class="btn btn-primary"
+          style="margin-right: 10px"
+          @click="closeTutorialOCHO"
+        />
+        <!-- Botón para ir al siguiente paso del tutorial -->
+        <q-btn
+          label="Continuar"
+          color="primary"
+          style="margin-right: 10px"
+          @click="nextTutorialStepOCHO"
+        />
+        <div class="arrow-left"></div>
+      </div>
     </div>
-    <q-btn
-      label="Cerrar Tutorial"
-      color="primary"
-      class="btn btn-primary"
-      style="margin-right: 10px"
-      @click="closeTutorialOCHO"
-    />
-    <!-- Botón para ir al siguiente paso del tutorial -->
-    <q-btn
-      label="Continuar"
-      color="primary"
-      style="margin-right: 10px"
-      @click="nextTutorialStepOCHO"
-    />
-    <div class="arrow-left"></div>
-  </div>
-</div>
-<div class="tutorial-modal-NUEVE" v-if="showTutorialModalNUEVE">
-  <div class="modal-content" :style="{ transform: arrowMovementNUEVE }">
-    <h5 style="color: black; margin-top: 1px">Tutorial</h5>
-    <div style="max-width: 300px; margin-top: -24px; margin-bottom: 10px">
-      <p style="font-size: 20px; color: black">
-        ¡Busca y accede a <strong> los de planes </strong> por <strong>categoría</strong> con información más detallada
-      </p>
+    <div class="tutorial-modal-NUEVE" v-if="showTutorialModalNUEVE">
+      <div class="modal-content" :style="{ transform: arrowMovementNUEVE }">
+        <h5 style="color: black; margin-top: 1px">Tutorial</h5>
+        <div style="max-width: 300px; margin-top: -24px; margin-bottom: 10px">
+          <p style="font-size: 20px; color: black">
+            ¡Busca y accede a <strong> los de planes </strong> por
+            <strong>categoría</strong> con información más detallada
+          </p>
+        </div>
+        <q-btn
+          label="Nunca"
+          color="primary"
+          class="btn btn-primary"
+          style="margin-right: 10px"
+          @click="nuncaTutorial"
+        />
+        <q-btn
+          label="Seguir más tarde"
+          color="primary"
+          class="btn btn-primary"
+          style="margin-right: 10px"
+          @click="closeTutorialNUEVE"
+        />
+        <!-- Botón para ir al siguiente paso del tutorial -->
+        <q-btn
+          label="Continuar"
+          color="primary"
+          style="margin-right: 10px"
+          @click="nextTutorialStepNUEVE"
+        />
+        <div class="arrow-left"></div>
+      </div>
     </div>
-    <q-btn
-      label="Cerrar Tutorial"
-      color="primary"
-      class="btn btn-primary"
-      style="margin-right: 10px"
-      @click="closeTutorialNUEVE"
-    />
-    <!-- Botón para ir al siguiente paso del tutorial -->
-    <q-btn
-      label="Continuar"
-      color="primary"
-      style="margin-right: 10px"
-      @click="nextTutorialStepNUEVE"
-    />
-    <div class="arrow-left"></div>
-  </div>
-</div>
-<div class="tutorial-modal" v-if="showTutorialModalDIEZ">
+    <div class="tutorial-modal" v-if="showTutorialModalDIEZ">
       <div class="modal-content">
-        <q-img src="./logo_final_png-02.png" style="height: 120px; width: 120px; position:absolute; top:0; right: 0;" />
+        <q-img
+          src="./logo_final_png-02.png"
+          style="
+            height: 120px;
+            width: 120px;
+            position: absolute;
+            top: 0;
+            right: 0;
+          "
+        />
         <h5>Tutorial finalizado ¡Bienvenido a Magic!</h5>
         <p style="margin-top: -24px; font-size: 20px">
           Estamos muy <strong>contentos</strong> de que formes parte de
@@ -250,17 +333,20 @@
           color="primary"
           class="btn btn-primary"
           style="margin-right: 10px"
-          @click=" closeTutorialDIEZ"
+          @click="nuncaTutorial"
         />
       </div>
     </div>
-
   </div>
 </template>
 
 <script>
-
 export default {
+  props: {
+    user: {
+      type: Object
+    }
+  },
   data () {
     return {
       showTutorialModal: true,
@@ -275,6 +361,29 @@ export default {
     }
   },
   methods: {
+    nuncaTutorial () {
+      this.showTutorialModal = false
+      this.showTutorialModalDOS = false
+      this.showTutorialModalTRES = false
+      this.showTutorialModalCUATRO = false
+      this.showTutorialModalCINCO = false
+      this.showTutorialModalSIETE = false
+      this.showTutorialModalOCHO = false
+      this.showTutorialModalNUEVE = false
+      this.showTutorialModalDIEZ = false
+      console.log('User ' + this.user)
+      console.log('User id ' + this.user._id)
+
+      this.$api
+        .put(`users/${this.user._id}/tutorial`, { tutorialState: true })
+        .then(response => {
+          console.log(response)
+        })
+        .catch(error => {
+          // Manejar errores de red u otras excepciones
+          console.error('Error al realizar la solicitud PUT:', error)
+        })
+    },
     closeTutorial () {
       this.showTutorialModal = false
     },
@@ -561,7 +670,6 @@ export default {
       5px
     ); /* Cambia la cantidad de movimiento según prefieras */
   }
-
 }
 
 /* Estilos para el septimo modal de tutorial */
@@ -598,7 +706,6 @@ export default {
       5px
     ); /* Cambia la cantidad de movimiento según prefieras */
   }
-
 }
 
 /* Estilos para el OCHO modal de tutorial */
