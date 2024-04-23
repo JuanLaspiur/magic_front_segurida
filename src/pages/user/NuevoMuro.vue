@@ -210,7 +210,7 @@ reactiva la cuenta y se cancela el proceso. */
                 class="columns items-center justify-center q-pt-sm"
                 style="height: 15px"
               >
-                <p style="font-size: 15px; font-style: italic">Karma:</p>
+                <p style="font-size: 15px; font-style: italic; padding: 2px 0;">Karma:</p>
               </div>
               <q-rating
                 v-model="calificacion"

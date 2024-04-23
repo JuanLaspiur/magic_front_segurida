@@ -625,8 +625,6 @@ export default {
         this.form.last_name = userData.last_name
         this.form.email = userData.email
         this.dialog = true // se abre q-dialog
-      } else {
-        console.log(' TERCERA POSICION VIVA PERON   ')
       }
       // Continuar con el resto del código
     },
@@ -670,11 +668,9 @@ export default {
 
             // Manejar la respuesta de la API (presumiblemente relacionado con las credenciales)
             await this.handleCredentialResponse(this.googleToken)
-            console.log('NOOOOOOOOOOOOOOO AAaa')
           } else {
             // Si la solicitud no fue exitosa, simplemente ocultar el indicador de carga
             this.$q.loading.hide()
-            console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
           }
         } catch (error) {
           console.error(
