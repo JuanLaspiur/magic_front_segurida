@@ -11,12 +11,13 @@
           label="Nombre de campaña"
         ></q-input>
         <q-input
+          style="margin-bottom: 40px;"
           class="full-width bg-white q-mt-md"
           outlined
           v-model="form.description"
           label="Descripción"
         ></q-input>
-
+        <p>Tabloide 1 es el que esta ubicado en la parte SUPERIOR, Tabloide 2 es el que esta hubicado en la parte INFERIOR</p>
         <q-select
           class="full-width bg-white q-mt-md"
           v-model="form.nro_posicion"
