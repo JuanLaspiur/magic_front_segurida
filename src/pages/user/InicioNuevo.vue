@@ -1,10 +1,10 @@
 <template>
   <div class="inicio_container q-px-sm">
     <div class="inicio q-my-md items-center justify-center">
-       <!--  TABLOIDE 1 -->
-      <!-- Inicio del primer tabloide si la pantalla es menor a 500 px-->
+          <!--  TABLOIDE 1 -->
+      <!-- Inicio del Primer tabloide si la pantalla es menor a 500 px-->
       <div
-        v-if="width < 500"
+      v-if="width < 500 && filteredTabloidesUNO.length > 0"
         class="shadow-1"
         style="
           border-radius: 10px;
@@ -24,22 +24,18 @@
           control-color="primary"
           v-model="slide"
           height="300px"
-          v-if="tabloide.length > 0"
-          style="width: 100%; height: 100%"
-        >
+          v-if="filteredTabloidesUNO.length > 0"
+          style="width: 100%; height: 100%" >
           <q-carousel-slide
             @click="
               () => {
                 openTabloide(t._id), irRuta(t.redirect)
               }
             "
-            v-for="(t, index) of tabloide"
-            :key="index"
-            :name="index"
-            :img-src="t.img ? baseuTabloide + t.img[0] : ''"
-            class="verQuedada_carousel shadow-1 pointer"
-            style="background-size: cover; background-repeat: no-repeat"
-          >
+            v-for="(t, index) of filteredTabloidesUNO"
+            :key="index" :name="index" :img-src="t.img ? baseuTabloide +
+            t.img[0] : ''" class="verQuedada_carousel shadow-1 pointer"
+            style="background-size: cover; background-repeat: no-repeat" >
             <div
               class="absolute-bottom full-height custom-caption column items-center justify-center"
               style="width: 100%; height: 100%"
@@ -52,10 +48,11 @@
           </q-carousel-slide>
         </q-carousel>
       </div>
-    <!-- Fin del primer tabloide si la pantalla es menor a 500 px-->
-     <!-- Inicio del primer tabloide si la pantalla es mayor a 500 px-->
+      <!-- Fin del segundo tabloide si la pantalla es menor a 500 px-->
+
+      <!-- Inicio del segunfo tabloide si la pantalla es mayor a 500 px-->
       <div
-        v-else
+    v-else-if="filteredTabloidesUNO.length > 0"
         class="shadow-1"
         style="border-radius: 10px; overflow: hidden"
       >
@@ -70,15 +67,15 @@
           control-color="primary"
           v-model="slide"
           height="300px"
-          v-if="tabloide.length > 0"
-        >
+          v-if="filteredTabloidesUNO.length > 0"
+          >
           <q-carousel-slide
             @click="
               () => {
                 openTabloide(t._id), irRuta(t.redirect)
               }
             "
-            v-for="(t, index) of tabloide"
+            v-for="(t, index) of filteredTabloidesUNO"
             :key="index"
             :name="index"
             :img-src="t.img ? baseuTabloide + t.img[0] : ''"
@@ -95,8 +92,9 @@
           </q-carousel-slide>
         </q-carousel>
       </div>
-        <!-- Fin del primer tabloide si la pantalla es mayor a 500 px-->
-      <!-- Fin TABLOIDE 1 -->
+      <!-- Fin del segundo tabloide si la pantalla es mayor a 500 px-->
+
+      <!-- Fin TABLOIDE 2 -->
 
       <!-- Planes premiums -->
       <div class="text-grey-10 q-mt-md text-h6 q-py-sm text-bold q-pl-sm">
@@ -208,54 +206,14 @@
         <q-btn
           @click="$router.push('/planes')"
           color="primary"
-          style="padding: 4px; margin-bottom: 20px;"
+          style="padding: 4px; margin-bottom: 20px"
           >Ver todos los planes</q-btn
         >
       </div>
-      <!-- ESTE TENDRIA QUE SER EL OTRO TABLOIDE
+      <!--  TABLOIDE 2 -->
+      <!-- Inicio del segundo tabloide si la pantalla es menor a 500 px-->
       <div
-        style="
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          margin-top: 50px;
-          margin-bottom: 50px;
-        "
-      >
-
-      </div>
-      <div
-        v-if="width < 500"
-        class="row q-mt-xl justify-center items-center cursor-pointer shadow-1 inicio_banner"
-        style="
-          border-radius: 10px;
-          overflow: hidden;
-          height: 140px;
-          width: 100%;
-        "
-      >
-        <img
-          src="banner_prueba.png"
-          style="width: 100%; height: 100%; object-fit: cover"
-          @click="irRuta('http://www.ultrareformas.es/')"
-        />
-      </div>
-      <div
-        v-else
-        class="row justify-center items-center q-mt-xl cursor-pointer shadow-1 inicio_banner"
-        style="border-radius: 10px; overflow: hidden"
-      >
-        <img
-          src="banner_prueba.png"
-          style="width: 100%"
-          @click="irRuta('http://www.ultrareformas.es/')"
-        />
-      </div>
-      FIN DEL ULTIMO TABLOIDE -->
-  <!--  TABLOIDE 2 -->
-      <!-- Inicio del primer tabloide si la pantalla es menor a 500 px-->
-      <div
-        v-if="width < 500"
+      v-if="width < 500 && filteredTabloidesDOS.length > 0"
         class="shadow-1"
         style="
           border-radius: 10px;
@@ -275,22 +233,18 @@
           control-color="primary"
           v-model="slide"
           height="300px"
-          v-if="tabloide.length > 0"
-          style="width: 100%; height: 100%"
-        >
+          v-if="filteredTabloidesDOS.length > 0"
+          style="width: 100%; height: 100%" >
           <q-carousel-slide
             @click="
               () => {
                 openTabloide(t._id), irRuta(t.redirect)
               }
             "
-            v-for="(t, index) of tabloide"
-            :key="index"
-            :name="index"
-            :img-src="t.img ? baseuTabloide + t.img[0] : ''"
-            class="verQuedada_carousel shadow-1 pointer"
-            style="background-size: cover; background-repeat: no-repeat"
-          >
+            v-for="(t, index) of filteredTabloidesDOS"
+            :key="index" :name="index" :img-src="t.img ? baseuTabloide +
+            t.img[0] : ''" class="verQuedada_carousel shadow-1 pointer"
+            style="background-size: cover; background-repeat: no-repeat" >
             <div
               class="absolute-bottom full-height custom-caption column items-center justify-center"
               style="width: 100%; height: 100%"
@@ -303,10 +257,11 @@
           </q-carousel-slide>
         </q-carousel>
       </div>
-    <!-- Fin del primer tabloide si la pantalla es menor a 500 px-->
-     <!-- Inicio del primer tabloide si la pantalla es mayor a 500 px-->
+      <!-- Fin del segundo tabloide si la pantalla es menor a 500 px-->
+
+      <!-- Inicio del segunfo tabloide si la pantalla es mayor a 500 px-->
       <div
-        v-else
+    v-else-if="filteredTabloidesDOS.length > 0"
         class="shadow-1"
         style="border-radius: 10px; overflow: hidden"
       >
@@ -321,15 +276,15 @@
           control-color="primary"
           v-model="slide"
           height="300px"
-          v-if="tabloide.length > 0"
-        >
+          v-if="filteredTabloidesDOS.length > 0"
+          >
           <q-carousel-slide
             @click="
               () => {
                 openTabloide(t._id), irRuta(t.redirect)
               }
             "
-            v-for="(t, index) of tabloide"
+            v-for="(t, index) of filteredTabloidesDOS"
             :key="index"
             :name="index"
             :img-src="t.img ? baseuTabloide + t.img[0] : ''"
@@ -346,7 +301,8 @@
           </q-carousel-slide>
         </q-carousel>
       </div>
-        <!-- Fin del primer tabloide si la pantalla es mayor a 500 px-->
+      <!-- Fin del segundo tabloide si la pantalla es mayor a 500 px-->
+
       <!-- Fin TABLOIDE 2 -->
       <div class="text-grey-10 text-h6 q-mt-md q-pa-sm text-bold">
         Últimos planes agregados
@@ -486,7 +442,9 @@ export default {
       opcionesUltimaEncuesta: [],
       opcionSeleccionada: null,
       tutorial: false,
-      limiteFechaTutorial: false
+      limiteFechaTutorial: false,
+      filteredTabloidesDOS: [],
+      filteredTabloidesUNO: []
     }
   },
   computed: {
@@ -509,6 +467,8 @@ export default {
     this.objectFilter.zone = 'Todas'
     console.log(Platform, 'Platform')
     this.obtenerUltimaEncuesta()
+    this.filterTabloidesUNO()
+    this.filterTabloides()
   },
   unmounted () {
     window.removeEventListener('resize', this.handleResize)
@@ -570,6 +530,12 @@ export default {
     }
   },
   methods: {
+    filterTabloidesUNO () {
+      this.filteredTabloidesUNO = this.tabloide.filter(t => t.nro_posicion === '1' && t.img && t.img.length > 0)
+    },
+    filterTabloides () {
+      this.filteredTabloidesDOS = this.tabloide.filter(t => t.nro_posicion === '2' && t.img && t.img.length > 0)
+    },
     isFecha (fechaCreacionUsuario) {
       const fechaLimite = new Date('2024-04-21') // Fecha límite: 21 de abril de 2024
       const fechaCreacion = new Date(fechaCreacionUsuario)
