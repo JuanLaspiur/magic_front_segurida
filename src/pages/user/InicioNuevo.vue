@@ -208,11 +208,11 @@
         <q-btn
           @click="$router.push('/planes')"
           color="primary"
-          style="padding: 4px"
+          style="padding: 4px; margin-bottom: 20px;"
           >Ver todos los planes</q-btn
         >
       </div>
-      <!-- ESTE TENDRIA QUE SER EL OTRO TABLOIDE-->
+      <!-- ESTE TENDRIA QUE SER EL OTRO TABLOIDE
       <div
         style="
           display: flex;
@@ -222,6 +222,7 @@
           margin-bottom: 50px;
         "
       >
+
       </div>
       <div
         v-if="width < 500"
@@ -250,7 +251,103 @@
           @click="irRuta('http://www.ultrareformas.es/')"
         />
       </div>
-      <!---FIN DEL ULTIMO TABLOIDE -->
+      FIN DEL ULTIMO TABLOIDE -->
+  <!--  TABLOIDE 2 -->
+      <!-- Inicio del primer tabloide si la pantalla es menor a 500 px-->
+      <div
+        v-if="width < 500"
+        class="shadow-1"
+        style="
+          border-radius: 10px;
+          overflow: hidden;
+          height: 200px;
+          width: 100%;
+        "
+      >
+        <q-carousel
+          infinite
+          :autoplay="true"
+          arrows
+          transition-prev="slide-right"
+          transition-next="slide-left"
+          animated
+          control-type="flat"
+          control-color="primary"
+          v-model="slide"
+          height="300px"
+          v-if="tabloide.length > 0"
+          style="width: 100%; height: 100%"
+        >
+          <q-carousel-slide
+            @click="
+              () => {
+                openTabloide(t._id), irRuta(t.redirect)
+              }
+            "
+            v-for="(t, index) of tabloide"
+            :key="index"
+            :name="index"
+            :img-src="t.img ? baseuTabloide + t.img[0] : ''"
+            class="verQuedada_carousel shadow-1 pointer"
+            style="background-size: cover; background-repeat: no-repeat"
+          >
+            <div
+              class="absolute-bottom full-height custom-caption column items-center justify-center"
+              style="width: 100%; height: 100%"
+            >
+              <div class="text-h2">{{ t.name }}</div>
+              <div class="text-subtitle1 text-wrap q-px-lg">
+                {{ t.description }}
+              </div>
+            </div>
+          </q-carousel-slide>
+        </q-carousel>
+      </div>
+    <!-- Fin del primer tabloide si la pantalla es menor a 500 px-->
+     <!-- Inicio del primer tabloide si la pantalla es mayor a 500 px-->
+      <div
+        v-else
+        class="shadow-1"
+        style="border-radius: 10px; overflow: hidden"
+      >
+        <q-carousel
+          infinite
+          :autoplay="true"
+          arrows
+          transition-prev="slide-right"
+          transition-next="slide-left"
+          animated
+          control-type="flat"
+          control-color="primary"
+          v-model="slide"
+          height="300px"
+          v-if="tabloide.length > 0"
+        >
+          <q-carousel-slide
+            @click="
+              () => {
+                openTabloide(t._id), irRuta(t.redirect)
+              }
+            "
+            v-for="(t, index) of tabloide"
+            :key="index"
+            :name="index"
+            :img-src="t.img ? baseuTabloide + t.img[0] : ''"
+            class="verQuedada_carousel shadow-1 pointer"
+          >
+            <div
+              class="absolute-bottom full-height custom-caption column items-center justify-center"
+            >
+              <div class="text-h2">{{ t.name }}</div>
+              <div class="text-subtitle1 text-wrap q-px-lg">
+                {{ t.description }}
+              </div>
+            </div>
+          </q-carousel-slide>
+        </q-carousel>
+      </div>
+        <!-- Fin del primer tabloide si la pantalla es mayor a 500 px-->
+      <!-- Fin TABLOIDE 2 -->
       <div class="text-grey-10 text-h6 q-mt-md q-pa-sm text-bold">
         Últimos planes agregados
       </div>
