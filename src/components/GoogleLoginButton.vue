@@ -597,6 +597,14 @@ export default {
           const accessToken = data.access_token
           this.googleToken = accessToken
           console.log('Token de usuario:', accessToken)
+
+          if (accessToken) {
+            this.$q.notify({
+              message: 'Ingresando a Magic con Google...',
+              color: 'positive'
+            })
+          }
+
           return this.handleCredentialResponse(accessToken)
         } catch (error) {
           console.error('Error al obtener el token de acceso:', error)
@@ -608,7 +616,6 @@ export default {
       if (!token) {
         return
       }
-
       const res = await this.$api.post('loginByGoogle2', {
         googleToken: token
       })

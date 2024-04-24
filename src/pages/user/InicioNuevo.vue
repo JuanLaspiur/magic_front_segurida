@@ -1,6 +1,8 @@
 <template>
   <div class="inicio_container q-px-sm">
     <div class="inicio q-my-md items-center justify-center">
+       <!--  TABLOIDE 1 -->
+      <!-- Inicio del primer tabloide si la pantalla es menor a 500 px-->
       <div
         v-if="width < 500"
         class="shadow-1"
@@ -50,6 +52,8 @@
           </q-carousel-slide>
         </q-carousel>
       </div>
+    <!-- Fin del primer tabloide si la pantalla es menor a 500 px-->
+     <!-- Inicio del primer tabloide si la pantalla es mayor a 500 px-->
       <div
         v-else
         class="shadow-1"
@@ -91,6 +95,9 @@
           </q-carousel-slide>
         </q-carousel>
       </div>
+        <!-- Fin del primer tabloide si la pantalla es mayor a 500 px-->
+      <!-- Fin TABLOIDE 1 -->
+
       <!-- Planes premiums -->
       <div class="text-grey-10 q-mt-md text-h6 q-py-sm text-bold q-pl-sm">
         Planes premiums
@@ -205,6 +212,7 @@
           >Ver todos los planes</q-btn
         >
       </div>
+      <!-- ESTE TENDRIA QUE SER EL OTRO TABLOIDE-->
       <div
         style="
           display: flex;
@@ -214,37 +222,6 @@
           margin-bottom: 50px;
         "
       >
-        <div>
-          <!--  q-card style="padding: 0px 20px 10px 20px; border-radius: 5px">
-            <q-card-section class="q-pa-md">
-              <h5 style="text-align: center; margin-bottom: 20px">
-                {{ ultimaEncuesta.pregunta }}
-              </h5>
-              <div>
-                <div
-                  v-for="(opcion, index) in opcionesUltimaEncuesta"
-                  :key="index"
-                >
-                  <input
-                    type="radio"
-                    :id="'opcion_' + index"
-                    :value="opcion._id"
-                    v-model="opcionSeleccionada"
-                    @change="actualizarSeleccion(index)"
-                  />
-                  <label :for="'opcion_' + index">{{ opcion.texto }}</label>
-                </div>
-              </div>
-            </q-card-section>
-            <q-card-actions>
-              <q-btn
-                color="primary"
-                label="Enviar"
-                @click="enviarEncuesta(opcionSeleccionada)"
-              ></q-btn>
-            </q-card-actions>
-          </q-card> -->
-        </div>
       </div>
       <div
         v-if="width < 500"
@@ -273,6 +250,7 @@
           @click="irRuta('http://www.ultrareformas.es/')"
         />
       </div>
+      <!---FIN DEL ULTIMO TABLOIDE -->
       <div class="text-grey-10 text-h6 q-mt-md q-pa-sm text-bold">
         Últimos planes agregados
       </div>
@@ -331,8 +309,8 @@
       />
     </div>
 
-    <!-- Corregir -->
-    <ContenedorComponentes v-if="tutorial" :user="user" :key="tutorial" />
+    <!-- TUTORIAL -->
+    <Tutoriales v-if="tutorial" :user="user" :key="tutorial" />
   </div>
 </template>
 
@@ -347,7 +325,7 @@ import CarouselWithoutImg from '../../components/CarouselWithoutImg.vue'
 import ContainerCards from '../../components/ContainerCards.vue'
 import ContainerAll from '../../components/ContainerAll.vue'
 import EncuestaUsuario from '../../components/EncuestaUsuario.vue'
-import ContenedorComponentes from '../../components/Tutorial/ContenedorComponentes'
+import Tutoriales from '../../components/Tutorial/ContenedorComponentes'
 
 export default {
   components: {
@@ -358,7 +336,7 @@ export default {
     ContainerAll,
     CarouselWithoutImg,
     EncuestaUsuario,
-    ContenedorComponentes
+    Tutoriales
   },
   data () {
     return {
