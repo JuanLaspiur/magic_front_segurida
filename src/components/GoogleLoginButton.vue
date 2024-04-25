@@ -569,7 +569,7 @@ export default {
       this.perfil = null
     },
     signInWithGoogle () {
-      const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${this.clientId}&redirect_uri=http://localhost:8080&response_type=code&scope=email%20profile`
+      const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${this.clientId}&redirect_uri=${env.FRONT_API}&response_type=code&scope=email%20profile`
       window.location.href = authUrl
     },
     async handleGoogleAuthCallback () {
@@ -585,7 +585,7 @@ export default {
             code,
             client_id: this.clientId,
             client_secret: this.clientSecret,
-            redirect_uri: 'http://localhost:8080',
+            redirect_uri: env.FRONT_API,
             grant_type: 'authorization_code'
           })
         }
