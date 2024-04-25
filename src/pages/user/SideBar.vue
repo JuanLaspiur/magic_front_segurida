@@ -12,6 +12,7 @@
             <div class="text-h6 text-center pointer" @click="$router.push('/amistades')">Amistades</div>
             <div class="text-h6 text-center pointer" @click="$router.push('/mis_chats')">Sala de chat</div>
             <div class="text-h6 text-center pointer" @click="$router.push('/muro_usuario')">Mi perfil</div>
+            <!--div class="text-h6 text-center pointer" @click="$router.push('/muro_imagenes')">Mi Muro</div-->
           </q-card-section>
           <q-card-section>
             <div class="text-h6 text-center pointer" @click="areYouSureModal()">Salir</div>

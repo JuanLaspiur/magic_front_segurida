@@ -1,10 +1,10 @@
 <template>
   <div class="inicio_container q-px-sm">
     <div class="inicio q-my-md items-center justify-center">
-          <!--  TABLOIDE 1 -->
+      <!--  TABLOIDE 1 -->
       <!-- Inicio del Primer tabloide si la pantalla es menor a 500 px-->
       <div
-      v-if="width < 500 && filteredTabloidesUNO.length > 0"
+        v-if="width < 500 && filteredTabloidesUNO.length > 0"
         class="shadow-1"
         style="
           border-radius: 10px;
@@ -25,7 +25,8 @@
           v-model="slide"
           height="300px"
           v-if="filteredTabloidesUNO.length > 0"
-          style="width: 100%; height: 100%" >
+          style="width: 100%; height: 100%"
+        >
           <q-carousel-slide
             @click="
               () => {
@@ -33,9 +34,12 @@
               }
             "
             v-for="(t, index) of filteredTabloidesUNO"
-            :key="index" :name="index" :img-src="t.img ? baseuTabloide +
-            t.img[0] : ''" class="verQuedada_carousel shadow-1 pointer"
-            style="background-size: cover; background-repeat: no-repeat" >
+            :key="index"
+            :name="index"
+            :img-src="t.img ? baseuTabloide + t.img[0] : ''"
+            class="verQuedada_carousel shadow-1 pointer"
+            style="background-size: cover; background-repeat: no-repeat"
+          >
             <div
               class="absolute-bottom full-height custom-caption column items-center justify-center"
               style="width: 100%; height: 100%"
@@ -52,7 +56,7 @@
 
       <!-- Inicio del segunfo tabloide si la pantalla es mayor a 500 px-->
       <div
-    v-else-if="filteredTabloidesUNO.length > 0"
+        v-else-if="filteredTabloidesUNO.length > 0"
         class="shadow-1"
         style="border-radius: 10px; overflow: hidden"
       >
@@ -68,7 +72,7 @@
           v-model="slide"
           height="300px"
           v-if="filteredTabloidesUNO.length > 0"
-          >
+        >
           <q-carousel-slide
             @click="
               () => {
@@ -213,7 +217,7 @@
       <!--  TABLOIDE 2 -->
       <!-- Inicio del segundo tabloide si la pantalla es menor a 500 px-->
       <div
-      v-if="width < 500 && filteredTabloidesDOS.length > 0"
+        v-if="width < 500 && filteredTabloidesDOS.length > 0"
         class="shadow-1"
         style="
           border-radius: 10px;
@@ -234,7 +238,8 @@
           v-model="slide"
           height="300px"
           v-if="filteredTabloidesDOS.length > 0"
-          style="width: 100%; height: 100%" >
+          style="width: 100%; height: 100%"
+        >
           <q-carousel-slide
             @click="
               () => {
@@ -242,9 +247,12 @@
               }
             "
             v-for="(t, index) of filteredTabloidesDOS"
-            :key="index" :name="index" :img-src="t.img ? baseuTabloide +
-            t.img[0] : ''" class="verQuedada_carousel shadow-1 pointer"
-            style="background-size: cover; background-repeat: no-repeat" >
+            :key="index"
+            :name="index"
+            :img-src="t.img ? baseuTabloide + t.img[0] : ''"
+            class="verQuedada_carousel shadow-1 pointer"
+            style="background-size: cover; background-repeat: no-repeat"
+          >
             <div
               class="absolute-bottom full-height custom-caption column items-center justify-center"
               style="width: 100%; height: 100%"
@@ -261,7 +269,7 @@
 
       <!-- Inicio del segunfo tabloide si la pantalla es mayor a 500 px-->
       <div
-    v-else-if="filteredTabloidesDOS.length > 0"
+        v-else-if="filteredTabloidesDOS.length > 0"
         class="shadow-1"
         style="border-radius: 10px; overflow: hidden"
       >
@@ -277,7 +285,7 @@
           v-model="slide"
           height="300px"
           v-if="filteredTabloidesDOS.length > 0"
-          >
+        >
           <q-carousel-slide
             @click="
               () => {
@@ -531,14 +539,20 @@ export default {
   },
   methods: {
     filterTabloidesUNO () {
-      this.filteredTabloidesUNO = this.tabloide.filter(t => t.nro_posicion === '1' && t.img && t.img.length > 0)
+      this.filteredTabloidesUNO = this.tabloide.filter(
+        t => t.nro_posicion === '1' && t.img && t.img.length > 0
+      )
     },
     filterTabloides () {
-      this.filteredTabloidesDOS = this.tabloide.filter(t => t.nro_posicion === '2' && t.img && t.img.length > 0)
+      this.filteredTabloidesDOS = this.tabloide.filter(
+        t => t.nro_posicion === '2' && t.img && t.img.length > 0
+      )
     },
     isFecha (fechaCreacionUsuario) {
       const fechaLimite = new Date('2024-04-21') // Fecha límite: 21 de abril de 2024
       const fechaCreacion = new Date(fechaCreacionUsuario)
+
+      // Compara las fechas
       if (fechaCreacion > fechaLimite) {
         this.limiteFechaTutorial = true
         return true

@@ -37,6 +37,7 @@ const routes = [
       { path: '/planes/:obj', component: () => import('pages/user/Planes.vue'), meta: { title: 'Planes', change: 7 } },
       { path: '/amistades', component: () => import('pages/user/Personas.vue'), meta: { title: 'Amistades', change: 8 } },
       // { path: '/muro_usuario', component: () => import('pages/user/Muro.vue'), meta: { title: 'Mi perfil', change: 9 } },
+      { path: '/muro_imagenes', component: () => import('components/MuroImagenes.vue') },
       { path: '/muro_usuario', component: () => import('pages/user/NuevoMuro.vue'), meta: { title: 'Mi perfil', change: 9 } },
       // { path: '/muro_usuario/:id', component: () => import('pages/user/VerMuro.vue'), meta: { title: 'Muro', change: 10 } },
       { path: '/muro_usuario/:id', component: () => import('pages/user/NuevoVerMuro.vue'), meta: { title: 'Muro', change: 10 } },
