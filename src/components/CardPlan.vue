@@ -6,7 +6,10 @@
         style="height: 130px"
         @click="$router.push('/quedada/' + item._id)"
       />
-      <q-card-section class="row items-start justify-between q-pa-none q-pt-xs" style="height: 100px;">
+      <q-card-section
+        class="row items-start justify-between q-pa-none q-pt-xs"
+        style="height: 100px"
+      >
         <div class="col-3 column items-center q-px-xs q-pb-xs q-mt-md">
           <q-avatar
             size="40px"
@@ -20,45 +23,47 @@
           </q-avatar>
           <div
             class="text-center text-grey-8 text-caption ellipsis q-mt-sm"
-            style="width: 100%; font-size: 11px;"
+            style="width: 100%; font-size: 11px"
           >
             {{ item.userInfo.name }} {{ item.userInfo.last_name }}
           </div>
         </div>
         <div
-        style="height: 100%"
+          style="height: 100%"
           class="col-9 q-pr-xs q-pl-sm column justify-center"
         >
-          <div style="height: 55px;">
+          <div style="height: 55px">
             <div
               class="text-primary text-bold pointer"
               @click="$router.push('/quedada/' + item._id)"
-              style="font-size: 12px;"
+              style="font-size: 12px"
             >
               {{
                 item.name.length > 24
-                  ? item.name.substring(0, 20) + "..."
+                  ? item.name.substring(0, 20) + '...'
                   : item.name
               }}
             </div>
-            <div class="text-primary" style="font-size: 11px;">
+            <div class="text-primary" style="font-size: 11px">
               <b>Fecha: </b
               >{{
-                item.dateTime.charAt(0).toUpperCase() + item.dateTime.slice(1).substring(0, 12) + "..."
+                item.dateTime.charAt(0).toUpperCase() +
+                item.dateTime.slice(1).substring(0, 12) +
+                '...'
               }}
             </div>
             <div class="col-9 q-pr-xs row items-center justify-between">
-              <div class="text-primary col-6" style="font-size: 11px;">
+              <div class="text-primary col-6" style="font-size: 11px">
                 <b>Edad: </b>{{ ageMath(item.userInfo.birthdate) }}
               </div>
               <div
                 v-if="item.asistentes.length === item.limit"
                 class="text-primary col-5"
-                style="font-size: 11px;"
+                style="font-size: 11px"
               >
                 <b>Completado</b>
               </div>
-              <div v-else class="text-primary col-6" style="font-size: 11px;">
+              <div v-else class="text-primary col-6" style="font-size: 11px">
                 <b>Asistentes :</b> {{ item.asistentes.length + 1 }}
               </div>
             </div>
@@ -74,13 +79,13 @@
                 v-if="
                   user._id !== item.user_id &&
                   item.asistentes.length < item.limit - 1 &&
-                  !item.asistentes.find((v) => v.user_id === user._id) &&
+                  !item.asistentes.find(v => v.user_id === user._id) &&
                   fechaAnterior > 0
                 "
               >
                 <div class="row items-center no-wrap">
                   <q-icon left name="thumb_up_off_alt" />
-                  <div class="text-center" style="font-size: 8px;">Asistiré</div>
+                  <div class="text-center" style="font-size: 8px">Asistiré</div>
                 </div>
               </q-btn>
               <q-btn
@@ -91,21 +96,23 @@
                 v-if="
                   user._id !== item.user_id &&
                   item.asistentes.length < item.limit &&
-                  !item.asistentes.find((v) => v.user_id === user._id) &&
+                  !item.asistentes.find(v => v.user_id === user._id) &&
                   fechaAnterior < 0
                 "
                 class="no-pointer"
               >
                 <div class="row items-center no-wrap">
-                  <div class="text-center" style="font-size: 8px;">Finalizado</div>
+                  <div class="text-center" style="font-size: 8px">
+                    Finalizado
+                  </div>
                 </div>
               </q-btn>
             </div>
-            <div class="text-grey-8 text-caption" style="font-size: 8px;">
+            <div class="text-grey-8 text-caption" style="font-size: 8px">
               <b>Límite de personas</b>
               {{
                 item.limit.toString().length > 5
-                  ? item.limit.toString().substring(0, 2) + "..."
+                  ? item.limit.toString().substring(0, 2) + '...'
                   : item.limit.toString()
               }}
             </div>
@@ -120,7 +127,10 @@
         @click="$router.push('/quedada/' + item._id)"
         v-if="item.privacy === 'Premium'"
       />
-      <q-card-section class="row items-center justify-between q-pa-none q-pt-xs" style="height: 115px;">
+      <q-card-section
+        class="row items-center justify-between q-pa-none q-pt-xs"
+        style="height: 115px"
+      >
         <div class="col-3 column items-center q-px-xs q-pb-xs">
           <q-avatar
             size="70px"
@@ -150,14 +160,16 @@
             >
               {{
                 item.name.length > 24
-                  ? item.name.substring(0, 24) + "..."
+                  ? item.name.substring(0, 24) + '...'
                   : item.name
               }}
             </div>
             <div v-if="width < 500" class="text-primary">
               <b>Fecha: </b
               >{{
-                item.dateTime.charAt(0).toUpperCase() + item.dateTime.slice(1).substring(0, 13) + "..."
+                item.dateTime.charAt(0).toUpperCase() +
+                item.dateTime.slice(1).substring(0, 13) +
+                '...'
               }}
             </div>
             <div v-else class="text-primary">
@@ -192,7 +204,7 @@
                 v-if="
                   user._id !== item.user_id &&
                   item.asistentes.length < item.limit &&
-                  !item.asistentes.find((v) => v.user_id === user._id) &&
+                  //  !item.asistentes.find((v) => v.user_id === user._id) &&
                   fechaAnterior > 0
                 "
               >
@@ -209,7 +221,7 @@
                 v-if="
                   user._id !== item.user_id &&
                   item.asistentes.length < item.limit &&
-                  !item.asistentes.find((v) => v.user_id === user._id) &&
+                  !item.asistentes.find(v => v.user_id === user._id) &&
                   fechaAnterior < 0
                 "
                 class="no-pointer"
@@ -223,7 +235,7 @@
               <b>Límite de personas</b>
               {{
                 item.limit.toString().length > 5
-                  ? item.limit.toString().substring(0, 2) + "..."
+                  ? item.limit.toString().substring(0, 2) + '...'
                   : item.limit.toString()
               }}
             </div>
@@ -234,10 +246,16 @@
     <q-card v-else style="border-radius: 10px; width: 100%">
       <q-img
         :src="baseuQuedada + item._id"
-        :style="{height: '130px', display:item.privacy !== 'Premium' && 'none'}"
+        :style="{
+          height: '130px',
+          display: item.privacy !== 'Premium' && 'none'
+        }"
         @click="$router.push('/quedada/' + item._id)"
       />
-      <q-card-section class="row items-start justify-between q-pa-none q-pt-xs" :style="{marginTop: item.privacy !== 'Premium' && '130px'}">
+      <q-card-section
+        class="row items-start justify-between q-pa-none q-pt-xs"
+        :style="{ marginTop: item.privacy !== 'Premium' && '130px' }"
+      >
         <div class="col-3 column items-center q-px-xs q-pb-xs">
           <q-avatar
             size="70px"
@@ -267,14 +285,16 @@
             >
               {{
                 item.name.length > 24
-                  ? item.name.substring(0, 24) + "..."
+                  ? item.name.substring(0, 24) + '...'
                   : item.name
               }}
             </div>
             <div v-if="width < 500" class="text-primary">
               <b>Fecha: </b
               >{{
-                item.dateTime.charAt(0).toUpperCase() + item.dateTime.slice(1).substring(0, 13) + "..."
+                item.dateTime.charAt(0).toUpperCase() +
+                item.dateTime.slice(1).substring(0, 13) +
+                '...'
               }}
             </div>
             <div v-else class="text-primary">
@@ -309,7 +329,7 @@
                 v-if="
                   user._id !== item.user_id &&
                   item.asistentes.length < item.limit &&
-                  !item.asistentes.find((v) => v.user_id === user._id) &&
+                  !item.asistentes.find(v => v.user_id === user._id) &&
                   fechaAnterior > 0
                 "
               >
@@ -326,7 +346,7 @@
                 v-if="
                   user._id !== item.user_id &&
                   item.asistentes.length < item.limit &&
-                  !item.asistentes.find((v) => v.user_id === user._id) &&
+                  !item.asistentes.find(v => v.user_id === user._id) &&
                   fechaAnterior < 0
                 "
                 class="no-pointer"
@@ -340,7 +360,7 @@
               <b>Límite de personas</b>
               {{
                 item.limit.toString().length > 5
-                  ? item.limit.toString().substring(0, 2) + "..."
+                  ? item.limit.toString().substring(0, 2) + '...'
                   : item.limit.toString()
               }}
             </div>
@@ -353,7 +373,14 @@
 <script>
 import moment from 'moment'
 export default {
-  props: ['thumbStyleScroll', 'baseuQuedada', 'baseuPerfil', 'user', 'item', 'allPlans'],
+  props: [
+    'thumbStyleScroll',
+    'baseuQuedada',
+    'baseuPerfil',
+    'user',
+    'item',
+    'allPlans'
+  ],
   data () {
     return {
       fechaActual: moment(),
@@ -363,10 +390,14 @@ export default {
   },
   computed: {
     fechaVariableFormateada () {
-      return moment(this.item.dateTime, 'dddd DD MMM YYYY, HH:mm', 'es').format('YYYY-MM-DD HH:mm')
+      return moment(this.item.dateTime, 'dddd DD MMM YYYY, HH:mm', 'es').format(
+        'YYYY-MM-DD HH:mm'
+      )
     },
     fechaAnterior () {
-      return moment(this.fechaVariableFormateada, 'YYYY-MM-DD HH:mm').diff(this.fechaActual)
+      return moment(this.fechaVariableFormateada, 'YYYY-MM-DD HH:mm').diff(
+        this.fechaActual
+      )
     }
   },
   mounted () {
@@ -395,25 +426,39 @@ export default {
   },
   methods: {
     asistir (data, bool) {
-      this.$q.dialog({
-        title: 'Confirma',
-        message: '¿Seguro deseas asistir a este evento?',
-        cancel: { label: 'No', color: 'secondary' },
-        ok: { label: 'Si', color: 'primary' },
-        persistent: true
-      }).onOk(() => {
-        this.$api.post('asistir/' + data._id, { asistencia: bool }).then(res => {
-          if (res) {
-            this.$q.notify({
-              message: 'Podras ver tus quedadas en el modulo de Asistidos',
-              color: 'positive'
-            })
-            this.getQuedadas()
-          }
-        })
-      }).onCancel(() => {
-        // cancel
-      })
+      const isUserAlreadyAttending = data.asistentes.find(
+        v => v.user_id === this.user._id
+      )
+
+      if (isUserAlreadyAttending === undefined) {
+        alert('Este es un evento Premium, le has enviado una solicitud al organizador para participar')
+      } else {
+        this.$q
+          .dialog({
+            title: 'Confirma',
+            message: '¿Seguro deseas asistir a este evento?',
+            cancel: { label: 'No', color: 'secondary' },
+            ok: { label: 'Si', color: 'primary' },
+            persistent: true
+          })
+          .onOk(() => {
+            this.$api
+              .post('asistir/' + data._id, { asistencia: bool })
+              .then(res => {
+                if (res) {
+                  this.$q.notify({
+                    message:
+                      'Podrás ver tus quedadas en el módulo de Asistidos',
+                    color: 'positive'
+                  })
+                  this.getQuedadas()
+                }
+              })
+          })
+          .onCancel(() => {
+            // Cancelar
+          })
+      }
     },
     ageMath (date) {
       return moment().diff(moment(date), 'years')
@@ -425,6 +470,7 @@ export default {
   }
 }
 </script>
+
 <style scoped>
 .no-pointer {
   pointer-events: none;
