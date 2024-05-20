@@ -673,16 +673,16 @@ reactiva la cuenta y se cancela el proceso. */
               <q-tooltip> Editar </q-tooltip></q-icon
             >
           </div>
-          <div class="container-intereses" style="height: 100%; width: 100%">
+          <div class="container-intereses" style="height: 100%; width: 100%;">
             <div class="q-py-sm" style="height: 100%; width: 230px">
               <span class="text-bold row justify-start items-center">
                 <q-icon name="live_tv" class="q-mr-xs" size="20px" />
                 <span>Películas favoritas </span>
               </span>
-              <p v-if="user.peliculas" class="text-grey-8">
+              <p v-if="user.peliculas" class="text-grey-8" style="margin-top:15px">
                 {{ user.peliculas }}
               </p>
-              <p v-else class="text-grey-8">
+              <p v-else class="text-grey-8" style="margin-top:15px">
                 Sin peliculas cargadas por el momento.
               </p>
             </div>
@@ -691,10 +691,10 @@ reactiva la cuenta y se cancela el proceso. */
                 <q-icon name="headphones" class="q-mr-xs" size="20px" />
                 <span> Artista y estilo musical favorito </span>
               </span>
-              <p v-if="user.artista" class="text-grey-8">
+              <p v-if="user.artista" class="text-grey-8" style="margin-top:15px">
                 {{ user.artista }}
               </p>
-              <p v-else class="text-grey-8">
+              <p v-else class="text-grey-8" style="margin-top:15px">
                 Sin artistas y estilo musical cargados por el momento.
               </p>
             </div>
@@ -703,10 +703,10 @@ reactiva la cuenta y se cancela el proceso. */
                 <q-icon name="sports_basketball" class="q-mr-xs" size="20px" />
                 <span> Deportes favoritos </span>
               </span>
-              <p v-if="user.deportes" class="text-grey-8">
+              <p v-if="user.deportes" class="text-grey-8" style="margin-top:15px">
                 {{ user.deportes }}
               </p>
-              <p v-else class="text-grey-8">
+              <p v-else class="text-grey-8" style="margin-top:15px">
                 Sin deportes favoritos cargados por el momento
               </p>
             </div>
@@ -1535,5 +1535,6 @@ export default {
   justify-content: center;
   align-items: center;
   gap: 1rem;
+  padding:50;
 }
 </style>

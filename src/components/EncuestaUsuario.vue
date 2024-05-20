@@ -5,7 +5,7 @@
   >
     <q-card-section class="q-pa-md">
       <!-- Contenido de la encuesta -->
-      <h5 class="text-blue text-center" style="margin-bottom: 20px">
+      <h5 class="text-center" style="margin-bottom: 20px; color: #0065D8">
         {{ ultimaEncuesta.pregunta }}
       </h5>
 
@@ -165,18 +165,19 @@ export default {
 .custom-btn {
   font-size: 14px;
   padding: 4px 8px;
-  border-radius: 5px;
+  border-radius: 20px;
   text-transform: uppercase;
 }
 
 /* Estilos adicionales cuando el botón está en estado hover (sobre) */
 .custom-btn:hover {
-  background-color: #1976d2;
+  background-color: #0065D8;
   color: white;
 }
 .opciones-container {
   font-family: 'Roboto', sans-serif;
   font-size: 20px;
+  border-radius: 20px;
 }
 
 .opcion-item {
@@ -206,6 +207,6 @@ export default {
 
 /* Estilos cuando el botón de radio está seleccionado */
 .opcion-input:checked {
-  background-color: #1d70ff;
+  background-color: #0065D8;
 }
 </style>

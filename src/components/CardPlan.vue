@@ -124,7 +124,7 @@
       <q-img
         :src="baseuQuedada + item._id"
         style="height: 130px"
-        @click="isUserAlreadyAttending !== undefined && $router.push('/quedada/' + item._id)"
+        @click="$router.push('/quedada/' + item._id)"
         v-if="item.privacy === 'Premium'"
       />
       <q-card-section
@@ -156,7 +156,7 @@
           <div>
             <div
               class="text-primary text-bold pointer"
-              @click="isUserAlreadyAttending !== undefined && $router.push('/quedada/' + item._id)"
+              @click="$router.push('/quedada/' + item._id)"
             >
               {{
                 item.name.length > 24
@@ -250,7 +250,7 @@
           height: '130px',
           display: item.privacy !== 'Premium' && 'none'
         }"
-         @click="isUserAlreadyAttending !== undefined && $router.push('/quedada/' + item._id)"
+        @click="$router.push('/quedada/' + item._id)"
       />
       <q-card-section
         class="row items-start justify-between q-pa-none q-pt-xs"
@@ -281,7 +281,7 @@
           <div>
             <div
               class="text-primary text-bold pointer"
-              @click="isUserAlreadyAttending !== undefined && $router.push('/quedada/' + item._id)"
+              @click="$router.push('/quedada/' + item._id)"
             >
               {{
                 item.name.length > 24
