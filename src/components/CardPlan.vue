@@ -4,7 +4,7 @@
       <q-img
         :src="baseuQuedada + item._id"
         style="height: 130px"
-        @click="$router.push('/quedada/' + item._id)"
+        @click="isUserAlreadyAttending !== undefined && $router.push('/quedada/' + item._id)"
       />
       <q-card-section
         class="row items-start justify-between q-pa-none q-pt-xs"
@@ -35,7 +35,7 @@
           <div style="height: 55px">
             <div
               class="text-primary text-bold pointer"
-              @click="$router.push('/quedada/' + item._id)"
+              @click="isUserAlreadyAttending !== undefined && $router.push('/quedada/' + item._id)"
               style="font-size: 12px"
             >
               {{
@@ -124,7 +124,7 @@
       <q-img
         :src="baseuQuedada + item._id"
         style="height: 130px"
-        @click="$router.push('/quedada/' + item._id)"
+        @click="isUserAlreadyAttending !== undefined && $router.push('/quedada/' + item._id)"
         v-if="item.privacy === 'Premium'"
       />
       <q-card-section
@@ -156,7 +156,7 @@
           <div>
             <div
               class="text-primary text-bold pointer"
-              @click="$router.push('/quedada/' + item._id)"
+              @click="isUserAlreadyAttending !== undefined && $router.push('/quedada/' + item._id)"
             >
               {{
                 item.name.length > 24
@@ -250,7 +250,7 @@
           height: '130px',
           display: item.privacy !== 'Premium' && 'none'
         }"
-        @click="$router.push('/quedada/' + item._id)"
+         @click="isUserAlreadyAttending !== undefined && $router.push('/quedada/' + item._id)"
       />
       <q-card-section
         class="row items-start justify-between q-pa-none q-pt-xs"
@@ -281,7 +281,7 @@
           <div>
             <div
               class="text-primary text-bold pointer"
-              @click="$router.push('/quedada/' + item._id)"
+              @click="isUserAlreadyAttending !== undefined && $router.push('/quedada/' + item._id)"
             >
               {{
                 item.name.length > 24
@@ -431,7 +431,16 @@ export default {
       )
 
       if (isUserAlreadyAttending === undefined) {
-        alert('Este es un evento Premium, le has enviado una solicitud al organizador para participar')
+        this.$api
+          .post('solicitarPremium/' + data._id, { user_id: this.user._id })
+          .then(response => {
+            console.log(response.status)
+            console.log('Solicitud enviada:', response.data)
+          })
+          .catch(error => {
+            alert('Error al enviar la solicitud ')
+            console.error('Error al enviar la solicitud:', error)
+          })
       } else {
         this.$q
           .dialog({
