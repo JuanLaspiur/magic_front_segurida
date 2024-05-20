@@ -84,7 +84,7 @@
               class="full-width"
               @click="asistir(quedada, true)"
               v-if="
-                user._id !== quedada.user_id && quedada.asistentes &&
+                user._id !== quedada.user_id &&
                 quedada.asistentes.length < quedada.limit &&
                 !quedada.asistentes.find(v => v.user_id === user._id)
               "
@@ -334,7 +334,7 @@
       <report-modal @close="closeReportModal" :reportData="reportData" />
     </q-dialog>
     {/**ñlgkoekr */}
-  <q-dialog v-model="modalOpen" persistent>
+    <q-dialog v-model="modalOpen" persistent v-if="listaDeSolicitudes.length > 0">
     <q-card>
       <q-card-section>
         <div class="text-h6">Lista de Solicitudes</div>
@@ -557,7 +557,7 @@ export default {
           }
         }
         this.$q.loading.hide()
-        if (this.quedada && this.quedadas.solicitudes && this.quedadas.solicitudes.length > 0) {
+        if (this.quedada.solicitudes) {
           const res = await this.$api.get('getSolicitudesPremium/' + this.quedada._id)
           this.listaDeSolicitudes = res.solicitudes
           if (this.listaDeSolicitudes.length > 0) {
