@@ -5,7 +5,7 @@
   >
     <q-card-section class="q-pa-md">
       <!-- Contenido de la encuesta -->
-      <h5 class="text-center" style="margin-bottom: 20px; color: #0065D8">
+      <h5 class="text-center" style="margin-bottom: 20px; color: #0065d8">
         {{ ultimaEncuesta.pregunta }}
       </h5>
 
@@ -96,7 +96,7 @@ export default {
             'Ya respondió. Solo es posible responder una vez. Agradecemos su participacion',
           color: 'negative' // Color rojo para indicar un mensaje de advertencia
         })
-        this.remontarComponente()
+        // this.remontarComponente()
         return
       }
 
@@ -161,7 +161,6 @@ export default {
 }
 </script>
 <style>
-
 .custom-btn {
   font-size: 14px;
   padding: 4px 8px;
@@ -171,7 +170,7 @@ export default {
 
 /* Estilos adicionales cuando el botón está en estado hover (sobre) */
 .custom-btn:hover {
-  background-color: #0065D8;
+  background-color: #0065d8;
   color: white;
 }
 .opciones-container {
@@ -207,6 +206,6 @@ export default {
 
 /* Estilos cuando el botón de radio está seleccionado */
 .opcion-input:checked {
-  background-color: #0065D8;
+  background-color: #0065d8;
 }
 </style>
