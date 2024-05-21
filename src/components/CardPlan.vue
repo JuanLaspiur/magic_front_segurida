@@ -4,7 +4,7 @@
       <q-img
         :src="baseuQuedada + item._id"
         style="height: 130px"
-        @click="isUserAlreadyAttending !== undefined && $router.push('/quedada/' + item._id)"
+        @click="navigate(item)"
       />
       <q-card-section
         class="row items-start justify-between q-pa-none q-pt-xs"
@@ -15,7 +15,7 @@
             size="40px"
             @click="
               user._id === item.user_id
-                ? $router.push('/muro_usuario')
+                ? navigate(item)
                 : $router.push('/muro_usuario/' + item.user_id)
             "
           >
@@ -35,7 +35,7 @@
           <div style="height: 55px">
             <div
               class="text-primary text-bold pointer"
-              @click="isUserAlreadyAttending !== undefined && $router.push('/quedada/' + item._id)"
+              @click="navigate(item)"
               style="font-size: 12px"
             >
               {{
@@ -124,7 +124,7 @@
       <q-img
         :src="baseuQuedada + item._id"
         style="height: 130px"
-        @click="$router.push('/quedada/' + item._id)"
+        @click="navigate(item)"
         v-if="item.privacy === 'Premium'"
       />
       <q-card-section
@@ -154,10 +154,7 @@
           class="col-9 q-pr-xs q-pl-sm column justify-between"
         >
           <div>
-            <div
-              class="text-primary text-bold pointer"
-              @click="$router.push('/quedada/' + item._id)"
-            >
+            <div class="text-primary text-bold pointer" @click="navigate(item)">
               {{
                 item.name.length > 24
                   ? item.name.substring(0, 24) + '...'
@@ -250,7 +247,7 @@
           height: '130px',
           display: item.privacy !== 'Premium' && 'none'
         }"
-        @click="$router.push('/quedada/' + item._id)"
+        @click="navigate(item)"
       />
       <q-card-section
         class="row items-start justify-between q-pa-none q-pt-xs"
@@ -425,6 +422,23 @@ export default {
     }
   },
   methods: {
+    navigate (item) {
+      if (item.privacy === 'Premium') {
+        let isUserAlreadyAttending = item.asistentes.find(
+          v => v.user_id === this.user._id
+        )
+        if (item.user_id === this.user._id) {
+          isUserAlreadyAttending = true
+        }
+        if (isUserAlreadyAttending) {
+          this.$router.push('/quedada/' + item._id)
+        } else {
+          alert('Marca asistir para poder asistir al evento')
+        }
+      } else {
+        this.$router.push('/quedada/' + item._id)
+      }
+    },
     asistir (data, bool) {
       const isUserAlreadyAttending = data.asistentes.find(
         v => v.user_id === this.user._id
@@ -434,10 +448,14 @@ export default {
         this.$api
           .post('solicitarPremium/' + data._id, { user_id: this.user._id })
           .then(response => {
-            alert('Solicitud enviada. Magic te enviará un mensaje en caso de ser aceptado')
+            alert(
+              'Solicitud enviada. Magic te enviará una notifiación en caso de ser aceptado'
+            )
           })
           .catch(error => {
-            alert('Ya has enviado la solicitud. Magic te enviará un mensaje en caso de ser aceptado.')
+            alert(
+              'Ya has enviado la solicitud. Magic te enviará un notificación en caso de ser aceptado.'
+            )
             console.log(error)
           })
       } else {
