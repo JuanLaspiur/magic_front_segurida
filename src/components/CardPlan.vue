@@ -434,12 +434,11 @@ export default {
         this.$api
           .post('solicitarPremium/' + data._id, { user_id: this.user._id })
           .then(response => {
-            console.log(response.status)
-            console.log('Solicitud enviada:', response.data)
+            alert('Solicitud enviada. Magic te enviará un mensaje en caso de ser aceptado')
           })
           .catch(error => {
-            alert('Error al enviar la solicitud ')
-            console.error('Error al enviar la solicitud:', error)
+            alert('Ya has enviado la solicitud. Magic te enviará un mensaje en caso de ser aceptado.')
+            console.log(error)
           })
       } else {
         this.$q
