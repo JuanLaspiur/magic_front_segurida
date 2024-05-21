@@ -465,7 +465,9 @@ export default {
   },
   methods: {
     getItemRating (item) {
-      return item && item.ratingInfo && item.ratingInfo.rating ? item.ratingInfo.rating : 0
+      return item && item.ratingInfo && item.ratingInfo.rating
+        ? item.ratingInfo.rating
+        : 0
     },
     closeReportModal () {
       this.reportModal = false
@@ -660,6 +662,12 @@ export default {
         user_id: solicitud._id,
         aceptado: true
       })
+      const index = this.listaDeSolicitudes.indexOf(solicitud)
+      if (index !== -1) {
+        this.listaDeSolicitudes.splice(index, 1)
+      }
+      // Actualizar el modal
+      this.actualizarModal()
     },
 
     async rechazarSolicitud (solicitud) {
@@ -667,6 +675,12 @@ export default {
         user_id: solicitud._id,
         aceptado: false
       })
+      const index = this.listaDeSolicitudes.indexOf(solicitud)
+      if (index !== -1) {
+        this.listaDeSolicitudes.splice(index, 1)
+      }
+      // Actualizar el modal
+      this.actualizarModal()
     },
     chunckFromArray (array, size) {
       const newArray = [...array]
