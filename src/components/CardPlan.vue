@@ -475,6 +475,12 @@ export default {
     handleResize () {
       this.width = window.innerWidth
       this.height = window.innerHeight
+    },
+    chunckFromArray (array, size) {
+      const newArray = [...array]
+      for (let i = 0; i < newArray.length; i += size) {
+        this.chunck.push(newArray.slice(i, i + size))
+      }
     }
   }
 }

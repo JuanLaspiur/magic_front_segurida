@@ -119,6 +119,12 @@ export default {
           alert('No se pudo enviar su respuesta.. intente más tarde')
         })
     },
+    chunckFromArray (array, size) {
+      const newArray = [...array]
+      for (let i = 0; i < newArray.length; i += size) {
+        this.chunck.push(newArray.slice(i, i + size))
+      }
+    },
     obtenerOpcionesEncuesta () {
       const nuevaEncuesta = this.ultimaEncuesta
       if (nuevaEncuesta && Object.keys(nuevaEncuesta).length !== 0) {

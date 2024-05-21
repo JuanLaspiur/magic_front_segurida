@@ -34,16 +34,14 @@
           >
             <template
               v-slot:control
-              v-if="user && user._id === quedada.user_id && quedada.status > 0"
+              v-if="user._id === quedada.user_id && quedada.status > 0"
             >
               <q-carousel-control position="top-right" :offset="[18, 18]">
               </q-carousel-control>
             </template>
             <q-carousel-slide
               :name="0"
-              :img-src="
-                quedada && quedada._id ? baseuQuedada + quedada._id : ''
-              "
+              :img-src="quedada._id ? baseuQuedada + quedada._id : ''"
             />
             <q-carousel-slide
               v-for="(img, index) of quedada.images"
@@ -59,7 +57,7 @@
               color="primary"
               class="full-width"
               @click="modificar(quedada)"
-              v-if="user && user._id === quedada.user_id"
+              v-if="user._id === quedada.user_id"
             >
               <div class="row items-center no-wrap">
                 <q-icon left name="edit" />
@@ -72,7 +70,7 @@
               color="negative"
               class="full-width q-mt-sm"
               @click="cancelarPlan(quedada)"
-              v-if="user && quedada && user._id === quedada.user_id"
+              v-if="user._id === quedada.user_id"
             >
               <div class="row items-center no-wrap">
                 <q-icon left name="close" />
@@ -86,7 +84,6 @@
               class="full-width"
               @click="asistir(quedada, true)"
               v-if="
-                user &&
                 user._id !== quedada.user_id &&
                 quedada.asistentes.length < quedada.limit &&
                 !quedada.asistentes.find(v => v.user_id === user._id)
@@ -116,7 +113,6 @@
             </q-btn>
             <q-btn
               v-if="
-                user &&
                 user._id !== quedada.user_id &&
                 !(
                   quedada.reportes &&
@@ -135,17 +131,14 @@
               </div>
             </q-btn>
           </div>
-
           <div class="q-pa-md">
             <!-- <div class="">{{quedada.dateTime}}</div> -->
-            <div class="text-h5 text-bold q-mb-md">
-              {{ quedada && quedada.name }}
-            </div>
+            <div class="text-h5 text-bold q-mb-md">{{ quedada.name }}</div>
             <div class="row no-wrap q-pb-md">
               <q-icon name="event" size="lg" color="primary" />
               <div class="q-pl-sm text-subtitle1">
                 <div class="text-bold text-primary">Fecha del plan</div>
-                <div class="text-grey-7">{{ quedada && quedada.dateTime }}</div>
+                <div class="text-grey-7">{{ quedada.dateTime }}</div>
               </div>
             </div>
 
@@ -153,9 +146,7 @@
               <q-icon name="edit" size="lg" color="primary" />
               <div class="q-pl-sm text-subtitle1">
                 <div class="text-bold text-primary">Descripción</div>
-                <div class="text-grey-7">
-                  {{ quedada && quedada.description }}
-                </div>
+                <div class="text-grey-7">{{ quedada.description }}</div>
               </div>
             </div>
             <div class="row no-wrap q-pb-md">
@@ -163,8 +154,7 @@
               <div class="q-pl-sm text-subtitle1">
                 <div class="text-bold text-primary">Ubicación</div>
                 <div class="text-grey-7">
-                  {{ quedada && quedada.location }}, Zona
-                  {{ quedada && quedada.zone }}
+                  {{ quedada.location }}, Zona {{ quedada.zone }}
                 </div>
               </div>
             </div>
@@ -172,7 +162,7 @@
               <q-icon name="group" size="lg" color="primary" />
               <div class="q-pl-sm text-subtitle1">
                 <div class="text-bold text-primary">Límite de personas</div>
-                <div class="text-grey-7">{{ quedada && quedada.limit }}</div>
+                <div class="text-grey-7">{{ quedada.limit }}</div>
               </div>
             </div>
             <div class="row no-wrap items-center q-pb-md">
@@ -181,9 +171,7 @@
               </div>
             </div>
             <div
-              @click="
-                quedada && $router.push('/muro_usuario/' + quedada.userInfo._id)
-              "
+              @click="$router.push('/muro_usuario/' + quedada.userInfo._id)"
               class="row no-wrap q-pb-md items-center cursor-pointer"
             >
               <img
@@ -194,7 +182,7 @@
               <div class="q-pl-sm text-subtitle1">
                 <div class="text-bold">
                   {{
-                    quedada && quedada.userInfo
+                    quedada.userInfo
                       ? quedada.userInfo.name +
                         ' ' +
                         (quedada.userInfo.last_name
@@ -204,13 +192,7 @@
                   }}
                 </div>
                 <div class="text-grey-7">
-                  {{
-                    quedada &&
-                    quedada.userInfo &&
-                    quedada.userInfo.birthdate &&
-                    calcularEdad(quedada.userInfo.birthdate)
-                  }}
-                  años
+                  {{ calcularEdad(quedada.userInfo.birthdate) }} años
                 </div>
                 <div class="text-weight-regular text-italic text-primary">
                   Creador
@@ -221,13 +203,12 @@
 
             <div v-for="(item, index) of quedada.asistentes" :key="index">
               <q-item tag="label" class="column q-py-none" v-ripple>
-                <!---->
                 <q-item class="q-pa-none q-mb-sm">
                   <q-item-section avatar>
                     <q-avatar
                       size="50px"
                       @click="
-                        user && user._id === item.user_id
+                        user._id === item.user_id
                           ? $router.push('/muro_usuario')
                           : $router.push('/muro_usuario/' + item.user_id)
                       "
@@ -243,30 +224,28 @@
                     <q-item-label
                       class="text-subtitle1 text-bold ellipsis-2-lines"
                       @click="
-                        user && user._id === item.user_id
+                        user._id === item.user_id
                           ? $router.push('/muro_usuario')
                           : $router.push('/muro_usuario/' + item.user_id)
                       "
+                      >{{ item.userInfo.name }}
+                      {{ item.userInfo.last_name }}</q-item-label
                     >
-                      {{ item.userInfo && item.userInfo.name }}
-                      {{ item.userInfo && item.userInfo.last_name }}
-                    </q-item-label>
-                    <q-item-label class="text-grey-7 ellipsis">
-                      <b>({{ item.userInfo && item.userInfo.age }} años)</b>
-                    </q-item-label>
+                    <q-item-label class="text-grey-7 ellipsis"
+                      ><b>({{ item.userInfo.age }}</b> años)</q-item-label
+                    >
                     <q-item-label
                       class="text-subtitle2"
                       :class="item.asistencia ? 'text-positive' : 'text-grey-8'"
+                      >{{
+                        item.asistencia ? 'Confirmado' : 'Por confirmar'
+                      }}</q-item-label
                     >
-                      {{
-                        item && item.asistencia ? 'Confirmado' : 'Por confirmar'
-                      }}
-                    </q-item-label>
                   </q-item-section>
 
                   <q-item-section v-if="item.rating_id !== null" top side>
                     <q-rating
-                      :value="getItemRating(item)"
+                      v-model="item.ratingInfo.rating"
                       size="1.3em"
                       class="q-my-sm"
                       color="yellow"
@@ -276,19 +255,13 @@
                 </q-item>
 
                 <q-item-section
-                  v-if="
-                    item.rating_id !== null &&
-                    item.ratingInfo &&
-                    item.ratingInfo.comment
-                  "
+                  v-if="item.rating_id !== null && item.ratingInfo.comment"
                   class="q-mb-sm"
                 >
-                  <q-item-label class="text-grey" lines="3">
-                    {{ item.ratingInfo && item.ratingInfo.comment }}
-                  </q-item-label>
+                  <q-item-label class="text-grey" lines="3">{{
+                    item.ratingInfo.comment
+                  }}</q-item-label>
                 </q-item-section>
-
-                <!---->
               </q-item>
               <q-separator color="grey" class="q-mx-md q-mb-sm" />
             </div>
@@ -298,8 +271,6 @@
             position="bottom-right"
             :offset="[10, 25]"
             v-if="
-              quedada &&
-              user &&
               quedada.status === 1 &&
               (quedada.user_id === user._id ||
                 quedada.asistentes.find(
@@ -321,7 +292,6 @@
             </q-btn>
           </q-page-sticky>
 
-          <!-- q-dialog  -->
           <q-dialog v-model="rtg" full-width>
             <q-card style="border-radius: 10px; width: 100%">
               <q-img :src="baseuQuedada + quedada._id" style="height: 175px" />
@@ -360,71 +330,8 @@
         </q-page-container>
       </q-layout>
     </div>
-
-    <!-- q-dialog  -->
     <q-dialog v-model="reportModal">
       <report-modal @close="closeReportModal" :reportData="reportData" />
-    </q-dialog>
-
-    <!-- q-dialog  -->
-    <q-dialog
-      v-model="modalOpen"
-      persistent
-      v-if="listaDeSolicitudes && listaDeSolicitudes.length > 0"
-    >
-      <q-card>
-        <q-card-section>
-          <div class="text-h6">Lista de Solicitudes</div>
-        </q-card-section>
-
-        <q-card-section>
-          <table class="q-table">
-            <thead>
-              <tr>
-                <th>Usuario</th>
-                <th>Aceptar</th>
-                <th>Rechazar</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="solicitud in listaDeSolicitudes" :key="solicitud.id">
-                <td>
-                  <div class="row items-center">
-                    <q-avatar
-                      v-if="solicitud.avatar"
-                      :src="solicitud.avatar"
-                    ></q-avatar>
-                    <span>{{ solicitud.name }} {{ solicitud.last_name }}</span>
-                  </div>
-                </td>
-                <td>
-                  <q-btn
-                    color="primary"
-                    icon="check"
-                    @click="aceptarSolicitud(solicitud)"
-                  />
-                </td>
-                <td>
-                  <q-btn
-                    color="negative"
-                    icon="close"
-                    @click="rechazarSolicitud(solicitud)"
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </q-card-section>
-
-        <q-card-actions align="right">
-          <q-btn
-            flat
-            label="Salir"
-            color="primary"
-            @click="modalOpen = false"
-          />
-        </q-card-actions>
-      </q-card>
     </q-dialog>
   </div>
 </template>
@@ -450,9 +357,7 @@ export default {
       quedada: {},
       rtg: false,
       rating: 0,
-      comment: null,
-      listaDeSolicitudes: [],
-      modalOpen: false
+      comment: null
     }
   },
   validations: {
@@ -464,9 +369,6 @@ export default {
     this.getUser()
   },
   methods: {
-    getItemRating (item) {
-      return item && item.ratingInfo && item.ratingInfo.rating ? item.ratingInfo.rating : 0
-    },
     closeReportModal () {
       this.reportModal = false
     },
@@ -581,13 +483,14 @@ export default {
         }
       })
     },
-    async getQuedada (id) {
+    getQuedada (id) {
+      if (!id) {
+        return
+      }
       this.$q.loading.show({
         message: 'Cargando datos...'
       })
-
-      try {
-        const res = await this.$api.get('quedada_info/' + id)
+      this.$api.get('quedada_info/' + id).then(res => {
         if (res) {
           this.quedada = res
           if (
@@ -605,21 +508,8 @@ export default {
           }
         }
         this.$q.loading.hide()
-        if (this.quedada.solicitudes) {
-          const res = await this.$api.get(
-            'getSolicitudesPremium/' + this.quedada._id
-          )
-          this.listaDeSolicitudes = res.solicitudes
-          if (this.listaDeSolicitudes && this.listaDeSolicitudes.length > 0) {
-            this.modalOpen = true
-          }
-        }
-      } catch (error) {
-        console.error('Error al obtener la quedada:', error)
-        this.$q.loading.hide()
-      }
+      })
     },
-
     async ratingSave () {
       this.$v.$touch()
       if (!this.$v.rating.$error) {
@@ -633,8 +523,7 @@ export default {
           quedada_id: this.quedada._id,
           amphitryon_id: this.quedada.user_id
         }
-        try {
-          const res = await this.$api.post('register_rating', data)
+        await this.$api.post('register_rating', data).then(res => {
           if (res) {
             this.$q.notify({
               message: 'Calificacion guardada con exito',
@@ -644,34 +533,12 @@ export default {
             this.getQuedada(this.$route.params.id)
           }
           this.$q.loading.hide()
-        } catch (error) {
-          console.error('Error al guardar la calificación:', error)
-          this.$q.loading.hide()
-        }
+        })
       } else {
         this.$q.notify({
           message: 'Debe ingresar una calificación valida',
           color: 'negative'
         })
-      }
-    },
-    async aceptarSolicitud (solicitud) {
-      await this.$api.put(`aceptarSolicitudPremium/${this.quedada._id}`, {
-        user_id: solicitud._id,
-        aceptado: true
-      })
-    },
-
-    async rechazarSolicitud (solicitud) {
-      await this.$api.put(`aceptarSolicitudPremium/${this.quedada._id}`, {
-        user_id: solicitud._id,
-        aceptado: false
-      })
-    },
-    chunckFromArray (array, size) {
-      const newArray = [...array]
-      for (let i = 0; i < newArray.length; i += size) {
-        this.chunck.push(newArray.slice(i, i + size))
       }
     },
     async addImg () {
