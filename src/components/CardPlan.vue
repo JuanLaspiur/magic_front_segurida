@@ -442,26 +442,12 @@ export default {
       )
 
       if (isUserAlreadyAttending === undefined) {
-        this.$api
-          .post('solicitarPremium/' + data._id)
-          .then(response => {
-            console.log(response)
-            if (response.status === 400) {
-              alert('Ya has enviado la solicitud')
-            } else {
-              alert(
-                'Solicitud enviada. Magic te enviará una notificación en caso de ser aceptado'
-              )
-            }
-          })
-          .catch(error => {
-            if (error.response.status === 400) {
-              alert('Ya has enviado la solicitud')
-            } else {
-              alert('Ha ocurrido un error al procesar tu solicitud')
-              console.error(error)
-            }
-          })
+        this.$api.post('solicitarPremium/' + data._id).then(response => {
+          console.log(response)
+          alert(
+            'Solicitud enviada. Magic te enviará una notificación en caso de ser aceptado'
+          )
+        })
       } else {
         this.$q
           .dialog({

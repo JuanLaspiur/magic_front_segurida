@@ -452,8 +452,7 @@ export default {
       rating: 0,
       comment: null,
       listaDeSolicitudes: [],
-      modalOpen: false,
-      modalDeSolicitudes: false
+      modalOpen: false
     }
   },
   computed: {
@@ -463,12 +462,11 @@ export default {
     }
   },
   watch: {
-    // Observa los cambios en isQuedadaOwner y actualiza modalDeSolicitudes
-    isQuedadaOwner: {
-      handler (val) {
-        this.modalDeSolicitudes = val
-      },
-      immediate: true // Activa la función handler inmediatamente al cargar el componente
+    modalOpen (newVal) {
+      if (!newVal && this.listaDeSolicitudes.length > 0) {
+        // Recargar la página solo si el modal se cierra y hay solicitudes pendientes
+        window.location.reload()
+      }
     }
   },
   validations: {
@@ -674,10 +672,13 @@ export default {
       }
     },
     async aceptarSolicitud (solicitud) {
-      await this.$api.put(`gestionarSolicitudParticipacion/${this.quedada._id}`, {
-        user_id: solicitud._id,
-        status: true
-      })
+      await this.$api.put(
+        `gestionarSolicitudParticipacion/${this.quedada._id}`,
+        {
+          user_id: solicitud._id,
+          status: true
+        }
+      )
       const index = this.listaDeSolicitudes.indexOf(solicitud)
       if (index !== -1) {
         this.listaDeSolicitudes.splice(index, 1)
@@ -687,10 +688,13 @@ export default {
     },
 
     async rechazarSolicitud (solicitud) {
-      await this.$api.put(`gestionarSolicitudParticipacion/${this.quedada._id}`, {
-        user_id: solicitud._id,
-        status: false
-      })
+      await this.$api.put(
+        `gestionarSolicitudParticipacion/${this.quedada._id}`,
+        {
+          user_id: solicitud._id,
+          status: false
+        }
+      )
       const index = this.listaDeSolicitudes.indexOf(solicitud)
       if (index !== -1) {
         this.listaDeSolicitudes.splice(index, 1)
