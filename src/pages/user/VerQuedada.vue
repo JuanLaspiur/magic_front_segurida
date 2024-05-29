@@ -426,7 +426,16 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
-  </div>
+
+      <!-- Otros componentes y contenido -->
+      <!-- Falta agregar la lista de solicitudes-->
+      <!-- q-dialog -->
+      <q-dialog v-model="modalDeSolicitudes" persistent>
+        <q-card>
+          <q-card-section> Contenido del modal aquí... </q-card-section>
+        </q-card>
+      </q-dialog>
+    </div>
 </template>
 
 <script>
@@ -452,7 +461,23 @@ export default {
       rating: 0,
       comment: null,
       listaDeSolicitudes: [],
-      modalOpen: false
+      modalOpen: false,
+      modalDeSolicitudes: false
+    }
+  },
+  computed: {
+    // Calcula si el usuario actual es igual al quedada.user_id
+    isQuedadaOwner () {
+      return this.user && this.quedada && this.user._id === this.quedada.user_id
+    }
+  },
+  watch: {
+    // Observa los cambios en isQuedadaOwner y actualiza modalDeSolicitudes
+    isQuedadaOwner: {
+      handler (val) {
+        this.modalDeSolicitudes = val
+      },
+      immediate: true // Activa la función handler inmediatamente al cargar el componente
     }
   },
   validations: {
