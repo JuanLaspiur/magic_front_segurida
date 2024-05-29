@@ -611,6 +611,7 @@ export default {
       this.$api.get('all_quedadas_premium').then(res => {
         if (res) {
           this.allQuedadasPremium = res
+          console.log(JSON.stringify(this.allQuedadasPremium), ' Quedadas premium 123')
         }
       })
     },

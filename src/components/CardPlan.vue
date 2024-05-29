@@ -278,7 +278,7 @@
           <div>
             <div
               class="text-primary text-bold pointer"
-              @click="$router.push('/quedada/' + item._id)"
+              @click="navigate(item)"
             >
               {{
                 item.name.length > 24
