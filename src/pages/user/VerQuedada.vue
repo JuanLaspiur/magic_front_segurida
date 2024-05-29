@@ -426,16 +426,7 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
-
-      <!-- Otros componentes y contenido -->
-      <!-- Falta agregar la lista de solicitudes-->
-      <!-- q-dialog -->
-      <q-dialog v-model="modalDeSolicitudes" persistent>
-        <q-card>
-          <q-card-section> Contenido del modal aquí... </q-card-section>
-        </q-card>
-      </q-dialog>
-    </div>
+  </div>
 </template>
 
 <script>
@@ -632,11 +623,11 @@ export default {
           }
         }
         this.$q.loading.hide()
-        if (this.quedada.solicitudes) {
+        if (this.quedada.solicitudesDeParticipacion) {
           const res = await this.$api.get(
-            'getSolicitudesPremium/' + this.quedada._id
+            'getSolicitudesParticipacion/' + this.quedada._id
           )
-          this.listaDeSolicitudes = res.solicitudes
+          this.listaDeSolicitudes = res.usuarios
           if (this.listaDeSolicitudes && this.listaDeSolicitudes.length > 0) {
             this.modalOpen = true
           }
@@ -683,9 +674,9 @@ export default {
       }
     },
     async aceptarSolicitud (solicitud) {
-      await this.$api.put(`aceptarSolicitudPremium/${this.quedada._id}`, {
+      await this.$api.put(`gestionarSolicitudParticipacion/${this.quedada._id}`, {
         user_id: solicitud._id,
-        aceptado: true
+        status: true
       })
       const index = this.listaDeSolicitudes.indexOf(solicitud)
       if (index !== -1) {
@@ -696,9 +687,9 @@ export default {
     },
 
     async rechazarSolicitud (solicitud) {
-      await this.$api.put(`aceptarSolicitudPremium/${this.quedada._id}`, {
+      await this.$api.put(`gestionarSolicitudParticipacion/${this.quedada._id}`, {
         user_id: solicitud._id,
-        aceptado: false
+        status: false
       })
       const index = this.listaDeSolicitudes.indexOf(solicitud)
       if (index !== -1) {
