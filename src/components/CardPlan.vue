@@ -276,10 +276,7 @@
           class="col-9 q-pr-xs column items-between justify-between"
         >
           <div>
-            <div
-              class="text-primary text-bold pointer"
-              @click="navigate(item)"
-            >
+            <div class="text-primary text-bold pointer" @click="navigate(item)">
               {{
                 item.name.length > 24
                   ? item.name.substring(0, 24) + '...'
@@ -446,17 +443,24 @@ export default {
 
       if (isUserAlreadyAttending === undefined) {
         this.$api
-          .post('solicitarPremium/' + data._id, { user_id: this.user._id })
+          .post('solicitarPremium/' + data._id)
           .then(response => {
-            alert(
-              'Solicitud enviada. Magic te enviará una notifiación en caso de ser aceptado'
-            )
+            console.log(response)
+            if (response.status === 400) {
+              alert('Ya has enviado la solicitud')
+            } else {
+              alert(
+                'Solicitud enviada. Magic te enviará una notificación en caso de ser aceptado'
+              )
+            }
           })
           .catch(error => {
-            alert(
-              'Ya has enviado la solicitud. Magic te enviará un notificación en caso de ser aceptado.'
-            )
-            console.log(error)
+            if (error.response.status === 400) {
+              alert('Ya has enviado la solicitud')
+            } else {
+              alert('Ha ocurrido un error al procesar tu solicitud')
+              console.error(error)
+            }
           })
       } else {
         this.$q
