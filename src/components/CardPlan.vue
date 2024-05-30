@@ -447,7 +447,10 @@ export default {
         if (isUserAlreadyAttending) {
           this.$router.push('/quedada/' + item._id)
         } else {
-          alert('Marca asistir para poder asistir al evento')
+          this.solicitudPremiumModalTitle = 'Solicita Permiso'
+          this.solicitudPremiumModalMessage =
+                'Haz click en el boton asistir para pedir permisos de ingreso.'
+          this.solicitudPremiumModalVisible = true
         }
       } else {
         this.$router.push('/quedada/' + item._id)
