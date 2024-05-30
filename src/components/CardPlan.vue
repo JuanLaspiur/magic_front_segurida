@@ -375,8 +375,8 @@
 <script>
 import moment from 'moment'
 import AlertSolicitudPremiumModal from './AlertSolicitudPremiumModal.vue'
-// import { apiUrl } from '../env.js'
-
+import env from '../env.js'
+// quiero cambiar la direccion por env.apiUrl
 export default {
   components: {
     AlertSolicitudPremiumModal
@@ -468,7 +468,7 @@ export default {
           }
           const token = sessionInfo.token
           const response = await fetch(
-            `http://127.0.0.1:3333/api/solicitarPremium/${data._id}`,
+            `${env.apiUrl}solicitarPremium/${data._id}`,
             {
               method: 'POST',
               headers: {
