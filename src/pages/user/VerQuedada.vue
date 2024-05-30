@@ -219,7 +219,7 @@
               </div>
             </div>
 
-            <div v-for="(item, index) of quedada.asistentes" :key="index">
+            <div v-for="(item, index) of listaAsistentes" :key="index">
               <q-item tag="label" class="column q-py-none" v-ripple>
                 <!---->
                 <q-item class="q-pa-none q-mb-sm">
@@ -452,7 +452,9 @@ export default {
       rating: 0,
       comment: null,
       listaDeSolicitudes: [],
-      modalOpen: false
+      modalOpen: false,
+      listaAsistentes: [],
+      upload: false
     }
   },
   computed: {
@@ -463,9 +465,8 @@ export default {
   },
   watch: {
     modalOpen (newVal) {
-      if (!newVal && this.listaDeSolicitudes.length > 0) {
-        // Recargar la página solo si el modal se cierra y hay solicitudes pendientes
-        window.location.reload()
+      if (!newVal) {
+        this.actualizarParticipantes()
       }
     }
   },
@@ -478,6 +479,12 @@ export default {
     this.getUser()
   },
   methods: {
+    async actualizarParticipantes () {
+      const res = await this.$api.get('quedada_info/' + this.quedada._id)
+      if (res) {
+        this.listaAsistentes = res.asistentes
+      }
+    },
     getItemRating (item) {
       return item && item.ratingInfo && item.ratingInfo.rating
         ? item.ratingInfo.rating
@@ -606,6 +613,7 @@ export default {
         const res = await this.$api.get('quedada_info/' + id)
         if (res) {
           this.quedada = res
+          this.listaAsistentes = this.quedada.asistentes
           if (
             this.quedada.asistentes.find(
               v =>
