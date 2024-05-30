@@ -362,11 +362,24 @@
         </div>
       </q-card-section>
     </q-card>
+
+    <!-- Componente de Alerta de Solicitud Premium Modal -->
+    <AlertSolicitudPremiumModal
+      :visible="solicitudPremiumModalVisible"
+      :title="solicitudPremiumModalTitle"
+      :message="solicitudPremiumModalMessage"
+      @close="solicitudPremiumModalVisible = false"
+    />
   </div>
 </template>
 <script>
 import moment from 'moment'
+import AlertSolicitudPremiumModal from './AlertSolicitudPremiumModal.vue'
+
 export default {
+  components: {
+    AlertSolicitudPremiumModal
+  },
   props: [
     'thumbStyleScroll',
     'baseuQuedada',
@@ -379,7 +392,10 @@ export default {
     return {
       fechaActual: moment(),
       width: '',
-      height: ''
+      height: '',
+      solicitudPremiumModalVisible: false,
+      solicitudPremiumModalTitle: '',
+      solicitudPremiumModalMessage: ''
     }
   },
   computed: {
@@ -442,12 +458,51 @@ export default {
       )
 
       if (isUserAlreadyAttending === undefined) {
-        this.$api.post('solicitarPremium/' + data._id).then(response => {
-          console.log(response)
-          alert(
-            'Solicitud enviada. Magic te enviará una notificación en caso de ser aceptado'
-          )
-        })
+        this.$api
+          .post('solicitarPremium/' + data._id)
+          .then(response => {
+            console.log(response) // Verificar el contenido de la respuesta
+
+            if (response && response.data) {
+              const sendValue = response.data.send
+
+              switch (sendValue) {
+                case 1:
+                  this.solicitudPremiumModalTitle = 'Solicitud Enviada'
+                  this.solicitudPremiumModalMessage =
+                    'Magic te enviará una notificación en caso de ser aceptado'
+                  break
+                case 2:
+                  this.solicitudPremiumModalTitle = 'Solicitud Ya Enviada'
+                  this.solicitudPremiumModalMessage =
+                    'Ya has solicitado participar en esta quedada.'
+                  break
+                case 3:
+                  this.solicitudPremiumModalTitle = 'Quedada No Encontrada'
+                  this.solicitudPremiumModalMessage = 'Quedada no encontrada.'
+                  break
+                default:
+                  this.solicitudPremiumModalTitle = 'Error'
+                  this.solicitudPremiumModalMessage =
+                    'Ha ocurrido un error al solicitar participación.'
+                  break
+              }
+
+              this.solicitudPremiumModalVisible = true
+            } else {
+              this.solicitudPremiumModalTitle = 'Error'
+              this.solicitudPremiumModalMessage =
+                'Respuesta inválida del servidor.'
+              this.solicitudPremiumModalVisible = true
+            }
+          })
+          .catch(error => {
+            console.error(error)
+            this.solicitudPremiumModalTitle = 'Error'
+            this.solicitudPremiumModalMessage =
+              'Ha ocurrido un error al solicitar participación.'
+            this.solicitudPremiumModalVisible = true
+          })
       } else {
         this.$q
           .dialog({
