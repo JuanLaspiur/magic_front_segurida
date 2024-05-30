@@ -375,6 +375,7 @@
 <script>
 import moment from 'moment'
 import AlertSolicitudPremiumModal from './AlertSolicitudPremiumModal.vue'
+// import { apiUrl } from '../env.js'
 
 export default {
   components: {
@@ -452,57 +453,68 @@ export default {
         this.$router.push('/quedada/' + item._id)
       }
     },
-    asistir (data, bool) {
+    async asistir (data, bool) {
       const isUserAlreadyAttending = data.asistentes.find(
         v => v.user_id === this.user._id
       )
 
       if (isUserAlreadyAttending === undefined) {
-        this.$api
-          .post('solicitarPremium/' + data._id)
-          .then(response => {
-            console.log(response) // Verificar el contenido de la respuesta
-
-            if (response && response.data) {
-              const sendValue = response.data.send
-
-              switch (sendValue) {
-                case 1:
-                  this.solicitudPremiumModalTitle = 'Solicitud Enviada'
-                  this.solicitudPremiumModalMessage =
-                    'Magic te enviará una notificación en caso de ser aceptado'
-                  break
-                case 2:
-                  this.solicitudPremiumModalTitle = 'Solicitud Ya Enviada'
-                  this.solicitudPremiumModalMessage =
-                    'Ya has solicitado participar en esta quedada.'
-                  break
-                case 3:
-                  this.solicitudPremiumModalTitle = 'Quedada No Encontrada'
-                  this.solicitudPremiumModalMessage = 'Quedada no encontrada.'
-                  break
-                default:
-                  this.solicitudPremiumModalTitle = 'Error'
-                  this.solicitudPremiumModalMessage =
-                    'Ha ocurrido un error al solicitar participación.'
-                  break
+        try {
+          const sessionInfo = JSON.parse(localStorage.getItem('SESSION_INFO'))
+          if (!sessionInfo) {
+            return
+          } else {
+            console.log('token  ' + JSON.stringify(sessionInfo.token))
+          }
+          const token = sessionInfo.token
+          const response = await fetch(
+            `http://127.0.0.1:3333/api/solicitarPremium/${data._id}`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
               }
+            }
+          )
 
-              this.solicitudPremiumModalVisible = true
-            } else {
+          console.error('Respuesta del servidor ' + JSON.stringify(response))
+
+          const info = await response.json()
+          console.log(info) // Verifica el contenido de la respuesta
+
+          const sendValue = info.send
+
+          switch (sendValue) {
+            case 1:
+              this.solicitudPremiumModalTitle = 'Solicitud Enviada'
+              this.solicitudPremiumModalMessage =
+                'Magic te enviará una notificación en caso de ser aceptado'
+              break
+            case 2:
+              this.solicitudPremiumModalTitle = 'Solicitud Ya Enviada'
+              this.solicitudPremiumModalMessage =
+                'Ya has solicitado participar en esta quedada.'
+              break
+            case 3:
+              this.solicitudPremiumModalTitle = 'Quedada No Encontrada'
+              this.solicitudPremiumModalMessage = 'Quedada no encontrada.'
+              break
+            default:
               this.solicitudPremiumModalTitle = 'Error'
               this.solicitudPremiumModalMessage =
-                'Respuesta inválida del servidor.'
-              this.solicitudPremiumModalVisible = true
-            }
-          })
-          .catch(error => {
-            console.error(error)
-            this.solicitudPremiumModalTitle = 'Error'
-            this.solicitudPremiumModalMessage =
-              'Ha ocurrido un error al solicitar participación.'
-            this.solicitudPremiumModalVisible = true
-          })
+                'Ha ocurrido un error al solicitar participación.'
+              break
+          }
+
+          this.solicitudPremiumModalVisible = true
+        } catch (error) {
+          console.error(error)
+          this.solicitudPremiumModalTitle = 'Error'
+          this.solicitudPremiumModalMessage =
+            'Ha ocurrido un error al solicitar participación.'
+          this.solicitudPremiumModalVisible = true
+        }
       } else {
         this.$q
           .dialog({
