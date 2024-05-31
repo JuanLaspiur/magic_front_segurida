@@ -53,7 +53,11 @@
               }}
             </div>
             <div class="col-9 q-pr-xs row items-center justify-between">
-              <div class="text-primary col-6" style="font-size: 11px">
+              <div
+                v-if="item.userInfo.edadPriv"
+                class="text-primary col-6"
+                style="font-size: 11px"
+              >
                 <b>Edad: </b>{{ ageMath(item.userInfo.birthdate) }}
               </div>
               <div
@@ -176,7 +180,7 @@
               }}
             </div>
             <div class="col-9 q-pr-xs row items-center justify-between">
-              <div class="text-primary col-6">
+              <div v-if="item.userInfo.edadPriv" class="text-primary col-6">
                 <b>Edad: </b>{{ ageMath(item.userInfo.birthdate) }}
               </div>
               <div
@@ -376,7 +380,6 @@
 import moment from 'moment'
 import AlertSolicitudPremiumModal from './AlertSolicitudPremiumModal.vue'
 import env from '../env.js'
-// quiero cambiar la direccion por env.apiUrl
 export default {
   components: {
     AlertSolicitudPremiumModal
@@ -449,7 +452,7 @@ export default {
         } else {
           this.solicitudPremiumModalTitle = 'Solicita Permiso'
           this.solicitudPremiumModalMessage =
-                'Haz click en el boton asistir para pedir permisos de ingreso.'
+            'Haz click en el boton asistir para pedir permisos de ingreso.'
           this.solicitudPremiumModalVisible = true
         }
       } else {

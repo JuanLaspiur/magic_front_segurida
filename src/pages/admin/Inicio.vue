@@ -232,6 +232,13 @@
       </template>
       <template v-slot:body-cell-age="props">
         <q-td :props="props">
+          <q-toggle
+              dense
+              color="primary"
+              v-model="props.row.quedadasPriv"
+              :val="!props.row.quedadasPriv"
+              @input="alertaDePrueba(props)"
+            />
           <div>{{ props.row.birthdate }}</div>
           <div class="text-caption">
             {{ calcularEdad(props.row.birthdate) }} años
@@ -613,6 +620,10 @@ export default {
     this.getInfo()
   },
   methods: {
+    alertaDePrueba (props) {
+      alert(props)
+      console.log(JSON.stringify(props), ' props')
+    },
     getRealizados (id, i) {
       this.$api.get('quedadas_user/' + id).then(res => {
         if (res) {

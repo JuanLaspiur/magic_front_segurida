@@ -263,6 +263,12 @@ reactiva la cuenta y se cancela el proceso. */
                       >
                     </div>
                     <div>{{ user.age }} años</div>
+                      <span v-if="!user.edadPriv">
+        Edad pública
+      </span>
+      <span v-else>
+        Edad privada
+      </span>
                   </div>
                   <div class="row text-grey-8 items-center q-pt-sm">
                     <div class="text-bold q-pr-xs">
@@ -339,7 +345,7 @@ reactiva la cuenta y se cancela el proceso. */
                         ><q-tooltip>Edad</q-tooltip></q-icon
                       >
                     </div>
-                    <div>{{ user.age }} años</div>
+                    <div>{{ user.age }} años <div v-if = "user.edadPriv"></div>  </div>
                   </div>
                   <div class="row text-grey-8 q-pt-sm">
                     <div class="text-bold q-pr-xs">
