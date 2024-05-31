@@ -32,7 +32,6 @@
     </q-card-section>
     <q-card-actions class="encuesta-actions">
       <q-btn
-        color="primary"
         label="Enviar"
         @click="enviarEncuesta(opcionSeleccionada)"
         class="custom-btn"

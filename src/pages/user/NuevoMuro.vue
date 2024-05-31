@@ -262,7 +262,7 @@ reactiva la cuenta y se cancela el proceso. */
                         ><q-tooltip>Edad</q-tooltip></q-icon
                       >
                     </div>
-                    <div>{{ user.age }} años</div>
+                    <div>{{ user.age }} años  </div>
                       <span v-if="!user.edadPriv">
         Edad pública
       </span>

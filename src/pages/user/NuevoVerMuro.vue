@@ -105,7 +105,7 @@
                     <div class="title-name">{{user.name}} {{user.last_name}}</div>
                     <div v-if="user.quedadas && calificacion===0" class="q-px-md row">
                         <div class="columns items-center justify-center q-pt-sm" style="height: 15px;" >
-                            <p style="font-size: 15px; font-style: italic;">Karma:</p>
+                            <p style="font-size: 15px; font-style: italic; padding: 10px 0;">Karma:</p>
                         </div>
                         <q-rating
                             v-model="calificacion"
@@ -125,7 +125,7 @@
                             <div>
                                 <div class="row text-grey-8 q-pt-sm">
                                     <div class="text-bold q-pr-xs"><q-icon name="child_care" size="25px"><q-tooltip>Edad</q-tooltip></q-icon></div>
-                                    <div>{{user.age}} años</div>
+                                    <div v-if="!user.edadPriv">{{user.age}} años</div>
                                 </div>
                                 <div class="row text-grey-8 items-center q-pt-sm">
                                     <div class="text-bold q-pr-xs"><q-icon name="female" size="25px"><q-tooltip>Género</q-tooltip></q-icon></div>
@@ -298,16 +298,16 @@
             <div class="full-width q-px-lg q-py-md row justify-between items-center">
               <span class="text-bold text-h6">Listado de intereses</span>
             </div>
-            <div class="container-intereses" style="height: 100%; width: 100%;">
+            <div class="container-intereses" style="display: flex; justify-content: space-around; height: 100%; width: 100%;">
               <div class="q-py-sm" style="height: 100%; width: 230px;">
                 <span class="text-bold row justify-start items-center">
                   <q-icon name="live_tv" class="q-mr-xs" size="20px"/>
                   <span>Películas favoritas </span>
                 </span>
-                <p v-if="user.peliculas" class="text-grey-8">
+                <p v-if="user.peliculas" class="text-grey-8" style="margin-top: 15px;">
                   {{user.peliculas}}
                 </p>
-                <p v-else class="text-grey-8">
+                <p v-else class="text-grey-8" style="margin-top: 15px;">
                   Sin peliculas cargadas por el momento.
                 </p>
               </div>
@@ -318,10 +318,10 @@
                   Artista y estilo musical favorito
                 </span>
               </span>
-              <p v-if="user.artista" class="text-grey-8">
+              <p v-if="user.artista" class="text-grey-8" style="margin-top: 15px;">
                   {{user.artista }}
                 </p>
-                <p v-else class="text-grey-8">
+                <p v-else class="text-grey-8" style="margin-top: 15px;">
                   Sin artistas y estilo musical cargados por el momento.
                 </p>
 
@@ -333,10 +333,10 @@
                 Deportes favoritos
                 </span>
                 </span>
-                <p v-if="user.deportes" class="text-grey-8">
+                <p v-if="user.deportes" class="text-grey-8" style="margin-top: 15px;">
                   {{ user.deportes }}
                 </p>
-                <p v-else class="text-grey-8">
+                <p v-else class="text-grey-8" style="margin-top: 15px;">
                   Sin deportes favoritos cargados por el momento
                 </p>
               </div>

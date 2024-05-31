@@ -235,8 +235,8 @@
           <q-toggle
               dense
               color="primary"
-              v-model="props.row.quedadasPriv"
-              :val="!props.row.quedadasPriv"
+              v-model="props.row.edadPriv"
+              :val="!props.row.edadPriv"
               @input="alertaDePrueba(props)"
             />
           <div>{{ props.row.birthdate }}</div>
