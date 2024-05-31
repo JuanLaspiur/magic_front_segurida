@@ -269,6 +269,13 @@ reactiva la cuenta y se cancela el proceso. */
       <span v-else style="padding:0 5px">
           Edad privada
       </span>
+      <q-toggle
+            dense
+            color="primary"
+            v-model="user.edadPriv"
+            :val="user.edadPriv === undefined ? false : user.edadPriv"
+            @input="cambiarEdadPrivacidad(user._id, user.edadPriv)"
+          />
                   </div>
                   <div class="row text-grey-8 items-center q-pt-sm">
                     <div class="text-bold q-pr-xs">
@@ -1107,6 +1114,16 @@ export default {
     }
   },
   methods: {
+    cambiarEdadPrivacidad (UserId, status) {
+      this.$api
+        .put(`cambiarPrivacidadEdad/${UserId}`, { status })
+        .then(response => {
+          console.log('Privacidad de edad actualizada:', response.data)
+        })
+        .catch(error => {
+          console.error('Error al actualizar la privacidad de la edad:', error)
+        })
+    },
     uploadImage () {
       const { canvas } = this.$refs.cropperr.getResult()
       if (canvas) {

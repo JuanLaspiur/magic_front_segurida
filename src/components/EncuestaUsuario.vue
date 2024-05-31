@@ -93,7 +93,6 @@ export default {
             'Ya respondió. Solo es posible responder una vez. Agradecemos su participacion',
           color: 'negative' // Color rojo para indicar un mensaje de advertencia
         })
-        // this.remontarComponente()
         return
       }
 
@@ -105,22 +104,18 @@ export default {
       this.$api
         .post('opciones_admin123/votar', data)
         .then(response => {
+          this.opcionesUltimaEncuesta = response
           this.$q.notify({
             message: 'Encuesta enviada. Gracias por responder',
             color: 'positive'
           })
+          this.mostrarComponente = false
           this.remontarComponente()
         })
         .catch(error => {
           console.error('Error al enviar la encuesta:', error)
           alert('No se pudo enviar su respuesta.. intente más tarde')
         })
-    },
-    chunckFromArray (array, size) {
-      const newArray = [...array]
-      for (let i = 0; i < newArray.length; i += size) {
-        this.chunck.push(newArray.slice(i, i + size))
-      }
     },
     obtenerOpcionesEncuesta () {
       const nuevaEncuesta = this.ultimaEncuesta
