@@ -50,7 +50,7 @@
           color="primary"
           dense
         />-->
-        </div>
+      </div>
 
       <div v-if="selectedOption === 'option1'">
         <q-input
@@ -72,7 +72,7 @@
       <div v-if="selectedOption === 'option2'">
         <div
           class="row q-gutter-md p-4 m-4"
-          style="width: max-content; margin:auto"
+          style="width: max-content; margin: auto"
         >
           <q-radio
             v-model="selectedGender"
@@ -233,12 +233,12 @@
       <template v-slot:body-cell-age="props">
         <q-td :props="props">
           <q-toggle
-              dense
-              color="primary"
-              v-model="props.row.edadPriv"
-              :val="!props.row.edadPriv"
-              @input="alertaDePrueba(props)"
-            />
+            dense
+            color="primary"
+            v-model="props.row.edadPriv"
+            :val="props.row.edadPriv === undefined ? false : props.row.edadPriv"
+            @input="cambiarEdadPrivacidad(props.row._id, props.row.edadPriv)"
+          />
           <div>{{ props.row.birthdate }}</div>
           <div class="text-caption">
             {{ calcularEdad(props.row.birthdate) }} años
@@ -456,16 +456,15 @@
       </q-card>
     </q-dialog>
 
-     <q-btn
+    <q-btn
       dense
       class="bg-primary text-white"
       style="display: absolute; top: 10px; margin-left: 10px"
       @click="datosGraficos()"
-      >
+    >
       Datos Gráficos
     </q-btn>
   </div>
-
 </template>
 
 <script>
@@ -620,6 +619,16 @@ export default {
     this.getInfo()
   },
   methods: {
+    cambiarEdadPrivacidad (UserId, status) {
+      this.$api
+        .put(`cambiarPrivacidadEdad/${UserId}`, { status })
+        .then(response => {
+          console.log('Privacidad de edad actualizada:', response.data)
+        })
+        .catch(error => {
+          console.error('Error al actualizar la privacidad de la edad:', error)
+        })
+    },
     alertaDePrueba (props) {
       alert(props)
       console.log(JSON.stringify(props), ' props')
