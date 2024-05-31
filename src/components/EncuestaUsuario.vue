@@ -198,6 +198,7 @@ export default {
   font-family: 'Roboto', sans-serif;
   font-size: 18px;
   border-radius: 10px;
+
 }
 
 /* Estilos para cada opción */
@@ -214,8 +215,8 @@ export default {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  width: 20px;
-  height: 20px;
+  width: 17px;
+  height: 17px;
   border-radius: 50%;
   border: 2px solid #f44336;
   outline: none;
@@ -226,6 +227,7 @@ export default {
   cursor: pointer;
   font-size: 16px;
   color: #333;
+  color: #b32b21;
 }
 
 /* Estilos cuando el botón de radio está seleccionado */
