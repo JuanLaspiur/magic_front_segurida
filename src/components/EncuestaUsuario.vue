@@ -1,37 +1,36 @@
 <template>
   <q-card
-    style="padding: 0px 20px 10px 20px; border-radius: 5px"
+    class="encuesta-card"
     v-if="ultimaEncuesta"
   >
-    <q-card-section class="q-pa-md">
+    <q-card-section class="encuesta-section">
+      <img src="../assets/logoEncuesta.png" style="margin: -50px auto; width: 80px; height: 80px;"/>
       <!-- Contenido de la encuesta -->
-      <h5 class="text-center" style="margin-bottom: 20px; color: #0065d8">
+      <h5 class="encuesta-title">
         {{ ultimaEncuesta.pregunta }}
       </h5>
 
-      <div>
-        <div class="opciones-container">
-          <div
-            v-for="(opcion, index) in opcionesUltimaEncuesta"
-            :key="index"
-            class="opcion-item"
-          >
-            <input
-              type="radio"
-              :id="'opcion_' + index"
-              :value="opcion._id"
-              v-model="opcionSeleccionada"
-              @change="actualizarSeleccion(index)"
-              class="opcion-input"
-            />
-            <label :for="'opcion_' + index" class="opcion-label">{{
-              opcion.texto
-            }}</label>
-          </div>
+      <div class="opciones-container">
+        <div
+          v-for="(opcion, index) in opcionesUltimaEncuesta"
+          :key="index"
+          class="opcion-item"
+        >
+          <input
+            type="radio"
+            :id="'opcion_' + index"
+            :value="opcion._id"
+            v-model="opcionSeleccionada"
+            @change="actualizarSeleccion(index)"
+            class="opcion-input"
+          />
+          <label :for="'opcion_' + index" class="opcion-label">{{
+            opcion.texto
+          }}</label>
         </div>
       </div>
     </q-card-section>
-    <q-card-actions>
+    <q-card-actions class="encuesta-actions">
       <q-btn
         color="primary"
         label="Enviar"
@@ -41,7 +40,6 @@
     </q-card-actions>
   </q-card>
 </template>
-
 <script>
 import { Notify } from 'quasar'
 export default {
@@ -166,31 +164,50 @@ export default {
   }
 }
 </script>
+
 <style>
-.custom-btn {
-  font-size: 14px;
-  padding: 4px 8px;
-  border-radius: 20px;
-  text-transform: uppercase;
+/* Estilos para la tarjeta de la encuesta */
+.encuesta-card {
+  width: 250px;
+  padding: 0px 20px 10px 20px;
+  border-radius: 15px;
+  background-color: #fafafa;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
 }
 
-/* Estilos adicionales cuando el botón está en estado hover (sobre) */
-.custom-btn:hover {
-  background-color: #0065d8;
-  color: white;
+/* Estilos para la sección de la encuesta */
+.encuesta-section {
+  padding: 20px;
 }
+
+/* Estilos para el título de la encuesta */
+.encuesta-title {
+  margin-bottom: 20px;
+  color: #f44336;
+  font-size: 20px;
+  font-weight: bold;
+  font-family: 'Arial', sans-serif; /* Cambiar la fuente a Arial */
+}
+
+/* Estilos para el contenedor de opciones */
 .opciones-container {
   font-family: 'Roboto', sans-serif;
-  font-size: 20px;
-  border-radius: 20px;
+  font-size: 18px;
+  border-radius: 10px;
 }
 
+/* Estilos para cada opción */
 .opcion-item {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
 }
 
+/* Estilos para el input de opción */
 .opcion-input {
   cursor: pointer;
   margin-right: 10px;
@@ -200,10 +217,11 @@ export default {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  border: 2px solid #333;
+  border: 2px solid #f44336;
   outline: none;
 }
 
+/* Estilos para la etiqueta de opción */
 .opcion-label {
   cursor: pointer;
   font-size: 16px;
@@ -212,6 +230,28 @@ export default {
 
 /* Estilos cuando el botón de radio está seleccionado */
 .opcion-input:checked {
-  background-color: #0065d8;
+  background-color: #f44336;
+}
+
+/* Estilos para los botones de acción */
+.encuesta-actions {
+  justify-content: center;
+}
+
+/* Estilos para el botón de enviar */
+.custom-btn {
+  font-size: 13px;
+  padding: 4px 11px;
+  border-radius: 25px;
+  text-transform: uppercase;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+/* Estilos adicionales cuando el botón está en estado hover (sobre) */
+.custom-btn:hover {
+  background-color: #d32f2f;
 }
 </style>
