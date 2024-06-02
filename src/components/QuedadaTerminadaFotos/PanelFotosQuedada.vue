@@ -65,7 +65,7 @@ export default {
   computed: {
     photoGroups () {
       const groups = []
-      const groupSize = window.innerWidth <= 572 ? 1 : 9 // Define el tamaño del grupo basado en el ancho de la pantalla
+      const groupSize = window.innerWidth <= 572 ? 2 : 3 // Define el tamaño del grupo basado en el ancho de la pantalla
       for (let i = 0; i < this.participants.length; i += groupSize) {
         groups.push(this.participants.slice(i, i + groupSize))
       }
@@ -122,7 +122,6 @@ export default {
 
 .photos-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
   grid-gap: 8px;
   margin-top: 20px;
   justify-content: center;
@@ -135,9 +134,10 @@ export default {
   overflow: hidden;
   cursor: pointer;
   transition: transform 0.3s ease-in-out;
-  width: 300px;
-  height: 240px;
-  z-index: 999;
+  width: 100%;
+  height: auto; /* Cambia a auto para que el tamaño se ajuste automáticamente */
+  max-width: 300px; /* Establece un ancho máximo para que las fotos no se agranden demasiado */
+  margin-bottom: 16px; /* Ajusta el espacio entre las fotos */
 }
 
 .photo-card:hover {
@@ -146,7 +146,7 @@ export default {
 
 .photo {
   width: 100%;
-  height: 200px;
+  height: 100%; /* Establece la altura al 100% para que la imagen ocupe todo el espacio disponible */
   object-fit: cover;
 }
 
@@ -173,11 +173,11 @@ export default {
 
 .modal-content {
   background-color: #fefefe;
-  margin: 2% auto;
+  margin: 10% auto;
   padding: 20px;
   border: 1px solid #888;
   width: 80%;
-  width: 800px;
+  max-width: 600px;
   position: relative;
 }
 
