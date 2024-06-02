@@ -1,25 +1,50 @@
 <template>
   <div class="photos-container">
-    <div class="photos-grid">
-      <div
-        v-for="(participant, index) in participants"
-        :key="index"
-        class="photo-card"
-      >
-        <img :src="participant.photo" :alt="participant.name" class="photo" />
-        <span class="participant-name">{{ participant.name }}</span>
-      </div>
+    <div class="carousel-wrapper">
+      <carousel :per-page="1">
+        <slide v-for="(group, index) in photoGroups" :key="index">
+          <div class="photos-grid">
+            <div
+              v-for="(participant, idx) in group"
+              :key="idx"
+              class="photo-card"
+            >
+              <img
+                :src="participant.photo"
+                :alt="participant.name"
+                class="photo"
+              />
+              <span class="participant-name">{{ participant.name }}</span>
+            </div>
+          </div>
+        </slide>
+      </carousel>
     </div>
   </div>
 </template>
 
 <script>
+import { Carousel, Slide } from 'vue-carousel'
+
 export default {
   name: 'PanelFotosQuedada',
+  components: {
+    Carousel,
+    Slide
+  },
   props: {
     participants: {
       type: Array,
       required: true
+    }
+  },
+  computed: {
+    photoGroups () {
+      const groups = []
+      for (let i = 0; i < this.participants.length; i += 9) {
+        groups.push(this.participants.slice(i, i + 9))
+      }
+      return groups
     }
   }
 }
@@ -29,13 +54,29 @@ export default {
 .photos-container {
   display: flex;
   justify-content: center;
+  width: 100%;
+}
+
+.carousel-wrapper {
+  width: auto;
+  display: flex;
+  justify-content: center;
+}
+
+.carousel {
+  position: relative;
+  width: auto;
+  display: flex;
+  justify-content: center;
 }
 
 .photos-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-gap: 20px;
+  grid-gap: 8px;
   margin-top: 20px;
+  justify-content: center;
+  padding: 0 15%;
 }
 
 .photo-card {
@@ -44,6 +85,9 @@ export default {
   overflow: hidden;
   cursor: pointer;
   transition: transform 0.3s ease-in-out;
+  width: 300px;
+  height: 240px;
+  z-index: 999;
 }
 
 .photo-card:hover {
@@ -61,10 +105,16 @@ export default {
   padding: 10px;
   font-weight: bold;
   color: #333;
+  text-align: center;
 }
+
 @media (max-width: 572px) {
   .photos-grid {
     grid-template-columns: repeat(1, 1fr);
+  }
+
+  .photo-card {
+    width: 100%;
   }
 }
 </style>
