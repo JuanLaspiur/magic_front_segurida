@@ -8,6 +8,7 @@
               v-for="(participant, idx) in group"
               :key="idx"
               class="photo-card"
+              @click="openModal(participant.photo, participant.name)"
             >
               <img
                 :src="participant.photo"
@@ -19,6 +20,13 @@
           </div>
         </slide>
       </carousel>
+    </div>
+    <div v-if="modalOpen" class="modal">
+      <div class="modal-content">
+        <span class="close" @click="closeModal">&times;</span>
+        <img :src="selectedPhoto" :alt="selectedName" class="modal-image" />
+        <div class="participant-name">{{ selectedName }}</div>
+      </div>
     </div>
   </div>
 </template>
@@ -38,14 +46,31 @@ export default {
       required: true
     }
   },
+  data () {
+    return {
+      modalOpen: false,
+      selectedPhoto: '',
+      selectedName: ''
+    }
+  },
   computed: {
     photoGroups () {
       const groups = []
-      const groupSize = window.innerWidth <= 572 ? 2 : 9 // Define el tamaño del grupo basado en el ancho de la pantalla
+      const groupSize = window.innerWidth <= 572 ? 1 : 9 // Define el tamaño del grupo basado en el ancho de la pantalla
       for (let i = 0; i < this.participants.length; i += groupSize) {
         groups.push(this.participants.slice(i, i + groupSize))
       }
       return groups
+    }
+  },
+  methods: {
+    openModal (photo, name) {
+      this.selectedPhoto = photo
+      this.selectedName = name
+      this.modalOpen = true
+    },
+    closeModal () {
+      this.modalOpen = false
     }
   }
 }
@@ -109,13 +134,47 @@ export default {
   text-align: center;
 }
 
-@media (max-width: 572px) {
-  .photos-grid {
-    grid-template-columns: repeat(1, 1fr);
-  }
+/* Modal */
+.modal {
+  display: block;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.8);
+}
 
-  .photo-card {
-    width: 100%;
-  }
+.modal-content {
+  background-color: #fefefe;
+  margin: 10% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 600px;
+  position: relative;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin-bottom: 10px;
 }
 </style>
