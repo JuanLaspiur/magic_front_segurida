@@ -12,10 +12,13 @@
         dense
         color="grey"
       />
-      <h1 class="text-h4">Fotos de la Quedada</h1>
+      <h1 class="text-h4">Quedada Finalizada</h1>
     </div>
     <div class="imagenes-grupo">
       <PanelFotosQuedada :participants="participants" />
+    </div>
+    <div class="comentarios-container">
+      <PanelComentarios />
     </div>
   </div>
 </template>
@@ -23,12 +26,13 @@
 <script>
 import CabeceraQuedadaTerminada from '../../components/QuedadaTerminadaFotos/CabeceraQuedadaTerminada'
 import PanelFotosQuedada from '../../components/QuedadaTerminadaFotos/PanelFotosQuedada.vue'
-
+import PanelComentarios from '../../components/QuedadaTerminadaFotos/PanelComentarios.vue'
 export default {
   name: 'QuedadaPanel',
   components: {
     CabeceraQuedadaTerminada,
-    PanelFotosQuedada
+    PanelFotosQuedada,
+    PanelComentarios
   },
   data () {
     return {
@@ -127,5 +131,10 @@ export default {
   display: flex;
   justify-content: center;
 }
-
+/* Estilos para el contenedor de comentarios */
+.comentarios-container {
+  display: flex;
+  justify-content: center; /* Centrar horizontalmente */
+  margin-top: 20px; /* Espaciado superior */
+}
 </style>
