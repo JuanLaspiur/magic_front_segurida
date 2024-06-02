@@ -1,6 +1,8 @@
 <template>
   <div class="quedada-panel">
-    <CabeceraQuedadaTerminada />
+    <div v-if="showCabecera">
+      <CabeceraQuedadaTerminada />
+    </div>
     <div class="header">
       <q-btn
         @click="goBack"
@@ -97,7 +99,8 @@ export default {
           photo:
             'https://th.bing.com/th/id/OIP.AWm5PRocqyXsiXqmOL06NwHaFj?rs=1&pid=ImgDetMain'
         }
-      ]
+      ],
+      showCabecera: window.innerWidth > 576
     }
   },
   methods: {

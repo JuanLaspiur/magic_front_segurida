@@ -117,6 +117,7 @@ export default {
 
 /* Estilos para el input del nuevo comentario */
 .input-comment {
+  width: 80%;
   border-radius: 20px; /* Bordes redondeados */
   padding: 8px 12px; /* Espaciado interno */
   border: 1px solid #ddd; /* Borde */
@@ -126,17 +127,35 @@ export default {
 /* Estilos para el botón de enviar */
 .custom-btn {
   font-size: 13px; /* Tamaño de fuente */
-  padding: 4px 11px; /* Espaciado interno */
+  padding: 8px 15px; /* Espaciado interno */
   border-radius: 25px; /* Bordes redondeados */
   text-transform: uppercase; /* Convertir texto a mayúsculas */
   background-color: #f44336; /* Color de fondo */
   color: white; /* Color del texto */
   border: none; /* Sin borde */
   transition: background-color 0.3s ease; /* Transición al pasar el ratón */
+  cursor: pointer;
+  margin-left: 10px;
 }
 
 /* Estilos adicionales cuando el botón está en estado hover (sobre) */
 .custom-btn:hover {
   background-color: #d32f2f; /* Cambio de color de fondo */
+}
+@media (width <= 576px) {
+  .custom-btn {
+    margin-left: 5px; /* Ancho del panel de comentarios en pantallas más grandes */
+  }
+  .input-comment {
+  width: 63%;
+}}
+@media (width <= 320px) {
+  .custom-btn {
+    padding: 5px 10px;
+    margin-left: 2px;
+  }
+  .input-comment {
+  width: 63%;
+}
 }
 </style>
