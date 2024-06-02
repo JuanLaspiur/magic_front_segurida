@@ -125,7 +125,7 @@
                             <div>
                                 <div class="row text-grey-8 q-pt-sm">
                                     <div class="text-bold q-pr-xs"><q-icon name="child_care" size="25px"><q-tooltip>Edad</q-tooltip></q-icon></div>
-                                    <div v-if="!user.edadPriv">{{user.age}} años</div>
+                                    <div v-if="user.edadPriv">{{user.age}} años</div>
                                 </div>
                                 <div class="row text-grey-8 items-center q-pt-sm">
                                     <div class="text-bold q-pr-xs"><q-icon name="female" size="25px"><q-tooltip>Género</q-tooltip></q-icon></div>

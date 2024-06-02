@@ -38,15 +38,15 @@ export default {
       type: Array,
       default: () => [
         {
-          user: { name: 'Usuario1', photo: 'https://via.placeholder.com/50' },
+          user: { name: 'Usuario1', photo: 'https://this-person-does-not-exist.com/img/avatar-gen11c33949f9fdce9849d37cedceb11c59.jpg' },
           text: '¡Gran foto!'
         },
         {
-          user: { name: 'Usuario2', photo: 'https://via.placeholder.com/50' },
+          user: { name: 'Usuario2', photo: 'https://this-person-does-not-exist.com/img/avatar-gen11cb4e083c3639c50dba3cdfdf726eec.jpg' },
           text: 'Me encanta este lugar.'
         },
         {
-          user: { name: 'Usuario3', photo: 'https://via.placeholder.com/50' },
+          user: { name: 'Usuario3', photo: 'https://this-person-does-not-exist.com/img/avatar-geneec96d6cda207041ac55373bd1a453e2.jpg' },
           text: 'Excelente captura.'
         }
       ] // Comentarios de prueba
