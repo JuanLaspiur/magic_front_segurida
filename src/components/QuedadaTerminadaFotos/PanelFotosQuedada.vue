@@ -26,8 +26,10 @@
         <span class="close" @click="closeModal">&times;</span>
         <img :src="selectedPhoto" :alt="selectedName" class="modal-image" />
         <div class="participant-name">{{ selectedName }}</div>
-        <button class="prev" @click="prevImage">Anterior</button>
-        <button class="next" @click="nextImage">Siguiente</button>
+        <div class="modal-buttons">
+          <button class="prev" @click="prevImage">Anterior</button>
+          <button class="next" @click="nextImage">Siguiente</button>
+        </div>
       </div>
     </div>
   </div>
@@ -209,26 +211,28 @@ export default {
   margin-bottom: 10px;
 }
 
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
 .prev,
 .next {
-  cursor: pointer;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  padding: 10px;
-  background-color: rgba(244, 0, 0, 0.5);
+  font-size: 13px;
+  padding: 8px 15px;
+  border-radius: 25px;
+  background-color: #f44336;
+  color: white;
   border: none;
-  color: #333;
-  font-size: 16px;
+  transition: background-color 0.3s ease;
+  cursor:pointer;
 }
 
-.prev {
-  left: 10px;
+.prev:hover,
+.next:hover {
+  background-color: #d32f2f;
 }
 
-.next {
-  right: 10px;
-}
 @media screen and (max-width: 768px) {
   .carousel {
     position: relative;
@@ -238,8 +242,8 @@ export default {
   }
   .photos-grid {
     padding: 0 10px; /* Reducir el relleno */
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
   }
   .photo-card {
     width: 100vw; /* Hacer que las tarjetas ocupen todo el ancho */
