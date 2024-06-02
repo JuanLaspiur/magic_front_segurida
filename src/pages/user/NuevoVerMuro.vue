@@ -123,9 +123,9 @@
                     <div class="q-px-md q-py-xs">
                         <div class="row justify-between">
                             <div>
-                                <div class="row text-grey-8 q-pt-sm">
+                                <div class="row text-grey-8 q-pt-sm" v-if="user.edadPriv">
                                     <div class="text-bold q-pr-xs"><q-icon name="child_care" size="25px"><q-tooltip>Edad</q-tooltip></q-icon></div>
-                                    <div v-if="user.edadPriv">{{user.age}} años</div>
+                                    <div >{{user.age}} años</div>
                                 </div>
                                 <div class="row text-grey-8 items-center q-pt-sm">
                                     <div class="text-bold q-pr-xs"><q-icon name="female" size="25px"><q-tooltip>Género</q-tooltip></q-icon></div>
