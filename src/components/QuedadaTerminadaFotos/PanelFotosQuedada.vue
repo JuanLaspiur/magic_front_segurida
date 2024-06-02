@@ -1,7 +1,7 @@
 <template>
   <div class="photos-container">
     <div class="carousel-wrapper">
-      <carousel :per-page="1">
+      <carousel :per-page="calculatePerPage()">
         <slide v-for="(group, index) in photoGroups" :key="index">
           <div class="photos-grid">
             <div
@@ -26,14 +26,8 @@
         <span class="close" @click="closeModal">&times;</span>
         <img :src="selectedPhoto" :alt="selectedName" class="modal-image" />
         <div class="participant-name">{{ selectedName }}</div>
-        <div class="button-container">
-          <button class="prev-button" @click="prevImage">
-            Anterior
-          </button>
-          <button class="next-button" @click="nextImage">
-            Siguiente
-          </button>
-        </div>
+        <button class="prev" @click="prevImage">Anterior</button>
+        <button class="next" @click="nextImage">Siguiente</button>
       </div>
     </div>
   </div>
@@ -65,7 +59,13 @@ export default {
   computed: {
     photoGroups () {
       const groups = []
-      const groupSize = window.innerWidth <= 572 ? 2 : 3 // Define el tamaño del grupo basado en el ancho de la pantalla
+      const screenWidth = window.innerWidth
+      let groupSize = 3 // Valor por defecto para pantallas grandes
+      if (screenWidth <= 572) {
+        groupSize = 1
+      } else if (screenWidth <= 900) {
+        groupSize = 2
+      }
       for (let i = 0; i < this.participants.length; i += groupSize) {
         groups.push(this.participants.slice(i, i + groupSize))
       }
@@ -95,6 +95,16 @@ export default {
         this.selectedPhoto = this.photoGroups.flat()[this.selectedIndex].photo
         this.selectedName = this.photoGroups.flat()[this.selectedIndex].name
       }
+    },
+    calculatePerPage () {
+      const screenWidth = window.innerWidth
+      if (screenWidth <= 572) {
+        return 1
+      } else if (screenWidth <= 900) {
+        return 2
+      } else {
+        return 3
+      }
     }
   }
 }
@@ -122,6 +132,7 @@ export default {
 
 .photos-grid {
   display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   grid-gap: 8px;
   margin-top: 20px;
   justify-content: center;
@@ -134,10 +145,6 @@ export default {
   overflow: hidden;
   cursor: pointer;
   transition: transform 0.3s ease-in-out;
-  width: 100%;
-  height: auto; /* Cambia a auto para que el tamaño se ajuste automáticamente */
-  max-width: 300px; /* Establece un ancho máximo para que las fotos no se agranden demasiado */
-  margin-bottom: 16px; /* Ajusta el espacio entre las fotos */
 }
 
 .photo-card:hover {
@@ -146,7 +153,7 @@ export default {
 
 .photo {
   width: 100%;
-  height: 100%; /* Establece la altura al 100% para que la imagen ocupe todo el espacio disponible */
+  height: 200px;
   object-fit: cover;
 }
 
@@ -202,25 +209,44 @@ export default {
   margin-bottom: 10px;
 }
 
-.button-container {
-  display: flex;
-  justify-content: space-between;
-}
-
-.prev-button,
-.next-button {
+.prev,
+.next {
   cursor: pointer;
-  padding: 10px 20px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 10px;
+  background-color: rgba(244, 0, 0, 0.5);
   border: none;
-  background-color: #007bff;
-  color: white;
+  color: #333;
   font-size: 16px;
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
 }
 
-.prev-button:hover,
-.next-button:hover {
-  background-color: #0056b3;
+.prev {
+  left: 10px;
+}
+
+.next {
+  right: 10px;
+}
+@media screen and (max-width: 768px) {
+  .carousel {
+    position: relative;
+  }
+  .photos-container {
+    width: 100vw;
+  }
+  .photos-grid {
+    padding: 0 10px; /* Reducir el relleno */
+  display: flex;
+  align-items: center;
+  }
+  .photo-card {
+    width: 100vw; /* Hacer que las tarjetas ocupen todo el ancho */
+  }
+  .photo {
+    width: 100%;
+    height: auto; /* Permitir que la altura se ajuste automáticamente */
+  }
 }
 </style>
