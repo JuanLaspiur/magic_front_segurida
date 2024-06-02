@@ -41,8 +41,9 @@ export default {
   computed: {
     photoGroups () {
       const groups = []
-      for (let i = 0; i < this.participants.length; i += 9) {
-        groups.push(this.participants.slice(i, i + 9))
+      const groupSize = window.innerWidth <= 572 ? 2 : 9 // Define el tamaño del grupo basado en el ancho de la pantalla
+      for (let i = 0; i < this.participants.length; i += groupSize) {
+        groups.push(this.participants.slice(i, i + groupSize))
       }
       return groups
     }
