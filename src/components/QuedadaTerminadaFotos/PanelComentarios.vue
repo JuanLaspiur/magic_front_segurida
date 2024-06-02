@@ -87,8 +87,8 @@ export default {
 /* Estilos para cada comentario */
 .comentario {
   display: flex; /* Mostrar comentarios en fila */
-  margin-top: 10px; /* Espaciado entre comentarios */
-  align-items: flex-start; /* Alinear elementos al inicio */
+  margin-top: 22px; /* Espaciado entre comentarios */
+  align-items: flex-start;
 }
 
 /* Estilos para el avatar */

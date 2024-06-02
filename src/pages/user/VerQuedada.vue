@@ -18,7 +18,7 @@
       <PanelFotosQuedada :participants="participants" />
     </div>
     <div class="comentarios-container">
-      <PanelComentarios />
+      <PanelComentarios  class="panel-comentarios-compoente"/>
     </div>
   </div>
 </template>
@@ -136,5 +136,11 @@ export default {
   display: flex;
   justify-content: center; /* Centrar horizontalmente */
   margin-top: 20px; /* Espaciado superior */
+}
+
+@media (width > 576px) {
+  .panel-comentarios-compoente {
+    width: 576px; /* Ancho del panel de comentarios en pantallas más grandes */
+  }
 }
 </style>
