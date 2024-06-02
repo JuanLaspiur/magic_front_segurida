@@ -8,7 +8,7 @@
               v-for="(participant, idx) in group"
               :key="idx"
               class="photo-card"
-              @click="openModal(participant.photo, participant.name)"
+              @click="openModal(participant.photo, participant.name, idx)"
             >
               <img
                 :src="participant.photo"
@@ -26,6 +26,14 @@
         <span class="close" @click="closeModal">&times;</span>
         <img :src="selectedPhoto" :alt="selectedName" class="modal-image" />
         <div class="participant-name">{{ selectedName }}</div>
+        <div class="button-container">
+          <button class="prev-button" @click="prevImage">
+            Anterior
+          </button>
+          <button class="next-button" @click="nextImage">
+            Siguiente
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -50,7 +58,8 @@ export default {
     return {
       modalOpen: false,
       selectedPhoto: '',
-      selectedName: ''
+      selectedName: '',
+      selectedIndex: 0
     }
   },
   computed: {
@@ -64,13 +73,28 @@ export default {
     }
   },
   methods: {
-    openModal (photo, name) {
+    openModal (photo, name, index) {
       this.selectedPhoto = photo
       this.selectedName = name
+      this.selectedIndex = index
       this.modalOpen = true
     },
     closeModal () {
       this.modalOpen = false
+    },
+    prevImage () {
+      if (this.selectedIndex > 0) {
+        this.selectedIndex--
+        this.selectedPhoto = this.photoGroups.flat()[this.selectedIndex].photo
+        this.selectedName = this.photoGroups.flat()[this.selectedIndex].name
+      }
+    },
+    nextImage () {
+      if (this.selectedIndex < this.photoGroups.flat().length - 1) {
+        this.selectedIndex++
+        this.selectedPhoto = this.photoGroups.flat()[this.selectedIndex].photo
+        this.selectedName = this.photoGroups.flat()[this.selectedIndex].name
+      }
     }
   }
 }
@@ -149,11 +173,11 @@ export default {
 
 .modal-content {
   background-color: #fefefe;
-  margin: 10% auto;
+  margin: 2% auto;
   padding: 20px;
   border: 1px solid #888;
   width: 80%;
-  max-width: 600px;
+  width: 800px;
   position: relative;
 }
 
@@ -176,5 +200,27 @@ export default {
   height: auto;
   display: block;
   margin-bottom: 10px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.prev-button,
+.next-button {
+  cursor: pointer;
+  padding: 10px 20px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.prev-button:hover,
+.next-button:hover {
+  background-color: #0056b3;
 }
 </style>
