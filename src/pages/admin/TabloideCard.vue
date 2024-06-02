@@ -19,16 +19,12 @@
           </div>
           <div v-else class="text-subtitle">Clicks en este tabloide: 0</div>
           <div v-if="tabloide.nro_posicion" class="text-subtitle">
-            POSICIÓN DEL tabloide:
-            <template v-if="tabloide.nro_posicion === '1'">
-              <p>SUPERIOR</p>
-            </template>
-            <template v-else>
-              <p>INFERIOR</p>
-            </template>
-          </div>
-          <div v-else class="text-subtitle">
-            POSICIÓN DEL tabloide: SUPERIOR
+            <div v-if="tabloide.nro_posicion === '1'" >
+              <p> POSICIÓN DEL tabloide: SUPERIOR</p>
+            </div>
+            <div v-else>
+              <p>POSICIÓN DEL tabloide: INFERIOR</p>
+            </div>
           </div>
         </div>
         <div>
@@ -88,6 +84,7 @@
     </q-dialog>
   </div>
 </template>
+
 <script>
 import env from '../../env'
 import { openURL } from 'quasar'
@@ -129,6 +126,7 @@ export default {
   }
 }
 </script>
+
 <style lang="scss" scoped>
 @import url(../../scss/admin/TabloideCard.scss);
 </style>

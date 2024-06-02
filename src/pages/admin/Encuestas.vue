@@ -54,7 +54,7 @@
       <!-- Tarjeta para mostrar encuesta actual -->
       <div class="col-md-6" >
         <div class="card mb-4">
-          <div class="card-header">
+          <div class="card-header" style="padding:5px">
             <h5 class="card-title mb-0">Encuesta Actual</h5>
             <p style="font-size: 20px;"> La encuesta actual se encuentra en el panel principal del usuario en este momento</p>
           </div>
