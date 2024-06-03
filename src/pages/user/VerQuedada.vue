@@ -29,7 +29,6 @@
             transition-next="slide-left"
             @mouseenter="autoplay = false"
             @mouseleave="autoplay = true"
-            style="height: 250px"
             class="verQuedada_carousel shadow-1"
           >
             <template
@@ -44,12 +43,14 @@
               :img-src="
                 quedada && quedada._id ? baseuQuedada + quedada._id : ''
               "
+              class="carousel-slide"
             />
             <q-carousel-slide
               v-for="(img, index) of quedada.images"
               :key="index"
               :name="index + 1"
               :img-src="baseuQuedada + img"
+              class="carousel-slide"
             />
           </q-carousel>
           <div class="full-width q-my-md">
@@ -750,4 +751,21 @@ export default {
   border: 3px solid $accent;
 }
 @import url('../../scss/user/VerQuedada.scss');
+.verQuedada_carousel {
+  width: 100%;
+}
+
+.carousel-slide img {
+  object-fit: contain;
+  width: 100%;
+  height: auto;
+}
+
+.q-carousel__slides {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
 </style>
