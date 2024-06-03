@@ -371,14 +371,14 @@
     <q-dialog
       v-model="modalOpen"
       persistent
-      v-if="listaDeSolicitudes && listaDeSolicitudes.length > 0"
+      v-if="listaDeSolicitudes && listaDeSolicitudes.length > 0 && quedada.user_id === user._id"
     >
       <q-card>
         <q-card-section>
           <div class="text-h6">Lista de Solicitudes</div>
         </q-card-section>
         <!--  CONTAINER SOLICITUDES -->
-        <q-card-section>
+        <q-card-section >
           <table class="q-table">
             <thead>
               <tr>

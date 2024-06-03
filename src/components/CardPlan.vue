@@ -5,7 +5,7 @@
       <q-img
         :src="baseuQuedada + item._id"
         style="height: 130px"
-        @click="navigate(item)"
+        @click="$router.push('/quedada/' + item._id)"
       />
       <q-card-section
         class="row items-start justify-between q-pa-none q-pt-xs"
@@ -36,7 +36,7 @@
           <div style="height: 55px">
             <div
               class="text-primary text-bold pointer"
-              @click="navigate(item)"
+              @click="$router.push('/quedada/' + item._id)"
               style="font-size: 12px"
             >
               {{
@@ -145,7 +145,7 @@
       <q-img
         :src="baseuQuedada + item._id"
         style="height: 130px"
-        @click="navigate(item)"
+        @click="$router.push('/quedada/' + item._id)"
         v-if="item.privacy === 'Premium'"
       />
       <q-card-section
@@ -175,7 +175,7 @@
           class="col-9 q-pr-xs q-pl-sm column justify-between"
         >
           <div>
-            <div class="text-primary text-bold pointer" @click="navigate(item)">
+            <div class="text-primary text-bold pointer"  @click="$router.push('/quedada/' + item._id)">
               {{
                 item.name.length > 24
                   ? item.name.substring(0, 24) + '...'
@@ -284,7 +284,7 @@
           height: '130px',
           display: item.privacy !== 'Premium' && 'none'
         }"
-        @click="navigate(item)"
+       @click="$router.push('/quedada/' + item._id)"
       />
       <q-card-section
         class="row items-start justify-between q-pa-none q-pt-xs"
@@ -313,7 +313,7 @@
           class="col-9 q-pr-xs column items-between justify-between"
         >
           <div>
-            <div class="text-primary text-bold pointer" @click="navigate(item)">
+            <div class="text-primary text-bold pointer" @click="$router.push('/quedada/' + item._id)">
               {{
                 item.name.length > 24
                   ? item.name.substring(0, 24) + '...'
