@@ -83,9 +83,9 @@
             <q-btn
               no-caps
               dense
-              color="primary"
+              style="background-color: #f44336; color:white"
               class="full-width"
-              @click="asistir(quedada, true)"
+              @click="soliciutdAsistencia(quedada, true)"
               v-if="
                 user &&
                 user._id !== quedada.user_id &&
@@ -95,7 +95,7 @@
             >
               <div class="row items-center no-wrap">
                 <q-icon left name="thumb_up_off_alt" />
-                <div class="text-center">Asistiré</div>
+                <div class="text-center">Solicitar participación </div>
               </div>
             </q-btn>
             <q-btn
@@ -377,7 +377,7 @@
         <q-card-section>
           <div class="text-h6">Lista de Solicitudes</div>
         </q-card-section>
-
+        <!--  CONTAINER SOLICITUDES -->
         <q-card-section>
           <table class="q-table">
             <thead>
@@ -427,6 +427,13 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
+    <!-- Componente de Alerta de Solicitud Premium Modal -->
+    <AlertSolicitudPremiumModal
+      :visible="solicitudPremiumModalVisible"
+      :title="solicitudPremiumModalTitle"
+      :message="solicitudPremiumModalMessage"
+      @close="solicitudPremiumModalVisible = false"
+    />
   </div>
 </template>
 
@@ -436,8 +443,9 @@ import env from '../../env'
 import moment from 'moment'
 import ReportModal from 'src/components/ReportModal.vue'
 import { date } from 'quasar'
+import AlertSolicitudPremiumModal from '../../components/AlertSolicitudPremiumModal.vue'
 export default {
-  components: { ReportModal },
+  components: { ReportModal, AlertSolicitudPremiumModal },
   data () {
     return {
       reportData: null,
@@ -455,7 +463,10 @@ export default {
       listaDeSolicitudes: [],
       modalOpen: false,
       listaAsistentes: [],
-      upload: false
+      upload: false,
+      solicitudPremiumModalVisible: false,
+      solicitudPremiumModalTitle: '',
+      solicitudPremiumModalMessage: ''
     }
   },
   computed: {
@@ -480,6 +491,64 @@ export default {
     this.getUser()
   },
   methods: {
+    async soliciutdAsistencia (data, bool) {
+      try {
+        const sessionInfo = JSON.parse(localStorage.getItem('SESSION_INFO'))
+        if (!sessionInfo) {
+          return
+        } else {
+          console.log('token  ' + JSON.stringify(sessionInfo.token))
+        }
+        const token = sessionInfo.token
+        const response = await fetch(
+          `${env.apiUrl}solicitarPremium/${data._id}`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`
+            }
+          }
+        )
+
+        console.error('Respuesta del servidor ' + JSON.stringify(response))
+
+        const info = await response.json()
+        console.log(info) // Verifica el contenido de la respuesta
+
+        const sendValue = info.send
+
+        switch (sendValue) {
+          case 1:
+            this.solicitudPremiumModalTitle = 'Solicitud Enviada'
+            this.solicitudPremiumModalMessage =
+              'Magic te enviará una notificación en caso de ser aceptado'
+            break
+          case 2:
+            this.solicitudPremiumModalTitle = 'Solicitud Ya Enviada'
+            this.solicitudPremiumModalMessage =
+              'Ya has solicitado participar en esta quedada.'
+            break
+          case 3:
+            this.solicitudPremiumModalTitle = 'Quedada No Encontrada'
+            this.solicitudPremiumModalMessage = 'Quedada no encontrada.'
+            break
+          default:
+            this.solicitudPremiumModalTitle = 'Error'
+            this.solicitudPremiumModalMessage =
+              'Ha ocurrido un error al solicitar participación.'
+            break
+        }
+
+        this.solicitudPremiumModalVisible = true
+      } catch (error) {
+        console.error(error)
+        this.solicitudPremiumModalTitle = 'Error'
+        this.solicitudPremiumModalMessage =
+          'Ha ocurrido un error al solicitar participación.'
+        this.solicitudPremiumModalVisible = true
+      }
+    },
     async actualizarParticipantes () {
       const res = await this.$api.get('quedada_info/' + this.quedada._id)
       if (res) {
@@ -767,5 +836,4 @@ export default {
   align-items: center;
   width: 100%;
 }
-
 </style>
