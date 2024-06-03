@@ -1,6 +1,5 @@
 <template>
   <div v-if="item" class="q-mt-lg q-mr-sm" style="width: 380px">
-    <!--PANTALLA CHICA-->
     <q-card v-if="width < 365" style="border-radius: 10px; width: 100%">
       <q-img
         :src="baseuQuedada + item._id"
@@ -90,9 +89,7 @@
               >
                 <div class="row items-center no-wrap">
                   <q-icon left name="thumb_up_off_alt" />
-                  <div class="text-center" style="font-size: 8px">
-                    Asistiré 1
-                  </div>
+                  <div class="text-center" style="font-size: 8px">Asistiré</div>
                 </div>
               </q-btn>
               <q-btn
@@ -127,7 +124,6 @@
         </div>
       </q-card-section>
     </q-card>
-    <!-- PANTALLA MEDIANA-->
     <q-card v-else-if="width < 600" style="border-radius: 10px; width: 100%">
       <q-img
         :src="baseuQuedada + item._id"
@@ -215,7 +211,7 @@
               >
                 <div class="row items-center no-wrap">
                   <q-icon left name="thumb_up_off_alt" />
-                  <div class="text-center">Asistiré 2</div>
+                  <div class="text-center">Asistiré</div>
                 </div>
               </q-btn>
               <q-btn
@@ -248,7 +244,6 @@
         </div>
       </q-card-section>
     </q-card>
-    <!---PANTALLA GRANDE-->
     <q-card v-else style="border-radius: 10px; width: 100%">
       <q-img
         :src="baseuQuedada + item._id"
@@ -326,13 +321,7 @@
               <q-btn
                 no-caps
                 dense
-                :style="{color:'#fff',
-                  backgroundColor: item.asistentes.find(
-                    v => v.user_id === user._id
-                  )
-                    ? '#1976D2'
-                    : '#f44336' // Primary color can be #1976D2 or any valid hex color
-                }"
+                color="primary"
                 size="0.9em"
                 @click="asistir(item, true)"
                 v-if="
@@ -341,22 +330,11 @@
                   fechaAnterior > 0
                 "
               >
-                <div
-                  class="row items-center no-wrap"
-                  v-if="item.asistentes.find(v => v.user_id === user._id)"
-                >
+                <div class="row items-center no-wrap">
                   <q-icon left name="thumb_up_off_alt" />
-                  <div class="text-center" style="font-size: 14px">
-                    Asistiré 3
-                  </div>
-                </div>
-                <div class="row items-center no-wrap" v-else>
-                  <div class="text-center" style="font-size: 14px; width: 100%">
-                    Solicitud
-                  </div>
+                  <div class="text-center">Asistiré</div>
                 </div>
               </q-btn>
-
               <q-btn
                 no-caps
                 dense
@@ -473,7 +451,7 @@ export default {
         } else {
           this.solicitudPremiumModalTitle = 'Solicita Permiso'
           this.solicitudPremiumModalMessage =
-            'Haz click en el botón "Solicitud" para pedir permisos de ingreso.'
+            'Haz click en el boton asistir para pedir permisos de ingreso.'
           this.solicitudPremiumModalVisible = true
         }
       } else {
