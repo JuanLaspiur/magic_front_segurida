@@ -552,7 +552,7 @@ export default {
     async actualizarParticipantes () {
       const res = await this.$api.get('quedada_info/' + this.quedada._id)
       if (res) {
-        this.listaAsistentes = res.asistentes
+        this.listaAsistentes = res.asistentes.filter(item => item.asistencia === true)
       }
     },
     getItemRating (item) {
