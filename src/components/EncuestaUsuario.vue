@@ -164,7 +164,7 @@ export default {
 .encuesta-card {
   width: 250px;
   padding: 0px 20px 10px 20px;
-  border-radius: 15px;
+  border-radius: 20px;
   background-color: #fafafa;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
   display: flex;
