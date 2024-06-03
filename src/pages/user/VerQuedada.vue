@@ -108,7 +108,7 @@
                 </div>
               </q-btn>
               <!-- confirmar asistencia -->
-              <!-- Solicitar participación -->
+              <!-- Solicitar participación
               <q-btn
                 v-if="
                   user &&
@@ -130,7 +130,7 @@
                     Solicitar participación
                   </div>
                 </div>
-              </q-btn>
+              </q-btn> -->
               <!-- Confirmar asistencia -->
               <q-btn
                 v-else-if="
@@ -322,7 +322,7 @@
                       : ''
                   }}
                 </div>
-                <div class="text-grey-7">
+                <div class="text-grey-7" v-if="quedada.userInfo.edadPriv">
                   {{
                     quedada &&
                     quedada.userInfo &&
@@ -370,7 +370,10 @@
                       {{ item.userInfo && item.userInfo.name }}
                       {{ item.userInfo && item.userInfo.last_name }}
                     </q-item-label>
-                    <q-item-label class="text-grey-7 ellipsis">
+                    <q-item-label
+                      class="text-grey-7 ellipsis"
+                      v-if="item.userInfo.edadPriv"
+                    >
                       <b>({{ item.userInfo && item.userInfo.age }} años)</b>
                     </q-item-label>
                     <q-item-label
@@ -807,7 +810,10 @@ export default {
         const res = await this.$api.get('quedada_info/' + id)
         if (res) {
           this.quedada = res
-          this.listaAsistentes = this.quedada.asistentes
+          this.listaAsistentes = res.asistentes.filter(
+            item => item.asistencia === true
+          )
+
           if (
             this.quedada.asistentes.find(
               v =>
