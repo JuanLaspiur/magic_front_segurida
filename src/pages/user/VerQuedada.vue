@@ -53,7 +53,9 @@
               class="carousel-slide"
             />
           </q-carousel>
+          <!--AQUI COMIENZAN LOS BOTONES DE GESTIÓN DE QUEDADA-->
           <div class="full-width q-my-md">
+            <!-- botones USUARIO creador -->
             <q-btn
               no-caps
               dense
@@ -80,63 +82,179 @@
                 <div class="text-center">Cancelar Plan</div>
               </div>
             </q-btn>
-            <q-btn
-              no-caps
-              dense
-              style="background-color: #f44336; color:white"
-              class="full-width"
-              @click="soliciutdAsistencia(quedada, true)"
-              v-if="
-                user &&
-                user._id !== quedada.user_id &&
-                quedada.asistentes.length < quedada.limit &&
-                !quedada.asistentes.find(v => v.user_id === user._id)
-              "
-            >
-              <div class="row items-center no-wrap">
-                <q-icon left name="thumb_up_off_alt" />
-                <div class="text-center">Solicitar participación </div>
-              </div>
-            </q-btn>
-            <q-btn
-              no-caps
-              dense
-              color="negative"
-              class="full-width"
-              @click="dejarPlan(quedada, false)"
-              v-else-if="
-                quedada.status !== 2 &&
-                user._id !== quedada.user_id &&
-                quedada.asistentes.find(v => v.user_id === user._id)
-              "
-            >
-              <div class="row items-center no-wrap">
-                <q-icon left name="close" />
-                <div class="text-center">Dejar Plan</div>
-              </div>
-            </q-btn>
-            <q-btn
-              v-if="
-                user &&
-                user._id !== quedada.user_id &&
-                !(
-                  quedada.reportes &&
-                  quedada.reportes.find(v => v.reportingUser._id === user._id)
-                )
-              "
-              no-caps
-              dense
-              color="warning"
-              class="full-width q-my-sm"
-              @click="reportar(quedada)"
-            >
-              <div class="row items-center no-wrap">
-                <q-icon left name="report_problem" />
-                <div class="text-center">Reportar</div>
-              </div>
-            </q-btn>
+
+            <!-- botones PARTICIPANTE -->
+            <div v-if="quedada.privacy === 'Premium'">
+              <q-btn
+                v-if="
+                  user &&
+                  user._id !== quedada.user_id &&
+                  quedada.asistentes.length < quedada.limit &&
+                  !quedada.asistentes.find(v => v.user_id === user._id) &&
+                  (!quedada.solicitudesDeParticipacion ||
+                    !quedada.solicitudesDeParticipacion.includes(user._id))
+                "
+                no-caps
+                dense
+                style="color: #f44336"
+                class="full-width"
+                @click="soliciutdAsistencia(quedada, true)"
+              >
+                <div class="row items-center no-wrap">
+                  <q-icon left name="inbox" />
+                  <div class="text-center" style="font-size: 18px">
+                    Solicitar participación
+                  </div>
+                </div>
+              </q-btn>
+              <!-- confirmar asistencia -->
+              <!-- Solicitar participación -->
+              <q-btn
+                v-if="
+                  user &&
+                  user._id !== quedada.user_id &&
+                  quedada.asistentes.length < quedada.limit &&
+                  !quedada.asistentes.find(v => v.user_id === user._id) &&
+                  (!quedada.solicitudesDeParticipacion ||
+                    !quedada.solicitudesDeParticipacion.includes(user._id))
+                "
+                no-caps
+                dense
+                style="color: #f44336"
+                class="full-width"
+                @click="soliciutdAsistencia(quedada, true)"
+              >
+                <div class="row items-center no-wrap">
+                  <q-icon left name="inbox" />
+                  <div class="text-center" style="font-size: 18px">
+                    Solicitar participación
+                  </div>
+                </div>
+              </q-btn>
+              <!-- Confirmar asistencia -->
+              <q-btn
+                v-else-if="
+                  user &&
+                  user._id !== quedada.user_id &&
+                  quedada.asistentes.length < quedada.limit &&
+                  quedada.asistentes.find(
+                    v => v.user_id === user._id && !v.asistencia
+                  )
+                "
+                no-caps
+                dense
+                style="background-color: #0065d8; color: white"
+                class="full-width"
+                @click="asistir(quedada, true)"
+              >
+                <div class="row items-center no-wrap">
+                  <q-icon left name="thumb_up_off_alt" />
+                  <div class="text-center">Confirmar Asistencia</div>
+                </div>
+              </q-btn>
+              <!-- Dejar plan -->
+              <q-btn
+                v-else-if="
+                  user &&
+                  user._id !== quedada.user_id &&
+                  quedada.asistentes.find(
+                    v => v.user_id === user._id && v.asistencia
+                  )
+                "
+                no-caps
+                dense
+                color="negative"
+                class="full-width"
+                @click="dejarPlan(quedada, false)"
+              >
+                <div class="row items-center no-wrap">
+                  <q-icon left name="close" />
+                  <div class="text-center">Dejar Plan</div>
+                </div>
+              </q-btn>
+
+              <q-btn
+                v-if="
+                  user._id !== quedada.user_id &&
+                  !(
+                    quedada.reportes &&
+                    quedada.reportes.find(v => v.reportingUser._id === user._id)
+                  )
+                "
+                no-caps
+                dense
+                color="warning"
+                class="full-width q-my-sm"
+                @click="reportar(quedada)"
+              >
+                <div class="row items-center no-wrap">
+                  <q-icon left name="report_problem" />
+                  <div class="text-center">Reportar</div>
+                </div>
+              </q-btn>
+            </div>
+
+            <!-- botones quedada común -->
+            <div v-else>
+              <q-btn
+                no-caps
+                dense
+                style="background-color: #0065d8; color: white"
+                class="full-width"
+                @click="asistir(quedada, true)"
+                v-if="
+                  user &&
+                  user._id !== quedada.user_id &&
+                  quedada.asistentes.length < quedada.limit
+                "
+              >
+                <div class="row items-center no-wrap">
+                  <q-icon left name="thumb_up_off_alt" />
+                  <div class="text-center">Asistir</div>
+                </div>
+              </q-btn>
+              <q-btn
+                no-caps
+                dense
+                color="negative"
+                class="full-width"
+                @click="dejarPlan(quedada, false)"
+                v-else-if="
+                  quedada.status !== 2 &&
+                  user._id !== quedada.user_id &&
+                  quedada.asistentes.find(v => v.user_id === user._id)
+                "
+              >
+                <div class="row items-center no-wrap">
+                  <q-icon left name="close" />
+                  <div class="text-center">Dejar Plan</div>
+                </div>
+              </q-btn>
+              <q-btn
+                v-if="
+                  user._id !== quedada.user_id &&
+                  !(
+                    quedada.reportes &&
+                    quedada.reportes.find(v => v.reportingUser._id === user._id)
+                  )
+                "
+                no-caps
+                dense
+                color="warning"
+                class="full-width q-my-sm"
+                @click="reportar(quedada)"
+              >
+                <div class="row items-center no-wrap">
+                  <q-icon left name="report_problem" />
+                  <div class="text-center">Reportar</div>
+                </div>
+              </q-btn>
+            </div>
+
+            <!-- botones fin PARTICIPANTE -->
           </div>
 
+          <!--AQUI TERMINAN LOS BOTONES DE GESTIÓN DE QUEDADA-->
           <div class="q-pa-md">
             <!-- <div class="">{{quedada.dateTime}}</div> -->
             <div class="text-h5 text-bold q-mb-md">
@@ -371,7 +489,11 @@
     <q-dialog
       v-model="modalOpen"
       persistent
-      v-if="listaDeSolicitudes && listaDeSolicitudes.length > 0 && quedada.user_id === user._id"
+      v-if="
+        listaDeSolicitudes &&
+        listaDeSolicitudes.length > 0 &&
+        quedada.user_id === user._id
+      "
     >
       <q-card>
         <q-card-section>
@@ -552,7 +674,9 @@ export default {
     async actualizarParticipantes () {
       const res = await this.$api.get('quedada_info/' + this.quedada._id)
       if (res) {
-        this.listaAsistentes = res.asistentes.filter(item => item.asistencia === true)
+        this.listaAsistentes = res.asistentes.filter(
+          item => item.asistencia === true
+        )
       }
     },
     getItemRating (item) {

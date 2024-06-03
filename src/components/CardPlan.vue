@@ -95,7 +95,9 @@
               >
                 <div
                   class="row items-center no-wrap"
-                  v-if="item.asistentes.find(v => v.user_id === user._id)"
+                  v-if="item.asistentes.find(
+                    v => v.user_id === user._id && !v.asistencia
+                  )"
                 >
                   <q-icon left name="thumb_up_off_alt" />
                   <div class="text-center" style="font-size: 14px">
@@ -233,7 +235,9 @@
               >
                 <div
                   class="row items-center no-wrap"
-                  v-if="item.asistentes.find(v => v.user_id === user._id)"
+                  v-if="item.asistentes.find(
+                    v => v.user_id === user._id && !v.asistencia
+                  )"
                 >
                   <q-icon left name="thumb_up_off_alt" />
                   <div class="text-center" style="font-size: 14px">
@@ -371,7 +375,9 @@
               >
                 <div
                   class="row items-center no-wrap"
-                  v-if="item.asistentes.find(v => v.user_id === user._id)"
+                  v-if="item.asistentes.find(
+                    v => v.user_id === user._id && !v.asistencia
+                  )"
                 >
                   <q-icon left name="thumb_up_off_alt" />
                   <div class="text-center" style="font-size: 14px">
