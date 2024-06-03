@@ -78,20 +78,33 @@
               <q-btn
                 no-caps
                 dense
-                color="primary"
-                size="0.6em"
+                :style="{color:'#fff',
+                  backgroundColor: item.asistentes.find(
+                    v => v.user_id === user._id
+                  )
+                    ? '#1976D2'
+                    : '#f44336' // Primary color can be #1976D2 or any valid hex color
+                }"
+                size="0.9em"
                 @click="asistir(item, true)"
                 v-if="
                   user._id !== item.user_id &&
-                  item.asistentes.length < item.limit - 1 &&
-                  !item.asistentes.find(v => v.user_id === user._id) &&
+                  item.asistentes.length < item.limit &&
                   fechaAnterior > 0
                 "
               >
-                <div class="row items-center no-wrap">
+                <div
+                  class="row items-center no-wrap"
+                  v-if="item.asistentes.find(v => v.user_id === user._id)"
+                >
                   <q-icon left name="thumb_up_off_alt" />
-                  <div class="text-center" style="font-size: 8px">
-                    Asistiré 1
+                  <div class="text-center" style="font-size: 14px">
+                    Asistiré
+                  </div>
+                </div>
+                <div class="row items-center no-wrap" v-else>
+                  <div class="text-center" style="font-size: 14px; width: 100%">
+                    Solicitud
                   </div>
                 </div>
               </q-btn>
@@ -200,22 +213,37 @@
           </div>
           <div class="column justify-between items-start q-pb-sm">
             <div>
-              <q-btn
+                <q-btn
                 no-caps
                 dense
-                color="primary"
+                :style="{color:'#fff',
+                  backgroundColor: item.asistentes.find(
+                    v => v.user_id === user._id
+                  )
+                    ? '#1976D2'
+                    : '#f44336' // Primary color can be #1976D2 or any valid hex color
+                }"
                 size="0.9em"
                 @click="asistir(item, true)"
                 v-if="
                   user._id !== item.user_id &&
                   item.asistentes.length < item.limit &&
-                  //  !item.asistentes.find((v) => v.user_id === user._id) &&
                   fechaAnterior > 0
                 "
               >
-                <div class="row items-center no-wrap">
+                <div
+                  class="row items-center no-wrap"
+                  v-if="item.asistentes.find(v => v.user_id === user._id)"
+                >
                   <q-icon left name="thumb_up_off_alt" />
-                  <div class="text-center">Asistiré 2</div>
+                  <div class="text-center" style="font-size: 14px">
+                    Asistiré
+                  </div>
+                </div>
+                <div class="row items-center no-wrap" v-else>
+                  <div class="text-center" style="font-size: 14px; width: 100%">
+                    Solicitud
+                  </div>
                 </div>
               </q-btn>
               <q-btn
@@ -347,7 +375,7 @@
                 >
                   <q-icon left name="thumb_up_off_alt" />
                   <div class="text-center" style="font-size: 14px">
-                    Asistiré 3
+                    Asistiré
                   </div>
                 </div>
                 <div class="row items-center no-wrap" v-else>
