@@ -378,7 +378,7 @@
           <div class="text-h6">Lista de Solicitudes</div>
         </q-card-section>
         <!--  CONTAINER SOLICITUDES -->
-        <q-card-section >
+        <q-card-section v-if="quedada.user_id === user._id">
           <table class="q-table">
             <thead>
               <tr>
