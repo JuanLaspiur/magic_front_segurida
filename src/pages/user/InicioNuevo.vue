@@ -603,6 +603,7 @@ export default {
       this.$api.get('all_quedadas').then(res => {
         if (res) {
           this.allQuedadas = res
+          console.log('Todas las quedadas  ' + JSON.stringify(this.allQuedadas))
           this.quedadas = res
         }
       })
@@ -611,7 +612,6 @@ export default {
       this.$api.get('all_quedadas_premium').then(res => {
         if (res) {
           this.allQuedadasPremium = res
-          console.log(JSON.stringify(this.allQuedadasPremium), ' Quedadas premium 123')
         }
       })
     },
