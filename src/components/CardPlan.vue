@@ -69,7 +69,7 @@
                 <b>Completado</b>
               </div>
               <div v-else class="text-primary col-6" style="font-size: 11px">
-                <b>Por confirmar</b> {{ item.asistentes.filter(v => !v.asistencia).length }}
+                <b style="padding: 0 5px 0 0;">Por confirmar </b> {{  item.asistentes.filter(v => !v.asistencia).length }}
               </div>
             </div>
           </div>
@@ -221,7 +221,7 @@
                 <b>Completado</b>
               </div>
               <div v-else class="text-primary col-6 row no-wrap">
-                <b>Por confirmar</b> {{ item.asistentes.filter(v => !v.asistencia).length }}
+                <b  style="padding: 0 5px 0 0;" >Por confirmar</b>  {{  item.asistentes.filter(v => !v.asistencia).length }}
               </div>
             </div>
           </div>
@@ -373,7 +373,7 @@
                 <b>Completado</b>
               </div>
               <div v-else class="text-primary col-6 row no-wrap">
-                <b>Por confirmar </b> {{ item.asistentes.filter(v => !v.asistencia).length }}
+                <b  style="padding: 0 5px 0 0;" >Por confirmar </b> {{ item.asistentes.filter(v => !v.asistencia).length }}
               </div>
             </div>
           </div>
