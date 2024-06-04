@@ -24,7 +24,7 @@ const routes = [
       { path: '/encuestas', component: () => import('pages/admin/Encuestas.vue') },
       { path: '/categorias', component: () => import('pages/admin/GestionCategorias.vue') },
       // User
-
+      { path: '/inviteUsers/:quedadaId', component: () => import('pages/user/InviteUsers.vue') },
       { path: '/inicio', component: () => import('pages/user/InicioNuevo.vue'), meta: { title: 'Inicio', change: 1 } },
       { path: '/inicio2', component: () => import('pages/user/Inicio.vue'), meta: { title: 'Inicio', change: 1 } },
       { path: '/users-rankings', component: () => import('pages/user/Rankings.vue'), meta: { title: 'Rankings', change: 1 } },

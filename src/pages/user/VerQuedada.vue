@@ -56,6 +56,7 @@
           <!--AQUI COMIENZAN LOS BOTONES DE GESTIÓN DE QUEDADA-->
           <div class="full-width q-my-md">
             <!-- botones USUARIO creador -->
+
             <q-btn
               no-caps
               dense
@@ -69,6 +70,7 @@
                 <div class="text-center">Editar Plan</div>
               </div>
             </q-btn>
+
             <q-btn
               no-caps
               dense
@@ -295,6 +297,18 @@
               </div>
             </div>
             <div class="row no-wrap items-center q-pb-md">
+              <div class="agregar-invitados_conainer">
+                <q-btn
+                  round
+                  dense
+                  color="positive"
+                  icon="add"
+                  @click="agregarInvitados(quedada)"
+                  v-if="user && quedada && user._id === quedada.user_id"
+                  class="agregar_invitados"
+                >
+                </q-btn>
+              </div>
               <div class="full-width text-center text-bold text-subtitle1">
                 Participantes
               </div>
@@ -371,7 +385,8 @@
                       {{ item.userInfo && item.userInfo.last_name }}
                     </q-item-label>
                     <q-item-label
-                      class="text-grey-7 ellipsis" v-if="user.edadPriv"
+                      class="text-grey-7 ellipsis"
+                      v-if="user.edadPriv"
                     >
                       <b>({{ item.userInfo && item.userInfo.age }} años)</b>
                     </q-item-label>
@@ -915,6 +930,9 @@ export default {
         this.chunck.push(newArray.slice(i, i + size))
       }
     },
+    agregarInvitados () {
+      this.$router.push('/inviteUsers/' + this.quedada._id)
+    },
     async addImg () {
       this.$q.loading.show({
         message: 'Subiendo imagen...'
@@ -964,5 +982,19 @@ export default {
   justify-content: center;
   align-items: center;
   width: 100%;
+}
+.agregar-invitados_conainer {
+  position: absolute;
+  width: 100%;
+  height: 100px;
+  display: flex;
+  justify-content: end;
+  padding: 0 3%;
+  z-index: 10;
+}
+
+.agregar_invitados {
+  height: 45px;
+  width: 45px;
 }
 </style>
