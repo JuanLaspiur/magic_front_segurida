@@ -104,6 +104,18 @@
                     Asistiré
                   </div>
                 </div>
+                <!-- duplicado-->
+                <div
+                  class="row items-center no-wrap"
+                  v-else-if="item.asistentes.find(
+                    v => v.user_id === user._id && v.asistencia
+                  )"
+                >
+                  <div class="text-center" style="font-size: 14px">
+                    Confirmado
+                  </div>
+                </div>
+                <!-- duplicado-->
                 <div class="row items-center no-wrap" v-else>
                   <div class="text-center" style="font-size: 14px; width: 100%">
                     Solicitud
@@ -244,6 +256,18 @@
                     Asistiré
                   </div>
                 </div>
+                         <!-- duplicado-->
+                         <div
+                  class="row items-center no-wrap"
+                  v-else-if="item.asistentes.find(
+                    v => v.user_id === user._id && v.asistencia
+                  )"
+                >
+                  <div class="text-center" style="font-size: 14px">
+                    Confirmado
+                  </div>
+                </div>
+                <!-- duplicado-->
                 <div class="row items-center no-wrap" v-else>
                   <div class="text-center" style="font-size: 14px; width: 100%">
                     Solicitud
@@ -384,6 +408,18 @@
                     Asistiré
                   </div>
                 </div>
+                         <!-- duplicado-->
+                         <div
+                  class="row items-center no-wrap"
+                  v-else-if="item.asistentes.find(
+                    v => v.user_id === user._id && v.asistencia
+                  )"
+                >
+                  <div class="text-center" style="font-size: 14px">
+                   Confirmado
+                  </div>
+                </div>
+                <!-- duplicado-->
                 <div class="row items-center no-wrap" v-else>
                   <div class="text-center" style="font-size: 14px; width: 100%">
                     Solicitud
@@ -518,7 +554,6 @@ export default {
       const isUserAlreadyAttending = data.asistentes.find(
         v => v.user_id === this.user._id
       )
-
       if (isUserAlreadyAttending === undefined) {
         try {
           const sessionInfo = JSON.parse(localStorage.getItem('SESSION_INFO'))
@@ -577,6 +612,10 @@ export default {
           this.solicitudPremiumModalVisible = true
         }
       } else {
+        const isUserAlreadyAttending = data.asistentes.some(v => v.user_id === this.user._id && v.asistencia)
+        if (isUserAlreadyAttending) {
+          return
+        }
         this.$q
           .dialog({
             title: 'Confirma',
