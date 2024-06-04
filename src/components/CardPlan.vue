@@ -69,7 +69,7 @@
                 <b>Completado</b>
               </div>
               <div v-else class="text-primary col-6" style="font-size: 11px">
-                <b>Asistentes :</b> {{ item.asistentes.length + 1 }}
+                <b>Por confirmar</b> {{ item.asistentes.filter(v => !v.asistencia).length }}
               </div>
             </div>
           </div>
@@ -221,7 +221,7 @@
                 <b>Completado</b>
               </div>
               <div v-else class="text-primary col-6 row no-wrap">
-                <b>Asistentes:</b> {{ item.asistentes.length + 1 }}
+                <b>Por confirmar</b> {{ item.asistentes.filter(v => !v.asistencia).length }}
               </div>
             </div>
           </div>
@@ -373,7 +373,7 @@
                 <b>Completado</b>
               </div>
               <div v-else class="text-primary col-6 row no-wrap">
-                <b>Asistentes:</b> {{ item.asistentes.length + 1 }}
+                <b>Por confirmar </b> {{ item.asistentes.filter(v => !v.asistencia).length }}
               </div>
             </div>
           </div>
