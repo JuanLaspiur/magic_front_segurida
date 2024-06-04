@@ -66,21 +66,22 @@ export default {
 </script>
 
 <style scoped>
+
 .photos-container {
   display: flex;
   justify-content: center;
 }
 
 .photos-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 4fr));
-  grid-gap: 8px;
+  display: flex;
   margin-top: 20px;
-  justify-content: center;
+  gap:30px;
   padding: 0 15%;
 }
 
 .photo-card {
+  width: 390px;
+  height: 240.9;
   border: 1px solid #ddd;
   border-radius: 8px;
   overflow: hidden;

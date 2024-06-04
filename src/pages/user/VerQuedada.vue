@@ -75,7 +75,7 @@ export default {
 .container_general {
   width: 100%;
   min-height: 100vh;
-  background: gray;
+  background: #0065D8;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -102,9 +102,13 @@ export default {
   padding: 0 130px;
 }
 .container_btn_confirmacion {
+    position: absolute;
+
+    bottom: 0;
     width: 100%;
     height: 70px;
-    padding: 0 130px ;
+    padding: 0 130px;
+    padding-bottom: 80px;
     display: flex;
     align-items: end;
     justify-content: end;
