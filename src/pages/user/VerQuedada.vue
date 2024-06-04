@@ -322,7 +322,7 @@
                       : ''
                   }}
                 </div>
-                <div class="text-grey-7" v-if="quedada.userInfo.edadPriv">
+                <div class="text-grey-7" v-if="user.edadPriv">
                   {{
                     quedada &&
                     quedada.userInfo &&
@@ -371,8 +371,7 @@
                       {{ item.userInfo && item.userInfo.last_name }}
                     </q-item-label>
                     <q-item-label
-                      class="text-grey-7 ellipsis"
-                      v-if="item.userInfo.edadPriv || !(user._id === item.user_id) || !(item.asistentes.some(asistente => asistente.user_id === user._id)) || !( item.solicitudesDeParticipacion && item.solicitudesDeParticipacion.includes(user._id))"
+                      class="text-grey-7 ellipsis" v-if="user.edadPriv"
                     >
                       <b>({{ item.userInfo && item.userInfo.age }} años)</b>
                     </q-item-label>

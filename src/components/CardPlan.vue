@@ -55,7 +55,7 @@
             </div>
             <div class="col-9 q-pr-xs row items-center justify-between">
               <div
-                v-if="item.userInfo.edadPriv"
+                v-if="user.edadPriv"
                 class="text-primary col-6"
                 style="font-size: 11px"
               >
@@ -211,7 +211,7 @@
               }}
             </div>
             <div class="col-9 q-pr-xs row items-center justify-between">
-              <div v-if="item.userInfo.edadPriv" class="text-primary col-6">
+              <div v-if="user.edadPriv" class="text-primary col-6">
                 <b>Edad: </b>{{ ageMath(item.userInfo.birthdate) }}
               </div>
               <div
@@ -363,7 +363,7 @@
               }}
             </div>
             <div class="col-9 q-pr-xs row items-center justify-between">
-              <div v-if="item.userInfo.edadPriv" class="text-primary col-6">
+              <div v-if="user.edadPriv" class="text-primary col-6">
                 <b>Edad: </b>{{ ageMath(item.userInfo.birthdate) }}
               </div>
               <div
