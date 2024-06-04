@@ -68,18 +68,17 @@ export default {
             'https://th.bing.com/th/id/OIP.AWm5PRocqyXsiXqmOL06NwHaFj?rs=1&pid=ImgDetMain',
           name: 'Participante 3'
         }
-      ],
-      selectedImages: []
+      ]
     }
   },
   methods: {
     goBack () {
-      this.$router.go(-1) // Esto asume que estás utilizando vue-router
+      this.$router.go(-1)
     },
     agregarImagen () {
       const input = document.createElement('input')
       input.type = 'file'
-      input.accept = 'image/*' // Accept only image files
+      input.accept = 'image/*'
       input.multiple = true // Allow multiple selections
 
       input.onchange = event => {
@@ -87,7 +86,7 @@ export default {
         for (let i = 0; i < files.length; i++) {
           const file = files[i]
           // You can add additional validation or processing here (e.g., check file size)
-          this.selectedImages.push({
+          this.participants.push({
             name: file.name, // Store the file name
             path: URL.createObjectURL(file) // Generate a temporary URL
           })
@@ -164,5 +163,18 @@ export default {
 
 .custom-btn:hover {
   background-color: #d32f2f;
+}
+
+@media (width < 2058px) {
+  .container_agregar_imagen {
+  width: 100%;
+  padding: 0 20px;
+}
+}
+@media (width < 1642px) {
+  .container_btn_confirmacion {
+  padding: 0 20px;
+  padding-bottom: 80px;
+}
 }
 </style>

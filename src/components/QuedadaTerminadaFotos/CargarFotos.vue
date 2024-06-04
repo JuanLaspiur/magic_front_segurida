@@ -172,4 +172,10 @@ export default {
   background-color: #d32f2f;
 }
 
+@media (width < 1642px) {
+  .photo-card {
+  width: 345px;
+  height: 213.7px; /* Golden ratio height based on width */
+}
+}
 </style>
