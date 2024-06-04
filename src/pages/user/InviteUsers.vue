@@ -43,7 +43,7 @@
 
       <q-list class="q-py-sm">
         <div class="text-h6">Sugerencias</div>
-        <q-item v-for="(item, index) in filteredUsers" :key="index" v-ripple>
+        <q-item v-for="(item, index) in users" :key="index" v-ripple>
           <q-item-section avatar>
             <q-avatar size="60px"> </q-avatar>
           </q-item-section>
@@ -62,21 +62,20 @@
               no-caps
               dense
               :disable="
-                asistentes.length >= form.limit ||
-                !asistentes.find(v => v.user_id === item.seguido)
+                !asistentes.find(v => v.user_id === item._id)
               "
               :label="
-                asistentes.find(v => v.user_id === item.seguido)
+                asistentes.find(v => v.user_id === item._id)
                   ? 'Invitado'
                   : 'Invitar'
               "
               :text-color="
-                asistentes.find(v => v.user_id === item.seguido)
+                asistentes.find(v => v.user_id === item._id)
                   ? 'white'
                   : 'primary'
               "
               :color="
-                asistentes.find(v => v.user_id === item.seguido)
+                asistentes.find(v => v.user_id === item._id)
                   ? 'positive'
                   : 'blue-2'
               "
@@ -84,7 +83,7 @@
               @click="
                 invitar(
                   item.seguido,
-                  !asistentes.find(v => v.user_id === item.seguido)
+                  !asistentes.find(v => v.user_id === item._id) // Y aquí también se corrigió item._id
                 )
               "
             />
@@ -124,13 +123,18 @@ export default {
       this.$router.go(-1)
     },
     getUser () {
-      this.$api.get('user_info').then(res => {
-        if (res) {
-          this.user = res
-          this.getQuedada(this.$route.params.quedadaId)
-          this.getInvitados()
-        }
-      })
+      this.$api
+        .get('user_info')
+        .then(res => {
+          if (res) {
+            this.user = res
+            this.getQuedada(this.$route.params.quedadaId)
+            this.getInvitados()
+          }
+        })
+        .catch(error => {
+          console.error('Error al obtener el usuario:', error)
+        })
     },
     async getQuedada (id) {
       this.$q.loading.show({
@@ -150,11 +154,17 @@ export default {
       }
     },
     getInvitados () {
-      this.$api.get('seguidores_seguidos/2/' + this.user._id).then(res => {
-        if (res) {
-          this.users = res
-        }
-      })
+      this.$api
+        .get('seguidores_seguidos/2/' + this.user._id)
+        .then(res => {
+          if (res) {
+            this.users = res
+            console.log('Chile ' + JSON.stringify(this.users))
+          }
+        })
+        .catch(error => {
+          console.error('Error al obtener los invitados:', error)
+        })
     },
     filterFn (filter) {
       this.filter = filter
