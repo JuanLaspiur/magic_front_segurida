@@ -61,29 +61,26 @@
             <q-btn
               no-caps
               dense
-              :disable="
-                !asistentes.find(v => v.user_id === item._id)
-              "
               :label="
-                asistentes.find(v => v.user_id === item._id)
+                asistentes.find(v => v.user_id === item.seguidoInfo._id)
                   ? 'Invitado'
                   : 'Invitar'
               "
               :text-color="
-                asistentes.find(v => v.user_id === item._id)
+                asistentes.find(v => v.user_id === item.seguidoInfo._id)
                   ? 'white'
                   : 'primary'
               "
               :color="
-                asistentes.find(v => v.user_id === item._id)
+                asistentes.find(v => v.user_id === item.seguidoInfo._id)
                   ? 'positive'
                   : 'blue-2'
               "
               class="q-px-sm"
               @click="
                 invitar(
-                  item.seguido,
-                  !asistentes.find(v => v.user_id === item._id) // Y aquí también se corrigió item._id
+                  item.seguidoInfo._id,
+                  !asistentes.find(v => v.user_id === item.seguidoInfo._id) // Y aquí también se corrigió item._id
                 )
               "
             />
@@ -119,6 +116,18 @@ export default {
     }
   },
   methods: {
+    invitar (id, quedadaID) {
+      this.$api
+        .post('invitar/' + quedadaID, {
+          invitado: { user_id: id, asistencia: false, rating_id: null },
+          invitar: true
+        })
+        .then(res => {
+          if (res) {
+            this.asistentes = res
+          }
+        })
+    },
     goBack () {
       this.$router.go(-1)
     },
@@ -168,13 +177,6 @@ export default {
     },
     filterFn (filter) {
       this.filter = filter
-    },
-    invitar (userId, isInvite) {
-      if (isInvite) {
-        alert('Invitando ando')
-      } else {
-        alert('No se puede invitar')
-      }
     },
     actualizar (value) {
       console.log('Actualizando...', value)
