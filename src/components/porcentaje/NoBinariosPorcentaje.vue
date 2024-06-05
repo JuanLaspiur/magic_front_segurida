@@ -102,6 +102,7 @@ export default {
   width: 100%;
 }
 .text-grey {
+  margin-top:20px;
   color: #777;
 }
 .absolute {
