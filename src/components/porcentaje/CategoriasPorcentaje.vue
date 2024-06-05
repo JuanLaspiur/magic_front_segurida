@@ -8,7 +8,7 @@
         :value="calculateCategoryPercentage(category._id)"
         :color="barColors[index % barColors.length]"
       />
-      <p class="text-grey"  style="width: 15%;">{{ category.name }}</p>
+      <p class="text-grey"  style="width: 15%;"><span style="padding: 0 5px 0 0 ;">{{ (calculateCategoryPercentage(category._id) * 100).toFixed(0) }}%</span>  {{ category.name }}</p>
     </div>
   </div>
 </template>
