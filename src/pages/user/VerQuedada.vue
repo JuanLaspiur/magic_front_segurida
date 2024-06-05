@@ -128,6 +128,7 @@ export default {
 .text-h4 {
   font-size: 2rem;
   margin: 20px 0;
+  color: gray;
 }
 
 .imagenes-grupo {
@@ -145,5 +146,8 @@ export default {
   .panel-comentarios-compoente {
     width: 576px; /* Ancho del panel de comentarios en pantallas más grandes */
   }
+.text-h4{
+  font-size: 1.5rem;
+}
 }
 </style>
