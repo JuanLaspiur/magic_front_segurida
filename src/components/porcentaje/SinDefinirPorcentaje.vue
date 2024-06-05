@@ -7,8 +7,8 @@
         :value="undisclosedPercentage"
         size="320px"
         :thickness="1"
-        color="grey-8"
-        track-color="cyan"
+        color="cyan"
+        track-color="grey-3"
         class="q-ma-md"
       />
       <p class="absolute">
@@ -42,7 +42,7 @@ export default {
     return {
       undisclosedAgeRanges: ['0-18', '19-30', '31-50', '51+'],
       progressValues: [0, 0.1, 0.8, 0.2, 0.5, 0.8],
-      barColors: ['primary', 'warning', 'secondary', 'accent'],
+      barColors: ['cyan', 'cyan', 'cyan', 'cyan'],
       undisclosedPercentage: 0,
       undisclosedAgeGroups: [0, 0, 0, 0]
     }
@@ -111,5 +111,7 @@ export default {
 .absolute {
   position: absolute;
   top: 40%;
+  color:#00BCD4;
+  font-size: 20px;
 }
 </style>

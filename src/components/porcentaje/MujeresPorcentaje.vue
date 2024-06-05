@@ -8,7 +8,7 @@
         size="320px"
         :thickness="1"
         color="purple-8"
-        track-color="pink"
+        track-color="grey-3"
         class="q-ma-md"
       />
       <p class="absolute">
@@ -41,7 +41,7 @@ export default {
     return {
       femaleAgeRanges: ['0-18', '19-30', '31-50', '51+'],
       progressValues: [0, 0.1, 0.8, 0.2, 0.5, 0.8],
-      barColors: ['primary', 'warning', 'secondary', 'accent'],
+      barColors: ['accent', 'accent', 'accent', 'accent'],
       femalePercentage: 0,
       femaleAgeGroups: [0, 0, 0, 0]
     }
@@ -107,5 +107,7 @@ export default {
 .absolute {
   position: absolute;
   top: 40%;
+  font-size: 20px;
+  color:#7B1FA2;
 }
 </style>
