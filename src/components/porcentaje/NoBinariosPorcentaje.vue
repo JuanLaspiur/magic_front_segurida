@@ -111,4 +111,10 @@ export default {
   color:orange;
   font-weight: 900;
 }
+@media (width < 1850px){
+  .absolute {
+  top: 30%;
+ right:10px;
+
+}}
 </style>

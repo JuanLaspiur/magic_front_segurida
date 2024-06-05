@@ -114,4 +114,10 @@ export default {
   color:#00BCD4;
   font-size: 20px;
 }
+@media (width < 1850px){
+  .absolute {
+  top: 30%;
+ right:10px;
+
+}}
 </style>
