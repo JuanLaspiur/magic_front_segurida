@@ -7,8 +7,8 @@
         :value="nonBinaryPercentage"
         size="320px"
         :thickness="1"
-        color="grey-8"
-        track-color="orange"
+        color="orange"
+        track-color="grey-3"
         class="q-ma-md"
       />
       <p class="absolute">
@@ -41,7 +41,7 @@ export default {
   data () {
     return {
       nonBinaryAgeRanges: ['0-18', '19-30', '31-50', '51+'],
-      barColors: ['primary', 'warning', 'secondary', 'accent'],
+      barColors: ['orange', 'orange', 'orange', 'orange'],
       nonBinaryPercentage: 0,
       nonBinaryAgeGroups: [0, 0, 0, 0]
     }
@@ -107,5 +107,8 @@ export default {
 .absolute {
   position: absolute;
   top: 40%;
+  font-size: 20px;
+  color:orange;
+  font-weight: 900;
 }
 </style>
