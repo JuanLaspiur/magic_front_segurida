@@ -117,7 +117,6 @@ export default {
   },
   methods: {
     invitar (id, bool) {
-      console.log('depure User id: ' + id)
       this.$api
         .post('invitar/' + this.quedada._id, {
           invitado: { user_id: id, asistencia: false, rating_id: null },
@@ -127,7 +126,6 @@ export default {
           if (res) {
             this.asistentes = res
           }
-          console.log('depure res: ' + JSON.stringify(res))
         })
         .catch(error => {
           console.error('Error al invitar:', error)
