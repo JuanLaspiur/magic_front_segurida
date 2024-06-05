@@ -2,13 +2,13 @@
   <div style="width: 40%; margin-top: 19px;">
     <h6>Eventos según categoría</h6>
     <!-- Aquí se mostrarán las categorías -->
-    <div v-for="(category, index) in categories" :key="index">
+    <div v-for="(category, index) in categories" :key="index" class="linear_category">
       <q-linear-progress
         size="20px"
         :value="calculateCategoryPercentage(category._id)"
         :color="barColors[index % barColors.length]"
       />
-      <p class="text-grey">{{ category.name }}</p>
+      <p class="text-grey"  style="width: 15%;">{{ category.name }}</p>
     </div>
   </div>
 </template>
@@ -85,5 +85,9 @@ export default {
 </script>
 
 <style>
-/* Estilos CSS aquí */
+.linear_category {
+  display:flex;
+  gap: 20px
+}
+
 </style>
