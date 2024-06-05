@@ -116,16 +116,21 @@ export default {
     }
   },
   methods: {
-    invitar (id, quedadaID) {
+    invitar (id, bool) {
+      console.log('depure User id: ' + id)
       this.$api
-        .post('invitar/' + quedadaID, {
+        .post('invitar/' + this.quedada._id, {
           invitado: { user_id: id, asistencia: false, rating_id: null },
-          invitar: true
+          invitar: bool
         })
         .then(res => {
           if (res) {
             this.asistentes = res
           }
+          console.log('depure res: ' + JSON.stringify(res))
+        })
+        .catch(error => {
+          console.error('Error al invitar:', error)
         })
     },
     goBack () {

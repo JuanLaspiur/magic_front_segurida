@@ -304,7 +304,7 @@
                   color="positive"
                   icon="add"
                   @click="agregarInvitados(quedada)"
-                  v-if="user && quedada && user._id === quedada.user_id"
+                  v-if="user && quedada && user._id === quedada.user_id && quedada.privacy === 'Premium'"
                   class="agregar_invitados"
                 >
                 </q-btn>
