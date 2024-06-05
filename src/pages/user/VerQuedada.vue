@@ -223,7 +223,7 @@ export default {
 }
 .container_titulos .text {
   font-size: 25px;
- padding: 20px 0;
+  padding: 20px 0;
 }
 .container_agregar_imagen {
   width: 100%;
@@ -231,7 +231,6 @@ export default {
 }
 .container_btn_confirmacion {
   position: absolute;
-
   bottom: 0;
   width: 100%;
   height: 70px;
@@ -277,15 +276,19 @@ export default {
     padding-bottom: 80px;
   }
 }
-/* componente importado */
 
 .photos-container {
-  display: flex;
-  justify-content: center;
+ /* display: flex; */
+  width: 100%;
+  height:max-content;
+ justify-content: center;
+ padding-bottom: 120px;
 }
 
 .photos-grid {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   margin-top: 20px;
   gap: 30px;
   padding: 0 15%;
@@ -294,7 +297,7 @@ export default {
 .photo-card {
   position: relative;
   width: 390px;
-  height: 240.9;
+  height: 240.9px;
   border: 1px solid #ddd;
   border-radius: 8px;
   overflow: hidden;
@@ -320,7 +323,6 @@ export default {
   text-align: center;
 }
 
-/* Modal */
 .modal {
   display: block;
   position: fixed;
@@ -407,19 +409,25 @@ export default {
   background-color: rgba(255, 0, 0, 0.9);
 }
 
-@media (width < 1642px) {
+@media (max-width: 1000px) {
+  .photos-grid {
+    flex-direction: column;
+    align-items: center;
+  }
   .photo-card {
-    width: 345px;
-    height: 213.7px; /* Golden ratio height based on width */
+    width: 100%;
+    max-width: 390px;
   }
 }
-@media (width < 1500px){
+
+@media (max-width: 1500px) {
   .container_btn_confirmacion {
     padding: 0 20px;
     padding-bottom: 50px;
   }
 }
-@media (width < 1088px){
+
+@media (max-width: 1088px) {
   .panel_central {
     width: 87%;
   }
