@@ -22,7 +22,7 @@
             :value="value"
             :color="barColors[index]"
           />
-          <p class="text-grey">{{ femaleAgeRanges[index] }}</p>
+          <p class="text-grey">{{ femaleAgeRanges[index] }}años <span style="padding: 0  0 0 10px;">({{value.toFixed(1)*100}} %)</span> </p>
         </div>
       </div>
     </div>
