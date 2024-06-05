@@ -28,7 +28,7 @@ export default {
     return {
       allUsersAgeRanges: ['0-18', '19-30', '31-50', '51+'],
       progressValues: [0, 0.1, 0.8, 0.2, 0.5, 0.8],
-      barColors: ['primary', 'warning', 'secondary', 'accent'],
+      barColors: ['warning', 'warning', 'warning', 'warning'],
       allUsersPercentage: 0,
       allUsersAgeGroups: [0, 0, 0, 0]
     }

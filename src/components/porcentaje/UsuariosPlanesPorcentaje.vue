@@ -29,7 +29,7 @@ export default {
   data () {
     return {
       allUsersAgeRanges: ['0-18', '19-30', '31-50', '51+'],
-      barColors: ['primary', 'warning', 'secondary', 'accent'],
+      barColors: ['secondary', 'secondary', 'secondary', 'secondary'],
       allUsersAgeGroups: [0, 0, 0, 0]
     }
   },
