@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 40%; margin-top: 19px;">
+  <div class="componente" >
     <h6>Eventos según categoría</h6>
     <!-- Aquí se mostrarán las categorías -->
     <div v-for="(category, index) in categories" :key="index" class="linear_category">
@@ -88,6 +88,15 @@ export default {
 .linear_category {
   display:flex;
   gap: 20px
+}
+.componente {
+  width: 40%;
+  margin-top: 19px;
+}
+@media (width < 1850px){
+.componente {
+  width: 80%;
+}
 }
 
 </style>

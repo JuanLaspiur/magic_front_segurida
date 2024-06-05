@@ -60,9 +60,9 @@
       </div>
     </div>
 
-    <div style="width: 100%; display: flex; gap: 8%; padding: 0 200px">
+    <div class="invertir-flex" style="width: 100%; display: flex; gap: 8%; padding: 0 200px">
       <PremiumPorcentaje />
-      <CategoriasPorcentaje />
+      <CategoriasPorcentaje class="agrandar-flex"/>
     </div>
     <div class="q-pa-lg">
       <TabloidePorcentaje />
@@ -154,5 +154,10 @@ export default {
 }
 .maxWidth {
   width: 1000px;
+}
+@media (width < 1850px){
+.invertir-flex{
+  flex-direction: column;
+}
 }
 </style>
